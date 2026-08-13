@@ -55,6 +55,12 @@ For inventory scanning: pick up a Thaumometer with your cursor, then hover over 
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** by Leclowndu93150 — the parent mod this addon extends.
 - **[Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)** by BlayTheNinth — the inventory scanning feature is inspired by and references this mod.
 
+## Authorization
+
+This mod is open-sourced with the author's permission.
+
+![authorization](authorization.png)
+
 ## License
 
 [LGPL-3.0](LICENSE.md)

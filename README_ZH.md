@@ -47,6 +47,12 @@
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**，作者 Leclowndu93150——本模组扩展的父模组。
 - **[神秘时代物品栏扫描 Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)**，作者 BlayTheNinth——物品栏扫描功能的灵感来源与参考对象。
 
+## 授权
+
+本模组获得作者授权并开源。
+
+![authorization](authorization.png)
+
 ## 许可证
 
 [LGPL-3.0](LICENSE.md)
