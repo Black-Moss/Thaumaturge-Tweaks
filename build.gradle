@@ -28,6 +28,15 @@ sourceSets.main.resources {
 }
 
 repositories {
+    // Flat directory repository pointing at the Thaumaturge parent mod's build output.
+    // This lets us compile against the parent mod's API without copying the jar and
+    // without publishing it to a local Maven repository. The path is absolute so that
+    // it resolves regardless of where this addon project lives on disk.
+    flatDir {
+        name = "thaumaturgeLocal"
+        dirs "E:/MossProject/MinecraftJava/Thaumaturge/build/libs"
+    }
+
     // Modrinth Maven: provides Roughly Enough Items (REI) artifacts for NeoForge.
     exclusiveContent {
         forRepository {
@@ -122,12 +131,25 @@ configurations {
 }
 
 dependencies {
+    // Thaumaturge parent mod (the API surface this addon consumes).
+    // Referenced from the parent project's build output via the flatDir repository above.
+    // group id is ignored for flatDir; the jar name matches the artifact below.
+    compileOnly name: "thaumaturge-26.1.2-NeoForge-BETA-0.1.4"
+    localRuntime name: "thaumaturge-26.1.2-NeoForge-BETA-0.1.4"
+
     // REI (Roughly Enough Items) — optional, client-side recipe viewer integration.
     // The API is needed at compile time only; the full mod is pulled in by localRuntime so that
     // we do NOT publish a hard dependency on REI (it stays optional for end users).
     // Artifacts come from the Modrinth Maven repository (group "maven.modrinth").
-    compileOnly "maven.modrinth:roughly-enough-items:${rei_version}"
-    localRuntime "maven.modrinth:roughly-enough-items:${rei_version}"
+    compileOnly "maven.modrinth:nfn13YXA:${rei_version}"
+    localRuntime "maven.modrinth:nfn13YXA:${rei_version}"
+
+    // REI's Modrinth POM declares no transitive dependencies, so the classes it links against
+    // (me.shedaniel.math.Rectangle etc.) never reach the compile classpath automatically.
+    // Architectury and Cloth Config ship those classes; reference the jars already present in
+    // run/mods (also required at runtime by REI) so compilation resolves them.
+    compileOnly files("run/mods/architectury-neoforge-20.0.12.jar")
+    compileOnly files("run/mods/cloth-config-26.1.154.jar")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
