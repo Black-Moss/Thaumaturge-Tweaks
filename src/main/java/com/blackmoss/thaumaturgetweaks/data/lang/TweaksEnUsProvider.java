@@ -16,9 +16,6 @@ public final class TweaksEnUsProvider extends LanguageProvider {
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip", "Used for inventory scanning");
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "Scan items in your inventory or containers by hovering over them with the Thaumometer held.");
 
-        add("item.thaumaturgetweaks.extremely_primordial_pearl", "Extremely Primordial Pearl");
-        add("item.thaumaturgetweaks.akashic_record", "Akashic Records");
-
         add("enchantment.thaumaturge.arcing.desc", "When you strike an enemy with a weapon enchanted with this, an arc of biting wind will hit an additional target nearby for half your weapons damage. Additional ranks will increase the number of additional targets and the range.");
         add("enchantment.thaumaturge.burrowing.desc", "When you try to harvest a tree or ore the furthest block will be harvested, instead of the one you are trying to break.");
         add("enchantment.thaumaturge.collector.desc", "Whenever this tool harvests an item it will automatically float towards you.。");

@@ -151,10 +151,7 @@ dependencies {
     compileOnly files("run/mods/architectury-neoforge-20.0.12.jar")
     compileOnly files("run/mods/cloth-config-26.1.154.jar")
 
-    // Avaritia (Re:Avaritia / 无尽贪婪：重生) — optional, cross-mod content integration.
-    // API needed at compile time only; the mod itself is downloaded from the Modrinth Maven.
-    compileOnly "maven.modrinth:QeB3NRC5:oyZN02nW"
-    localRuntime "maven.modrinth:QeB3NRC5:oyZN02nW"
+    // Avaritia integration was moved to the standalone Thaumic Avaritia mod (thaumicavaritia).
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar

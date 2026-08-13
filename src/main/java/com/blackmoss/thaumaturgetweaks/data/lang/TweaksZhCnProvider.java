@@ -16,9 +16,6 @@ public final class TweaksZhCnProvider extends LanguageProvider {
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip", "用于物品栏扫描");
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "手持魔导透镜并悬停在物品栏或存储容器的物品上即可进行扫描。");
 
-        add("item.thaumaturgetweaks.extremely_primordial_pearl", "极元始珍珠");
-        add("item.thaumaturgetweaks.akashic_record", "阿卡西记录");
-
         add("enchantment.thaumaturge.arcing.desc", "类似风雷剑，当你使用带有该附魔的武器进行攻击时可以触发连锁闪电的特性，弹射的电弧会对周围的目标造成一半的伤害。电弧的目标数及范围随附魔等级而提升");
         add("enchantment.thaumaturge.burrowing.desc", "类似奔流斧，带有这项附魔的工具在破坏方块时会从距离你所挖掘方块最远的相同方块开始挖掘。");
         add("enchantment.thaumaturge.collector.desc", "这项附魔工具所开采的所有物品都会自动飘向你。");
