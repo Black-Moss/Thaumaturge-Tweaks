@@ -1,3 +1,5 @@
+[中文指南](README_ZH.md)
+
 # Thaumaturge Tweaks
 
 A quality-of-life addon mod for **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**, built for **NeoForge 26.1.2** (Minecraft 26.1.2).
@@ -55,4 +57,4 @@ For inventory scanning: pick up a Thaumometer with your cursor, then hover over 
 
 ## License
 
-Licensed under the GNU Lesser General Public License, Version 3. See [LICENSE.md](LICENSE.md).
+[LGPL-3.0](LICENSE.md)

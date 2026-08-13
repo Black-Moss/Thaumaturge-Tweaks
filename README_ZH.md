@@ -1,3 +1,5 @@
+[English Guide](README.md)
+
 # Thaumaturge Tweaks
 
 面向 **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** 的便利性扩展模组，基于 **NeoForge 26.1.2**（Minecraft 26.1.2）构建。
@@ -47,4 +49,4 @@
 
 ## 许可证
 
-本项目采用 GNU 宽通用公共许可证第 3 版（LGPL-3.0）授权。详见 [LICENSE.md](LICENSE.md)。
+[LGPL-3.0](LICENSE.md)
