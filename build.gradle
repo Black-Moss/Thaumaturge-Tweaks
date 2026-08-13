@@ -169,6 +169,11 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
+// Produce a versioned archive named e.g. thaumaturgetweaks-1.0.0-NeoForge-26.1.2.jar.
+tasks.named('jar', Jar).configure {
+    archiveFileName = "${mod_id}-${mod_version}-NeoForge-${minecraft_version}.jar"
+}
+
 // Include the license text in the built jar so the license travels with the artifact.
 tasks.named('jar', Jar).configure {
     from(rootProject.file('LICENSE.md')) {
