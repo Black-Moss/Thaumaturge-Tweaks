@@ -7,8 +7,6 @@
   "enchantment.thaumaturge.lamplight.desc": "当你破坏一个方块时，如果该位置的亮度低于10，这个附魔将会在此处放置一个不可见的光源。",
   "enchantment.thaumaturge.refining.desc": "类似炽心镐，这项附魔使你在开采矿石时偶尔会获得原矿簇。掉落概率随附魔等级而提升。",
   "enchantment.thaumaturge.sounding.desc": "类似炽心镐，使用带有该附魔的工具右击方块以勘探附近的矿石。这项操作会消耗一些工具耐久度。",
-  "item.thaumaturgetweaks.akashic_record": "阿卡西记录",
-  "item.thaumaturgetweaks.extremely_primordial_pearl": "极元始珍珠",
   "thaumaturgetweaks.inventoryscan.scanning": "扫描中",
   "thaumaturgetweaks.inventoryscan.thaumometer_tooltip": "用于物品栏扫描",
   "thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more": "手持魔导透镜并悬停在物品栏或存储容器的物品上即可进行扫描。"
