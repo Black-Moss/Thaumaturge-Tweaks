@@ -4,16 +4,12 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
-import com.leclowndu93150.thaumaturge.content.item.PhialItem;
 import com.leclowndu93150.thaumaturge.content.recipe.crucible.CrucibleRecipe;
-import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -22,9 +18,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -33,8 +26,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> {
 
@@ -71,14 +65,6 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
     // 取配方的输出物品。ItemStackTemplate 转 ItemStack 使用 create()。
     static ItemStack resultOf(CrucibleRecipe recipe) {
         return recipe.rawResult().create();
-    }
-
-    // 取 Ingredient 的首个 ItemStack（REI 不直接支持 Ingredient）。
-    static ItemStack firstStack(Ingredient ingredient) {
-        return ingredient.items()
-                .findFirst()
-                .map(holder -> new ItemStack(holder.value()))
-                .orElse(ItemStack.EMPTY);
     }
 
     @Override
@@ -120,12 +106,12 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
         // 输出槽。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
-                .markOutput());
+                .disableBackground().markOutput());
 
         // 催化剂输入槽。
         widgets.add(Widgets.createSlot(new Point(start.x + CATALYST_X, start.y + CATALYST_Y))
-                .entry(EntryStack.of(VanillaEntryTypes.ITEM, firstStack(recipe.catalyst())))
-                .markInput());
+                .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(recipe.catalyst())))
+                .disableBackground().markInput());
 
         // 要素行（按数量降序居中排列）。
         int center = (recipe.aspects().entries().size() * ASPECT_SPACING) / 2;
@@ -135,7 +121,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
                             start.x + ASPECT_X - center + index * ASPECT_SPACING,
                             start.y + ASPECT_Y))
                     .entry(EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, instance))
-                    .markInput());
+                    .disableBackground().markInput());
             index++;
         }
 
@@ -143,7 +129,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                    .markInput();
+                    .disableBackground().markInput();
             widgets.add(barrier);
             recipe.researchGate().ifPresent(gate -> widgets.add(
                     Widgets.withTooltip(barrier, ResearchUtils.generateMissingResearchList(gate))));

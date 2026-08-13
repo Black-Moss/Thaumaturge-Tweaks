@@ -8,14 +8,9 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
 import com.leclowndu93150.thaumaturge.client.recipes.TCClientRecipes;
-import com.leclowndu93150.thaumaturge.content.infusion.InfusionEnchantmentRecipe;
-import com.leclowndu93150.thaumaturge.content.infusion.InfusionRecipe;
-import com.leclowndu93150.thaumaturge.content.infusion.InfusionRunicAugmentRecipe;
-import com.leclowndu93150.thaumaturge.content.recipe.crucible.CrucibleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
-import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneCraftingRecipe;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import com.leclowndu93150.thaumaturge.registry.TCRecipeTypes;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
@@ -32,16 +27,70 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeMap;
+import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @REIPluginClient
 public final class ReiThaumaturgePlugin implements REIClientPlugin {
+
+    // 每个要素注册一个信息页，展示其描述文本。
+    private static void registerAspectInfoPages() {
+        RegistryAccess access = clientRegistryAccess();
+        if (access == null) {
+            return;
+        }
+        Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
+        if (registryOpt.isEmpty()) {
+            return;
+        }
+        Registry<IAspect> aspectRegistry = registryOpt.get();
+        BuiltinClientPlugin plugin = BuiltinClientPlugin.getInstance();
+        for (Holder.Reference<IAspect> holder : aspectRegistry.listElements().toList()) {
+            EntryStack<?> entry = EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(holder, 1));
+            plugin.registerInformation(
+                    entry,
+                    AspectComponents.shortName(holder),
+                    _ -> List.of(AspectComponents.description(holder)));
+        }
+    }
+
+    // 选取一个稳定的要素作为类别图标，缺省回退盐晶。
+    @Nullable
+    private static Holder<IAspect> pickIconAspect() {
+        RegistryAccess access = clientRegistryAccess();
+        if (access != null) {
+            Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
+            if (registryOpt.isPresent()) {
+                Registry<IAspect> registry = registryOpt.get();
+                Optional<Holder.Reference<IAspect>> stable = registry.get(TCAspects.PRAECANTATIO);
+                if (stable.isPresent()) {
+                    return stable.get();
+                }
+                Optional<Holder.Reference<IAspect>> first = registry.listElements().findFirst();
+                if (first.isPresent()) {
+                    return first.get();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static RegistryAccess clientRegistryAccess() {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        return level == null
+                ? null
+                : level.registryAccess();
+    }
 
     @Override
     public void registerEntries(EntryRegistry registry) {
@@ -104,43 +153,27 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         }
 
         // 奥术工作台。
-        RecipeMap arcaneMap = TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.ARCANE.get());
-        for (RecipeHolder<ArcaneCraftingRecipe> holder : arcaneMap.byType(TCRecipeTypes.ARCANE.get())) {
-            registry.add(new ArcaneWorkbenchDisplay(holder));
-        }
+        forEachTypedRecipe(level, TCRecipeTypes.ARCANE.get(), holder -> registry.add(new ArcaneWorkbenchDisplay(holder)));
 
         // 熔锅。
-        RecipeMap crucibleMap = TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.CRUCIBLE.get());
-        for (RecipeHolder<CrucibleRecipe> holder : crucibleMap.byType(TCRecipeTypes.CRUCIBLE.get())) {
-            registry.add(new CrucibleDisplay(holder));
-        }
+        forEachTypedRecipe(level, TCRecipeTypes.CRUCIBLE.get(), holder -> registry.add(new CrucibleDisplay(holder)));
 
         // 注魔（三种配方）。
-        RecipeMap infusionMap = TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.INFUSION.get());
-        for (RecipeHolder<InfusionRecipe> holder : infusionMap.byType(TCRecipeTypes.INFUSION.get())) {
-            registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID));
-        }
-        RecipeMap enchantmentMap =
-                TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.INFUSION_ENCHANTMENT.get());
-        for (RecipeHolder<InfusionEnchantmentRecipe> holder :
-                enchantmentMap.byType(TCRecipeTypes.INFUSION_ENCHANTMENT.get())) {
-            registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID));
-        }
-        RecipeMap runicMap = TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.RUNIC_AUGMENT.get());
-        for (RecipeHolder<InfusionRunicAugmentRecipe> holder : runicMap.byType(TCRecipeTypes.RUNIC_AUGMENT.get())) {
-            registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID));
-        }
+        forEachTypedRecipe(level, TCRecipeTypes.INFUSION.get(),
+                holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID)));
+        forEachTypedRecipe(level, TCRecipeTypes.INFUSION_ENCHANTMENT.get(),
+                holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID)));
+        forEachTypedRecipe(level, TCRecipeTypes.RUNIC_AUGMENT.get(),
+                holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID)));
 
         // 尘触发：Simple/Tag 归尘触发类别，Multiblock 归多方块类别。
-        RecipeMap dustMap = TCClientRecipes.getRecipeMapForType(level, TCRecipeTypes.DUST_TRIGGER.get());
-        for (RecipeHolder<com.leclowndu93150.thaumaturge.api.recipe.DustTrigger> holder :
-                dustMap.byType(TCRecipeTypes.DUST_TRIGGER.get())) {
+        forEachTypedRecipe(level, TCRecipeTypes.DUST_TRIGGER.get(), holder -> {
             if (holder.value() instanceof DustTriggerSimpleRecipe || holder.value() instanceof DustTriggerTagRecipe) {
                 registry.add(new DustTriggerDisplay(holder));
             } else if (holder.value() instanceof DustTriggerMultiblockRecipe) {
                 registry.add(new MultiblockDisplay(holder));
             }
-        }
+        });
 
         // 要素合成关系。
         RegistryAccess access = level.registryAccess();
@@ -160,54 +193,15 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         registerAspectInfoPages();
     }
 
-    // 每个要素注册一个信息页，展示其描述文本。
-    private static void registerAspectInfoPages() {
-        RegistryAccess access = clientRegistryAccess();
-        if (access == null) {
-            return;
+    // 遍历某配方类型的全部持有者并交给回调处理。
+    // RecipeMap.byType 的 I（RecipeInput）无法从调用侧推断，用原始类型规避并做安全转换。
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static <R extends Recipe<?>> void forEachTypedRecipe(
+            ClientLevel level, RecipeType<R> type, Consumer<RecipeHolder<R>> consumer) {
+        RecipeMap map = TCClientRecipes.getRecipeMapForType(level, type);
+        List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) map.byType((RecipeType) type);
+        for (RecipeHolder<R> holder : holders) {
+            consumer.accept(holder);
         }
-        Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
-        if (registryOpt.isEmpty()) {
-            return;
-        }
-        Registry<IAspect> aspectRegistry = registryOpt.get();
-        BuiltinClientPlugin plugin = BuiltinClientPlugin.getInstance();
-        for (Holder.Reference<IAspect> holder : aspectRegistry.listElements().toList()) {
-            EntryStack<?> entry = EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(holder, 1));
-            plugin.registerInformation(
-                    entry,
-                    AspectComponents.shortName(holder),
-                    _ -> List.of(AspectComponents.description(holder)));
-        }
-    }
-
-    // 选取一个稳定的要素作为类别图标，缺省回退盐晶。
-    @Nullable
-    private static Holder<IAspect> pickIconAspect() {
-        RegistryAccess access = clientRegistryAccess();
-        if (access != null) {
-            Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
-            if (registryOpt.isPresent()) {
-                Registry<IAspect> registry = registryOpt.get();
-                Optional<Holder.Reference<IAspect>> stable = registry.get(TCAspects.PRAECANTATIO);
-                if (stable.isPresent()) {
-                    return stable.get();
-                }
-                Optional<Holder.Reference<IAspect>> first = registry.listElements().findFirst();
-                if (first.isPresent()) {
-                    return first.get();
-                }
-            }
-        }
-        return null;
-    }
-
-    @Nullable
-    private static RegistryAccess clientRegistryAccess() {
-        Minecraft mc = Minecraft.getInstance();
-        ClientLevel level = mc.level;
-        return level == null
-                ? null
-                : level.registryAccess();
     }
 }

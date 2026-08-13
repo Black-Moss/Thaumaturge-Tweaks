@@ -1,5 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneCraftingRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapedCraftingRecipe;
@@ -27,6 +28,11 @@ public final class ArcaneWorkbenchDisplay implements Display {
 
     ArcaneWorkbenchDisplay(RecipeHolder<ArcaneCraftingRecipe> holder) {
         this.holder = holder;
+    }
+
+    // 单个 Ingredient 的首个 ItemStack 作为 REI 输入条目。
+    private static EntryIngredient itemEntry(Ingredient ingredient) {
+        return ReiRecipeEntries.ingredientEntry(ingredient);
     }
 
     RecipeHolder<ArcaneCraftingRecipe> holder() {
@@ -72,14 +78,5 @@ public final class ArcaneWorkbenchDisplay implements Display {
     @Override
     public Optional<Identifier> getDisplayLocation() {
         return Optional.of(holder.id().identifier());
-    }
-
-    // 单个 Ingredient 的首个 ItemStack 作为 REI 输入条目。
-    private static EntryIngredient itemEntry(Ingredient ingredient) {
-        ItemStack stack = ArcaneWorkbenchCategory.firstStack(ingredient);
-        if (stack.isEmpty()) {
-            return EntryIngredient.empty();
-        }
-        return EntryIngredient.of(EntryStack.of(VanillaEntryTypes.ITEM, stack));
     }
 }

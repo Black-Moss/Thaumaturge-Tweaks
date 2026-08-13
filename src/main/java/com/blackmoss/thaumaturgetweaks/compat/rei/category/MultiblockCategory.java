@@ -1,6 +1,5 @@
 // 多方块尘触发类别：对标 Thaumaturge 本体 JEI 的 MultiblockCategory。
-// 渲染盐晶触发、输出，以及蓝图所需方块（按需求量降序排列）。
-// 注：本体通过 Mixin 注入的 3D 方块预览不在此实现，仅展示方块需求清单。
+// 渲染盐晶触发、输出、蓝图所需方块（按需求量降序排列）以及 3D 方块预览。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -9,24 +8,29 @@ import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.recipe.Blueprint;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintPart;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
-import com.leclowndu93150.thaumaturge.api.recipe.DustTrigger;
+import com.leclowndu93150.thaumaturge.client.screen.pip.BlockPreviewRenderState;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
+import com.leclowndu93150.thaumaturge.mixin.client.gui.GuiGraphicsExtractorAccessor;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.compat.GuiGraphics;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -34,10 +38,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 public final class MultiblockCategory implements DisplayCategory<MultiblockDisplay> {
 
@@ -66,6 +68,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private final ReiDrawable arrow =
             new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 39, 0);
     private final Renderer icon;
+    private int rotation;
 
     public MultiblockCategory() {
         this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
@@ -109,6 +112,37 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                 .toList();
     }
 
+    // 注入本体画中画渲染的 3D 方块预览（与本体 JEI MultiblockCategory.drawExtra 一致）。
+    private void drawBlueprintPreview(GuiGraphics graphics, Rectangle bounds, DustTriggerMultiblockRecipe recipe) {
+        Blueprint blueprint = lookupBlueprint(recipe.blueprintId());
+        if (blueprint == null) {
+            return;
+        }
+        Map<BlockPos, BlockState> blocks = new HashMap<>();
+        int ySize = blueprint.ySize();
+        for (int y = 0; y < ySize; y++) {
+            for (int x = 0; x < blueprint.xSize(); x++) {
+                for (int z = 0; z < blueprint.zSize(); z++) {
+                    BlueprintPart part = blueprint.cell(y, x, z);
+                    if (part != null) {
+                        blocks.put(new BlockPos(x, -y + (ySize - 1), z), part.source().getState());
+                    }
+                }
+            }
+        }
+        if (blocks.isEmpty()) {
+            return;
+        }
+        // REI 渲染 widget 时 pose 无 display 平移，直接用 bounds 的屏幕坐标。
+        int originX = bounds.x;
+        int originY = bounds.y;
+        ((GuiGraphicsExtractorAccessor) graphics).thaumaturge$getGuiRenderState().addPicturesInPictureState(
+                new BlockPreviewRenderState(
+                        blocks, 25, rotation / 8F + 90, 1, 15, 0, 0,
+                        originX - 35, originY + 5, originX + WIDTH, originY + HEIGHT, null));
+        rotation++;
+    }
+
     @Override
     public CategoryIdentifier<MultiblockDisplay> getCategoryIdentifier() {
         return ID;
@@ -146,19 +180,24 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         // 盐晶输入槽 + 用法提示。
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
-                .markInput();
+                .disableBackground().markInput();
         widgets.add(dustSlot);
         widgets.add(Widgets.withTooltip(dustSlot,
                 Component.translatable("jei.thaumaturge.dust_trigger.target.multiblock")));
 
         DustTriggerMultiblockRecipe recipe = (DustTriggerMultiblockRecipe) display.holder().value();
 
+        // 3D 方块预览（每帧注入画中画渲染，带旋转动画）。
+        widgets.add(Widgets.createDrawableWidget(
+                (GuiGraphics graphics, int mx, int my, float delta) ->
+                        drawBlueprintPreview(graphics, bounds, recipe)));
+
         // 输出槽。
         ItemStack result = recipe.result();
         if (!result.isEmpty()) {
             widgets.add(Widgets.createSlot(new Point(start.x + RESULT_SLOT_X, start.y + RESULT_SLOT_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, result))
-                    .markOutput());
+                    .disableBackground().markOutput());
         }
 
         // 蓝图所需方块行（按需求量降序）。
@@ -174,7 +213,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                             start.x + SLOT_ROW_START_X + index * SLOT_ROW_SPACING,
                             start.y + SLOT_ROW_Y))
                     .entries(stacks)
-                    .markInput());
+                    .disableBackground().markInput());
             index++;
         }
 
@@ -182,7 +221,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                    .markInput();
+                    .disableBackground().markInput();
             widgets.add(barrier);
             recipe.researchGate().ifPresent(gate -> widgets.add(
                     Widgets.withTooltip(barrier, ResearchUtils.generateMissingResearchList(gate))));

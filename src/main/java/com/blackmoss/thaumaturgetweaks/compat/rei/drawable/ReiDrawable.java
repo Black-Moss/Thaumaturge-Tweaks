@@ -5,7 +5,6 @@
 // 必须用固定坐标的 Widgets.createTexturedWidget，见 toWidget()。
 package com.blackmoss.thaumaturgetweaks.compat.rei.drawable;
 
-import me.shedaniel.math.Point;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import net.minecraft.resources.Identifier;

@@ -5,6 +5,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
@@ -12,12 +13,7 @@ import com.leclowndu93150.thaumaturge.api.recipe.IInfusionRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionEnchantmentRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionRunicAugmentRecipe;
-import com.leclowndu93150.thaumaturge.content.item.PhialItem;
-import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -26,9 +22,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -37,11 +30,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
         implements DisplayCategory<InfusionDisplay<R>> {
@@ -74,12 +68,12 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
     private static final int PAGE_TEXT_COLOR = 0xFF504030;
     private static final int INSTABILITY_LEVEL_CAP = 5;
     private static final ChatFormatting[] INSTABILITY_COLORS = {
-        ChatFormatting.DARK_BLUE,
-        ChatFormatting.BLUE,
-        ChatFormatting.DARK_PURPLE,
-        ChatFormatting.YELLOW,
-        ChatFormatting.GOLD,
-        ChatFormatting.DARK_RED
+            ChatFormatting.DARK_BLUE,
+            ChatFormatting.BLUE,
+            ChatFormatting.DARK_PURPLE,
+            ChatFormatting.YELLOW,
+            ChatFormatting.GOLD,
+            ChatFormatting.DARK_RED
     };
 
     private final ReiDrawable background =
@@ -94,14 +88,6 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
         this.icon = EntryStacks.of(TCItems.INFUSION_MATRIX.get());
         this.id = id;
         this.title = Component.translatable(titleKey);
-    }
-
-    // 取 Ingredient 的首个 ItemStack（REI 不直接支持 Ingredient）。
-    static ItemStack firstStack(Ingredient ingredient) {
-        return ingredient.items()
-                .findFirst()
-                .map(holder -> new ItemStack(holder.value()))
-                .orElse(ItemStack.EMPTY);
     }
 
     @Override
@@ -143,12 +129,12 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
         // 输出槽。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, recipe.resultItem()))
-                .markOutput());
+                .disableBackground().markOutput());
 
         // 中心催化剂槽。
         widgets.add(Widgets.createSlot(new Point(start.x + CATALYST_X, start.y + CATALYST_Y))
-                .entry(EntryStack.of(VanillaEntryTypes.ITEM, firstStack(recipe.catalyst())))
-                .markInput());
+                .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(recipe.catalyst())))
+                .disableBackground().markInput());
 
         // 周围组件环（以催化剂为中心，半径 40，顺时针均匀分布）。
         List<Ingredient> components = recipe.components();
@@ -159,8 +145,8 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
             int slotY = start.y + CATALYST_Y
                     + (int) (Mth.sin(currentRotation / 180.0F * (float) Math.PI) * RING_RADIUS);
             widgets.add(Widgets.createSlot(new Point(slotX, slotY))
-                    .entry(EntryStack.of(VanillaEntryTypes.ITEM, firstStack(component)))
-                    .markInput());
+                    .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(component)))
+                    .disableBackground().markInput());
             currentRotation += 360.0F / components.size();
         }
 
@@ -172,7 +158,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
                             start.x + 30 + ASPECT_X - center + index * ASPECT_SPACING,
                             start.y + ASPECT_Y))
                     .entry(EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, aspect))
-                    .markInput());
+                    .disableBackground().markInput());
             index++;
         }
 
@@ -189,7 +175,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                    .markInput();
+                    .disableBackground().markInput();
             widgets.add(barrier);
             recipe.researchGate().ifPresent(gate -> widgets.add(
                     Widgets.withTooltip(barrier, ResearchUtils.generateMissingResearchList(gate))));

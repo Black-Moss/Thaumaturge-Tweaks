@@ -3,6 +3,7 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
@@ -26,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -75,20 +77,25 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         this.icon = EntryStacks.of(TCItems.ARCANE_WORKBENCH.get());
     }
 
-    // 取配方的输出物品。ItemStackTemplate 转 ItemStack 使用 create()。
+    // 取配方的输出物品。ItemStackTemplate 转 ItemStack 使用 create()；
+    // 无序配方的 result() 可能为 null（@Nullable），此时返回空物品。
     static ItemStack resultOf(ArcaneCraftingRecipe recipe) {
+        ItemStackTemplate result;
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
-            return shaped.result().create();
+            result = shaped.result();
+        } else {
+            result = ((ArcaneShapelessCraftingRecipe) recipe).result();
         }
-        return ((ArcaneShapelessCraftingRecipe) recipe).result().create();
+        return result == null ? ItemStack.EMPTY : result.create();
     }
 
-    // 取 Ingredient 的首个 ItemStack（REI 不直接支持 Ingredient）。
-    static ItemStack firstStack(Ingredient ingredient) {
-        return ingredient.items()
-                .findFirst()
-                .map(holder -> new ItemStack(holder.value()))
-                .orElse(ItemStack.EMPTY);
+    // 在指定格子坐标添加一个输入槽。
+    private static void addGridSlot(List<Widget> widgets, Point start, int x, int y, Ingredient ingredient) {
+        widgets.add(Widgets.createSlot(new Point(
+                        start.x + GRID_ORIGIN_X + x * GRID_SPACING,
+                        start.y + GRID_ORIGIN_Y + y * GRID_SPACING))
+                .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(ingredient)))
+                .disableBackground().markInput());
     }
 
     @Override
@@ -128,7 +135,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
 
         ArcaneCraftingRecipe recipe = display.holder().value();
 
-        // 输入格子（3x3）。
+        // 输入格子（3x3，有序网格或无序列表统一按格子坐标填充）。
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
             int width = shaped.getWidth();
             int height = shaped.getHeight();
@@ -136,28 +143,16 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     Optional<Ingredient> opt = ingredients.get(x + y * width);
-                    if (opt.isEmpty()) {
-                        continue;
+                    if (opt.isPresent()) {
+                        addGridSlot(widgets, start, x, y, opt.get());
                     }
-                    int slotX = start.x + GRID_ORIGIN_X + x * GRID_SPACING;
-                    int slotY = start.y + GRID_ORIGIN_Y + y * GRID_SPACING;
-                    Ingredient ingredient = opt.get();
-                    widgets.add(Widgets.createSlot(new Point(slotX, slotY))
-                            .entry(EntryStack.of(VanillaEntryTypes.ITEM, firstStack(ingredient)))
-                            .markInput());
                 }
             }
         } else {
             ArcaneShapelessCraftingRecipe shapeless = (ArcaneShapelessCraftingRecipe) recipe;
             List<Ingredient> ingredients = shapeless.ingredients();
             for (int i = 0; i < 9 && i < ingredients.size(); i++) {
-                int x = i % 3;
-                int y = i / 3;
-                widgets.add(Widgets.createSlot(new Point(
-                                start.x + GRID_ORIGIN_X + x * GRID_SPACING,
-                                start.y + GRID_ORIGIN_Y + y * GRID_SPACING))
-                        .entry(EntryStack.of(VanillaEntryTypes.ITEM, firstStack(ingredients.get(i))))
-                        .markInput());
+                addGridSlot(widgets, start, i % 3, i / 3, ingredients.get(i));
             }
         }
 
@@ -176,13 +171,13 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                     widgets.add(Widgets.createSlot(new Point(
                                     start.x + CRYSTAL_X, start.y + CRYSTAL_Y + index * CRYSTAL_SPACING))
                             .entry(EntryStack.of(VanillaEntryTypes.ITEM, crystal))
-                            .markInput());
+                            .disableBackground().markInput());
                     index++;
                 } else {
                     widgets.add(Widgets.createSlot(new Point(
                                     start.x + BARRIER_X, start.y + BARRIER_Y))
                             .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                            .markInput());
+                            .disableBackground().markInput());
                 }
             }
         }
@@ -190,20 +185,21 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         // 输出。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
-                .markOutput());
+                .disableBackground().markOutput());
 
-        // VIS 消耗文本。
+        // VIS 消耗文本（本体颜色 0xFF000000 | DARK_GRAY = 0xFF404040，无阴影）。
         String vis = Integer.toString(recipe.getBaseVis());
         widgets.add(Widgets.createLabel(new Point(start.x + VIS_CENTER_X, start.y + VIS_Y),
                         Component.literal(vis))
                 .centered()
-                .color(0x404040));
+                .noShadow()
+                .color(0xFF404040));
 
         // 研究门控屏障。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             widgets.add(Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                    .markInput());
+                    .disableBackground().markInput());
         }
 
         return widgets;

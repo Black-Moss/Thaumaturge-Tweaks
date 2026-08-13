@@ -1,10 +1,8 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
-import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.recipe.IInfusionRecipe;
-import com.leclowndu93150.thaumaturge.content.item.PhialItem;
-import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -12,27 +10,28 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 // REI Display 承载一份注魔配方，供搜索与列表匹配。
 public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implements Display {
 
-    private final RecipeHolder<R> holder;
+    private final RecipeHolder<@NonNull R> holder;
     private final CategoryIdentifier<?> categoryId;
 
-    InfusionDisplay(RecipeHolder<R> holder, CategoryIdentifier<?> categoryId) {
-        this.holder = holder;
-        this.categoryId = categoryId;
+    InfusionDisplay(RecipeHolder<@NonNull R> holder, CategoryIdentifier<?> categoryId) {
+        this.holder = Objects.requireNonNull(holder, "holder");
+        this.categoryId = Objects.requireNonNull(categoryId, "categoryId");
     }
 
-    RecipeHolder<R> holder() {
+    RecipeHolder<@NonNull R> holder() {
         return holder;
     }
 
@@ -40,23 +39,12 @@ public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implem
     public List<EntryIngredient> getInputEntries() {
         List<EntryIngredient> list = new ArrayList<>();
         IInfusionRecipe recipe = holder.value();
-        ItemStack catalyst = InfusionCategory.firstStack(recipe.catalyst());
-        list.add(catalyst.isEmpty()
-                ? EntryIngredient.empty()
-                : EntryIngredient.of(EntryStack.of(VanillaEntryTypes.ITEM, catalyst)));
+        list.add(ReiRecipeEntries.ingredientEntry(recipe.catalyst()));
         for (Ingredient component : recipe.components()) {
-            ItemStack stack = InfusionCategory.firstStack(component);
-            list.add(stack.isEmpty()
-                    ? EntryIngredient.empty()
-                    : EntryIngredient.of(EntryStack.of(VanillaEntryTypes.ITEM, stack)));
+            list.add(ReiRecipeEntries.ingredientEntry(component));
         }
         for (AspectInstance aspect : recipe.aspects().sortedByAmount()) {
-            // 一个输入可对应要素图标、瓶装要素、要素水晶三种形式，全部作为候选。
-            List<EntryStack<?>> variants = List.of(
-                    EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, aspect),
-                    EntryStack.of(VanillaEntryTypes.ITEM, PhialItem.makeFilled(aspect.aspect())),
-                    EntryStack.of(VanillaEntryTypes.ITEM, EssentiaCrystalFactory.of(aspect.aspect(), 1)));
-            list.add(EntryIngredient.of(variants));
+            list.add(ReiRecipeEntries.aspectVariants(aspect));
         }
         return list;
     }
