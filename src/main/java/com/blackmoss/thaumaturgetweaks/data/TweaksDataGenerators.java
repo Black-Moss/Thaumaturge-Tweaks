@@ -2,8 +2,8 @@
 package com.blackmoss.thaumaturgetweaks.data;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
-import com.blackmoss.thaumaturgetweaks.data.lang.TweaksChineseProvider;
-import com.blackmoss.thaumaturgetweaks.data.lang.TweaksEnglishProvider;
+import com.blackmoss.thaumaturgetweaks.data.lang.TweaksZhCnProvider;
+import com.blackmoss.thaumaturgetweaks.data.lang.TweaksEnUsProvider;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -16,7 +16,7 @@ public final class TweaksDataGenerators {
 
     @SubscribeEvent
     public static void onGatherData(GatherDataEvent.Client event) {
-        event.createProvider(TweaksEnglishProvider::new);
-        event.createProvider(TweaksChineseProvider::new);
+        event.createProvider(TweaksEnUsProvider::new);
+        event.createProvider(TweaksZhCnProvider::new);
     }
 }
