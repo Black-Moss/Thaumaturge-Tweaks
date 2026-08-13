@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public record ServerboundScanSelfPayload() implements CustomPacketPayload {
     public static final ServerboundScanSelfPayload INSTANCE = new ServerboundScanSelfPayload();
@@ -17,7 +18,7 @@ public record ServerboundScanSelfPayload() implements CustomPacketPayload {
             StreamCodec.unit(INSTANCE);
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

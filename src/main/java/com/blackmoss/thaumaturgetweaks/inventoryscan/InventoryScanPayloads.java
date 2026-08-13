@@ -1,7 +1,6 @@
 // 物品栏扫描网络包的服务端/客户端处理器。
 package com.blackmoss.thaumaturgetweaks.inventoryscan;
 
-import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import com.blackmoss.thaumaturgetweaks.inventoryscan.client.InventoryScanningClient;
 import com.leclowndu93150.thaumaturge.api.research.scan.ScanningManager;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +9,6 @@ import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.slf4j.Logger;
 
 public final class InventoryScanPayloads {
     private InventoryScanPayloads() {
