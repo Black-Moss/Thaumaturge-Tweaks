@@ -4,6 +4,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
@@ -16,6 +17,7 @@ import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
@@ -156,7 +158,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             }
         }
 
-        // 要素水晶列。
+        // 要素水晶列：按原初要素固定顺序排布；PRIMAL_ORDER 空缺位置放空槽（与本体 JEI 一致，不放屏障物品）。
         AspectList crystals = recipe.getCrystals();
         if (!crystals.isEmpty()) {
             List<AspectInstance> aspects = crystals.entries().stream()
@@ -174,9 +176,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                             .disableBackground().markInput());
                     index++;
                 } else {
-                    widgets.add(Widgets.createSlot(new Point(
-                                    start.x + BARRIER_X, start.y + BARRIER_Y))
-                            .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
+                    widgets.add(Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                             .disableBackground().markInput());
                 }
             }
@@ -195,11 +195,14 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                 .noShadow()
                 .color(0xFF404040));
 
-        // 研究门控屏障。
+        // 研究门控屏障：未通过研究门槛时显示屏障，悬停提示缺失的研究。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
-            widgets.add(Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
+            Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))
-                    .disableBackground().markInput());
+                    .disableBackground().markInput();
+            widgets.add(barrier);
+            recipe.researchGate().ifPresent(gate -> widgets.add(
+                    Widgets.withTooltip(barrier, ResearchUtils.generateMissingResearchList(gate))));
         }
 
         return widgets;
