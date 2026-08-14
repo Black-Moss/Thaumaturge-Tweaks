@@ -49,6 +49,12 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+
+    // Illusive Soulworks Maven: provides Curios API artifacts for NeoForge.
+    maven {
+        name = "Illusive Soulworks"
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 base {
@@ -150,6 +156,11 @@ dependencies {
     // run/mods (also required at runtime by REI) so compilation resolves them.
     compileOnly files("run/mods/architectury-neoforge-20.0.12.jar")
     compileOnly files("run/mods/cloth-config-26.1.154.jar")
+
+    // Curios (饰品栏) — optional integration. API needed at compile time only; the full mod is
+    // already present in run/mods at runtime. Artifacts come from the Illusive Soulworks Maven.
+    compileOnly "maven.modrinth:vvuO3ImH:dRnRThvD"
+    localRuntime "maven.modrinth:vvuO3ImH:dRnRThvD"
 
     // Avaritia integration was moved to the standalone Thaumic Avaritia mod (thaumicavaritia).
 

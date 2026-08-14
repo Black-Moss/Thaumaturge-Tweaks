@@ -44,6 +44,11 @@ Quality-of-life enhancements for the Research Table:
 - The **aspect combination helper panel** can be paged with the mouse wheel and closed with **Backspace** or the **right mouse button**.
 - **Right-click** a placed aspect on the research hex grid to erase it (same as left-click erase).
 
+### Curios Integration (Requires Curios)
+Quality-of-life integration with [Curios](https://www.curseforge.com/minecraft/mc-mods/curios):
+
+- Right-clicking the **Revealing Goggles** equips them into the Curios **head** slot first; when the head slot is full, they fall back to the helmet slot as usual.
+
 ## Requirements
 
 | Dependency                                                               | Type     | Notes                                                       |
@@ -51,12 +56,7 @@ Quality-of-life enhancements for the Research Table:
 | [NeoForge](https://neoforged.net/)                                       | Required | 26.1.2                                                      |
 | [Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)             | Required | Loads before this mod                                       |
 | [REI](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) | Optional | Client-side only; enables the recipe/information categories |
-
-## Usage
-
-Install the mod into the `mods` folder together with the requirements above. No configuration is needed.
-
-For inventory scanning: pick up a Thaumometer with your cursor, then hover over a container slot or your own player model. Hold still until the scan completes.
+| [Curios](https://www.curseforge.com/minecraft/mc-mods/curios)            | Optional | Enables the goggles-to-head-slot integration                |
 
 ## Credits
 
