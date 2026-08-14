@@ -36,6 +36,14 @@ Quality-of-life controls for the research/entry detail screens of the Thaumonomi
 - **Backspace** — close the screen
 - **Right mouse button** — close the screen (or return from a sub-view first)
 
+### Research Table Controls
+Quality-of-life enhancements for the Research Table:
+
+- Scroll the **aspect palette** with the **mouse wheel** (hover over the palette) or the **PageUp / PageDown / arrow keys**.
+- **Drag-and-drop combining** — drop one palette aspect onto another to combine them instantly; hold **Shift** to batch-combine up to 10 times (as many as your available materials allow).
+- The **aspect combination helper panel** can be paged with the mouse wheel and closed with **Backspace** or the **right mouse button**.
+- **Right-click** a placed aspect on the research hex grid to erase it (same as left-click erase).
+
 ## Requirements
 
 | Dependency                                                               | Type     | Notes                                                       |
