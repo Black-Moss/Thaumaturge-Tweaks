@@ -28,7 +28,7 @@ Inspired by and referencing [Thaumcraft Inventory Scanning](https://www.cursefor
 - Already-scanned targets instantly show their aspect tags.
 - Requires the mod to be installed on both the client and the server.
 
-### Thaumonomicon Controls
+### Thaumonomicon Controls 
 Quality-of-life controls for the research/entry detail screens of the Thaumonomicon:
 
 - **Mouse wheel** up/down — previous/next page
