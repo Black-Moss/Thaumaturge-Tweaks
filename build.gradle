@@ -55,6 +55,25 @@ repositories {
         name = "Illusive Soulworks"
         url = "https://maven.theillusivec4.top/"
     }
+
+    maven{
+        url = "https://raw.githubusercontent.com/yiyuyan/SimpleMavenRepo/refs/heads/master/"
+    }
+    maven {
+        name = 'JEI Maven'
+        url = 'https://maven.blamejared.com/'
+    }
+    maven {
+        name = 'Curse Maven'
+        url = 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+    maven{
+        name = 'Architectury'
+        url = 'https://maven.architectury.dev/'
+    }
 }
 
 base {
@@ -140,8 +159,8 @@ dependencies {
     // Thaumaturge parent mod (the API surface this addon consumes).
     // Referenced from the parent project's build output via the flatDir repository above.
     // group id is ignored for flatDir; the jar name matches the artifact below.
-    compileOnly name: "thaumaturge-26.1.2-NeoForge-BETA-0.1.4"
-    localRuntime name: "thaumaturge-26.1.2-NeoForge-BETA-0.1.4"
+    compileOnly "com.leclowndu93150:thaumaturge:0.1.4"
+    localRuntime "com.leclowndu93150:thaumaturge:0.1.4"
 
     // REI (Roughly Enough Items) — optional, client-side recipe viewer integration.
     // The API is needed at compile time only; the full mod is pulled in by localRuntime so that
@@ -154,8 +173,8 @@ dependencies {
     // (me.shedaniel.math.Rectangle etc.) never reach the compile classpath automatically.
     // Architectury and Cloth Config ship those classes; reference the jars already present in
     // run/mods (also required at runtime by REI) so compilation resolves them.
-    compileOnly files("run/mods/architectury-neoforge-20.0.12.jar")
-    compileOnly files("run/mods/cloth-config-26.1.154.jar")
+    implementation group: 'dev.architectury', name: 'architectury-neoforge', version: arch_ver
+    implementation group: 'me.shedaniel.cloth', name: 'cloth-config-neoforge', version: cloth_config_ver
 
     // Curios (饰品栏) — optional integration. API needed at compile time only; the full mod is
     // already present in run/mods at runtime. Artifacts come from the Illusive Soulworks Maven.
