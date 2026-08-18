@@ -4,6 +4,7 @@
   "package": "com.blackmoss.thaumaturgetweaks.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "client.renderer.ItemModelResolverMixin",
     "client.screen.research.EntryDetailScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
     "client.screen.research.ResearchTableScreenMixin"

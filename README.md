@@ -49,6 +49,13 @@ Quality-of-life integration with [Curios](https://www.curseforge.com/minecraft/m
 
 - Right-clicking the **Revealing Goggles** equips them into the Curios **head** slot first; when the head slot is full, they fall back to the helmet slot as usual.
 
+### Aspect Icons on Shift (Essentia Phial & Crystal Shards)
+Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying items (inspired by Avaritia's singularity material preview):
+
+- While **Shift** is held, **Essentia Phials** and **Essentia Crystal Shards** render as their contained **aspect icon** (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, and as dropped items.
+- Releasing **Shift** restores the default item texture.
+- Only these two items are affected; other items keep their normal rendering.
+
 ## Requirements
 
 | Dependency                                                               | Type     | Notes                                                       |

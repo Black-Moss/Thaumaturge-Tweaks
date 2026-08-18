@@ -1,8 +1,3 @@
-// 研究台拖拽合成增强：
-// 将调色板中的要素拖到另一个要素上释放即可合成（复用注魔台 combine 逻辑）。
-// 按住 Shift 释放时批量合成 10 次（材料不足则按实际可用量尽量合成）。
-// 服务端 combineAspects 每轮消耗两个输入各 1、产出 1；组合无效时服务端仍会消耗输入，
-// 因此发送前用 AspectCombinations.result 前置校验，避免无效组合白扣材料。
 package com.blackmoss.thaumaturgetweaks.mixin.client.screen.research;
 
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
