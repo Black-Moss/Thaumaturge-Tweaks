@@ -4,7 +4,7 @@
 
 A quality-of-life addon mod for **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**, built for **NeoForge 26.1.2** (Minecraft 26.1.2).
 
-It adds REI recipe/information support for Thaumaturge's crafting systems, a ThaumicInventoryScanning-style inventory scanning feature, and enhanced controls for the Thaumonomicon research screens.
+It adds REI recipe/information support for Thaumaturge's crafting systems, a ThaumicInventoryScanning-style inventory scanning feature, and enhanced controls for the Thaumonomicon, Research Table, and Thaumatorium screens.
 
 ## Features
 
@@ -44,31 +44,24 @@ Quality-of-life enhancements for the Research Table:
 - The **aspect combination helper panel** can be paged with the mouse wheel and closed with **Backspace** or the **right mouse button**.
 - **Right-click** a placed aspect on the research hex grid to erase it (same as left-click erase).
 
-### Curios Integration (Requires Curios)
-Quality-of-life integration with [Curios](https://www.curseforge.com/minecraft/mc-mods/curios):
+### Thaumatorium Controls
+Quality-of-life controls for the Thaumatorium (automatic alchemy) screen:
 
-- Right-clicking the **Revealing Goggles** equips them into the Curios **head** slot first; when the head slot is full, they fall back to the helmet slot as usual.
+- **Mouse wheel** over the recipe grid — previous/next page (same as clicking the up/down arrows)
+- **PageUp / PageDown** or **Up/Down arrow keys** — previous/next page
 
 ### Aspect Icons on Shift (Essentia Phial & Crystal Shards)
-Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying items (inspired by Avaritia's singularity material preview):
+Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying items (inspired by [Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations); the render also borrows the material-preview style of Avaritia's singularity items):
 
-- While **Shift** is held, **Essentia Phials** and **Essentia Crystal Shards** render as their contained **aspect icon** (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, and as dropped items.
+- While **Shift** is held, **Essentia Phials** and **Essentia Crystal Shards** render as their contained **aspect icon** (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, as dropped items, and in REI entry panels.
 - Releasing **Shift** restores the default item texture.
 - Only these two items are affected; other items keep their normal rendering.
-
-## Requirements
-
-| Dependency                                                               | Type     | Notes                                                       |
-|--------------------------------------------------------------------------|----------|-------------------------------------------------------------|
-| [NeoForge](https://neoforged.net/)                                       | Required | 26.1.2                                                      |
-| [Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)             | Required | Loads before this mod                                       |
-| [REI](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) | Optional | Client-side only; enables the recipe/information categories |
-| [Curios](https://www.curseforge.com/minecraft/mc-mods/curios)            | Optional | Enables the goggles-to-head-slot integration                |
 
 ## Credits
 
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** by Leclowndu93150 — the parent mod this addon extends.
 - **[Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)** by BlayTheNinth — the inventory scanning feature is inspired by and references this mod.
+- **[Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)** by Aedial — the aspect icon display feature is inspired by and references this mod.
 
 ## Authorization
 

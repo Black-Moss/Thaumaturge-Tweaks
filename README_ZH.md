@@ -4,7 +4,7 @@
 
 面向 **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** 的便利性扩展模组，基于 **NeoForge 26.1.2**（Minecraft 26.1.2）构建。
 
-为本体模组补充了 REI 配方/信息支持、参考 ThaumicInventoryScanning 的物品栏扫描功能，以及魔导手册研究界面的操作增强。
+为本体模组补充了 REI 配方/信息支持、参考 ThaumicInventoryScanning 的物品栏扫描功能，以及魔导手册、研究台与神秘炼金塔界面的操作增强。
 
 ## 功能特性
 
@@ -12,9 +12,9 @@
 为 [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) 添加了Thaumaturge全部内容支持：
 
 - **奥术工作台**配方
-- **熔锅**配方
-- **注魔**配方，含注魔附魔与符文强化（Runic Augment）变体
-- **尘触发**配方（盐晶触发）
+- **坩埚**配方
+- **注魔**配方，含注魔附魔与符文强化变体
+- **世界盐触发**配方
 - **多方块**结构
 - **要素合成**——每个要素由哪些子要素组合而来
 - **要素来源物**——某要素出现在哪些物品上
@@ -44,15 +44,16 @@
 - **要素合成参考（帮助面板）**可通过鼠标滚轮翻页，并可用**退格键**或**鼠标右键**关闭。
 - **鼠标右键**点击研究六边形网格上已放置的要素可将其擦除（与左键擦除一致）。
 
-### Curios（饰品栏）集成（需要 Curios）
-与 [Curios](https://www.curseforge.com/minecraft/mc-mods/curios) 的便利性集成：
+### 神秘炼金塔操作增强
+为神秘炼金塔（自动炼金）界面提供便利操作：
 
-- 右键使用**揭示之护目镜**时优先放入饰品栏 **head** 槽；head 槽已满时回退为正常装备到头盔槽。
+- **鼠标滚轮**（悬停在配方网格区域）——上一页/下一页（与点击上下箭头等效）
+- **PageUp / PageDown** 或**上下方向键**——上一页/下一页
 
 ### 按住 Shift 显示要素图标（要素安瓿 & 水晶碎片）
-按住 **Shift** 可直接查看部分含要素物品的**要素图标**（参考 Avaritia 奇点物品的材料预览）：
+按住 **Shift** 可直接查看部分含要素物品的**要素图标**（参考 [神秘时代要素注释 Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)，渲染风格亦借鉴了 Avaritia 奇点物品的材料预览）：
 
-- 按住 **Shift** 时，**要素安瓿**与**要素水晶碎片**会以所含的**要素图标**（含要素颜色）渲染，取代其默认的安瓿/碎片贴图——在背包界面、手持状态以及掉落物中均生效。
+- 按住 **Shift** 时，**要素安瓿**与**要素水晶碎片**会以所含的**要素图标**（含要素颜色）渲染，取代其默认的安瓿/碎片贴图——在背包界面、手持状态、掉落物以及 REI 配方界面中均生效。
 - 松开 **Shift** 即恢复默认贴图。
 - 仅对这两种物品生效，其它物品渲染保持不变。
 
@@ -60,6 +61,7 @@
 
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**，作者 Leclowndu93150——本模组扩展的父模组。
 - **[神秘时代物品栏扫描 Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)**，作者 BlayTheNinth——物品栏扫描功能的灵感来源与参考对象。
+- **[神秘时代要素注释 Thaumcraft Aspect Annotations](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-aspect-annotations)**，作者 Aedial——要素图标显示功能的灵感来源与参考对象。
 
 ## 授权
 

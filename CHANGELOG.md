@@ -7,7 +7,7 @@ to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## v1.0.1
+## v1.2.0
 
 ### Added
 
@@ -17,7 +17,8 @@ to [Semantic Versioning](https://semver.org/).
 - Research Table: right-click a placed aspect on the research hex grid to erase it (same behavior as left-click erase).
 - REI: the Arcane Workbench category now shows the missing research on the research gate barrier tooltip (previously the barrier was shown without any explanation).
 - Curios: right-clicking the Revealing Goggles now equips them into the Curios head slot first (falling back to the helmet slot when the head slot is full).
-- Aspect Annotations: container screens now overlay the item's primary aspect icon in the top-left corner of each slot that carries aspects (inspired by and referencing Thaumcraft Aspect Annotations).
+- Aspect Icons: while holding Shift, Essentia Phials and Essentia Crystal Shards render as their contained aspect icon (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, as dropped items, and in REI entry panels (inspired by and referencing [Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)).
+- Thaumatorium: scroll the recipe grid with the mouse wheel (hover over the grid) or the PageUp / PageDown / arrow keys (same as clicking the up/down arrows).
 
 ### Fixed
 
