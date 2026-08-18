@@ -118,7 +118,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
     public void registerEntryRenderers(EntryRendererRegistry registry) {
         registry.register(VanillaEntryTypes.ITEM, (entry, currentRenderer) -> {
             ItemStack stack = entry.getValue();
-            if (stack != null && AspectSlotAnnotations.isAspectVessel(stack)) {
+            if (AspectSlotAnnotations.isAspectVessel(stack)) {
                 return new AspectVesselItemEntryRenderer(currentRenderer);
             }
             // 非目标物品必须原样返回，REI 对 provider 结果做 requireNonNull。

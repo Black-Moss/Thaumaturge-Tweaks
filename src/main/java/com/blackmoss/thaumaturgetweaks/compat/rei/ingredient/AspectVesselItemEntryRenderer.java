@@ -13,6 +13,7 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemStack> {
 
@@ -41,8 +42,7 @@ public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemSt
     }
 
     @Override
-    @NotNull
-    public Tooltip getTooltip(@NotNull EntryStack<ItemStack> entry, @NotNull TooltipContext context) {
+    public @Nullable Tooltip getTooltip(@NotNull EntryStack<ItemStack> entry, @NotNull TooltipContext context) {
         if (fallback != null) {
             return fallback.getTooltip(entry, context);
         }
