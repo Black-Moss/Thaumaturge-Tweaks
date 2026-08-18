@@ -2,7 +2,9 @@
 // 位于 category 包，以便访问同包内包级可见的 Display 类。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
+import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
+import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectVesselItemEntryRenderer;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
@@ -13,6 +15,7 @@ import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecip
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import com.leclowndu93150.thaumaturge.registry.TCRecipeTypes;
+import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -108,6 +111,19 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             stacks.add(EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(holder, 1)));
         }
         registry.addEntries(stacks);
+    }
+
+    // 按住 Shift 时把要素安瓿/水晶碎片的物品条目替换成要素图标（与背包 GUI 一致）。
+    @Override
+    public void registerEntryRenderers(EntryRendererRegistry registry) {
+        registry.register(VanillaEntryTypes.ITEM, (entry, currentRenderer) -> {
+            ItemStack stack = entry.getValue();
+            if (stack != null && AspectSlotAnnotations.isAspectVessel(stack)) {
+                return new AspectVesselItemEntryRenderer(currentRenderer);
+            }
+            // 非目标物品必须原样返回，REI 对 provider 结果做 requireNonNull。
+            return currentRenderer;
+        });
     }
 
     @Override

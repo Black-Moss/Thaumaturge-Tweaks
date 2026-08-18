@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class AspectSlotAnnotations {
@@ -29,56 +29,81 @@ public final class AspectSlotAnnotations {
     private static final Identifier PHIAL_ID = Identifier.fromNamespaceAndPath("thaumaturge", "phial");
     private static final Identifier ESSENTIA_CRYSTAL_ID =
             Identifier.fromNamespaceAndPath("thaumaturge", "essentia_crystal");
+    // 要素图标的圆形背景纹理（与普通要素图标同尺寸），用于盖住物品本体。
+    private static final Identifier ASPECT_BACK_TEXTURE =
+            Identifier.fromNamespaceAndPath("thaumaturge", "textures/aspects/_back.png");
 
     private AspectSlotAnnotations() {
     }
 
+    // 供 REI 条目渲染器复用：判断 stack 是否是需要替换渲染的要素容器（安瓿/水晶碎片）。
+    public static boolean isAspectVessel(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) {
+            return false;
+        }
+        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        return id.equals(PHIAL_ID) || id.equals(ESSENTIA_CRYSTAL_ID);
+    }
+
+    // 供 REI 条目渲染器复用：要素图标的圆形背景纹理。
+    public static Identifier aspectBackTexture() {
+        return ASPECT_BACK_TEXTURE;
+    }
+
+    // 在 (x, y) 处以 16×16 绘制该物品的要素图标（圆形背景 + 要素符号）。
+    // 若 stack 不是要素容器或无法取得要素则返回 false，调用方应回退到默认渲染。
+    public static boolean renderAspectIcon(GuiGraphicsExtractor graphics, int x, int y, ItemStack stack) {
+        if (graphics == null || stack == null || stack.isEmpty()) {
+            return false;
+        }
+        Holder<IAspect> aspect = aspectOf(stack);
+        if (aspect == null) {
+            return false;
+        }
+        // 先画圆形背景盖住物品本体，再画要素符号（均 16×16，源 32×32 等比缩放）。
+        graphics.blit(
+                RenderPipelines.GUI_TEXTURED, ASPECT_BACK_TEXTURE, x, y, 0.0F, 0.0F, 16, 16, 32, 32, 32, 32, 0xFFFFFFFF);
+        graphics.blit(
+                RenderPipelines.GUI_TEXTURED,
+                aspect.value().texture(),
+                x,
+                y,
+                0.0F,
+                0.0F,
+                16,
+                16,
+                32,
+                32,
+                32,
+                32,
+                0xFF000000 | aspect.value().color());
+        return true;
+    }
+
     @SubscribeEvent
-    public static void onScreenRenderPost(ScreenEvent.Render.Post event) {
+    public static void onContainerRenderForeground(ContainerScreenEvent.Render.Foreground event) {
         if (!Minecraft.getInstance().hasShiftDown()) {
             return;
         }
-        if (!(event.getScreen() instanceof AbstractContainerScreen<?> screen)) {
-            return;
-        }
+        AbstractContainerScreen<?> screen = event.getContainerScreen();
         GuiGraphicsExtractor graphics = event.getGuiGraphics();
-        // getGuiLeft/getGuiTop 在 26.1.2 标记为待移除，但仍是访问界面原点的公开 API。
-        int left = screen.getGuiLeft();
-        int top = screen.getGuiTop();
+        // Foreground 事件触发时 graphics 的 pose 已平移到界面原点，故用相对坐标 slot.x/slot.y。
         for (Slot slot : screen.getMenu().slots) {
             ItemStack stack = slot.getItem();
             if (stack.isEmpty()) {
                 continue;
             }
-            Holder<IAspect> aspect = aspectOf(stack);
-            if (aspect == null) {
-                continue;
-            }
-            // 用 GUI 管线在槽位上画 16×16 要素图标（源 32×32 等比缩放），覆盖安瓿/水晶。
-            graphics.blit(
-                    RenderPipelines.GUI_TEXTURED,
-                    aspect.value().texture(),
-                    slot.x + left,
-                    slot.y + top,
-                    0.0F,
-                    0.0F,
-                    16,
-                    16,
-                    32,
-                    32,
-                    32,
-                    32,
-                    0xFF000000 | aspect.value().color());
+            renderAspectIcon(graphics, slot.x, slot.y, stack);
         }
     }
 
     // 若 stack 是要素安瓿或要素水晶碎片，返回其主要要素；否则返回 null。
-    private static Holder<IAspect> aspectOf(ItemStack stack) {
+    public static Holder<IAspect> aspectOf(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return null;
         }
         Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        if (id == null || (!id.equals(PHIAL_ID) && !id.equals(ESSENTIA_CRYSTAL_ID))) {
+        if (!id.equals(PHIAL_ID) && !id.equals(ESSENTIA_CRYSTAL_ID)) {
             return null;
         }
         AspectList aspects = AspectIndexAccess.of(stack);
