@@ -3,11 +3,15 @@
   "minVersion": "0.8",
   "package": "com.blackmoss.thaumaturgetweaks.mixin",
   "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ThaumometerItemMixin"
+  ],
   "client": [
     "client.screen.research.EntryDetailScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
     "client.screen.research.ResearchTableScreenMixin",
-    "client.screen.essentia.ThaumatoriumScreenAccessor"
+    "client.screen.essentia.ThaumatoriumScreenAccessor",
+    "client.item.ThaumometerClientHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

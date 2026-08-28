@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## v1.3.0
+
+### Added
+
+- Container Scanning: using the Thaumometer on a container block now scans every item inside it, in addition to the block itself. Unlike the base mod, this still works when the container block has already been scanned, so items placed inside later can be scanned too.
+
 ## v1.2.0
 
 ### Added

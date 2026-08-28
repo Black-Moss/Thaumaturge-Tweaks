@@ -1,0 +1,21 @@
+Compiled from "ThaumometerItem.java"
+public final class com.leclowndu93150.thaumaturge.content.item.ThaumometerItem extends net.minecraft.world.item.Item {
+  public static final double SCAN_ENTITY_MIN_RANGE;
+  public static final double SCAN_ENTITY_RANGE;
+  public static final int USE_DURATION_TICKS;
+  public static final int SCAN_COMPLETE_ELAPSED_TICKS;
+  private static final int SCAN_RELEASE_TOLERANCE_TICKS;
+  private static final int AURA_CHECK_INTERVAL_TICKS;
+  private static final int FLUX_WARN_BASE_DIVISOR;
+  public com.leclowndu93150.thaumaturge.content.item.ThaumometerItem(net.minecraft.world.item.Item$Properties);
+  public net.minecraft.world.InteractionResult onItemUseFirst(net.minecraft.world.item.ItemStack, net.minecraft.world.item.context.UseOnContext);
+  public net.minecraft.world.InteractionResult use(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player, net.minecraft.world.InteractionHand);
+  private net.minecraft.world.InteractionResult beginScan(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player, net.minecraft.world.InteractionHand);
+  public int getUseDuration(net.minecraft.world.item.ItemStack, net.minecraft.world.entity.LivingEntity);
+  public net.minecraft.world.item.ItemUseAnimation getUseAnimation(net.minecraft.world.item.ItemStack);
+  public void onUseTick(net.minecraft.world.level.Level, net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack, int);
+  public boolean releaseUsing(net.minecraft.world.item.ItemStack, net.minecraft.world.level.Level, net.minecraft.world.entity.LivingEntity, int);
+  public static java.lang.Object resolveTarget(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player);
+  public void inventoryTick(net.minecraft.world.item.ItemStack, net.minecraft.server.level.ServerLevel, net.minecraft.world.entity.Entity, net.minecraft.world.entity.EquipmentSlot);
+  private static void warnAboutFlux(net.minecraft.server.level.ServerLevel, net.minecraft.server.level.ServerPlayer);
+}

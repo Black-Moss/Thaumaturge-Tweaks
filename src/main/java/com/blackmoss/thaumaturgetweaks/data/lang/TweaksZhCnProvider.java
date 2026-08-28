@@ -14,6 +14,6 @@ public final class TweaksZhCnProvider extends LanguageProvider {
     protected void addTranslations() {
         add("thaumaturgetweaks.inventoryscan.scanning", "扫描中");
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip", "用于物品栏扫描");
-        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "手持魔导透镜并悬停在物品栏或存储容器的物品上即可进行扫描。");
+        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "手持魔导透镜并悬停在物品栏或存储容器的物品上即可进行扫描；对容器方块使用可一并扫描其中的所有物品。");
     }
 }

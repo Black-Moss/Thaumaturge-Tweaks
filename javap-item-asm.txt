@@ -1,0 +1,238 @@
+Compiled from "ThaumometerItem.java"
+public final class com.leclowndu93150.thaumaturge.content.item.ThaumometerItem extends net.minecraft.world.item.Item {
+  public static final double SCAN_ENTITY_MIN_RANGE;
+
+  public static final double SCAN_ENTITY_RANGE;
+
+  public static final int USE_DURATION_TICKS;
+
+  public static final int SCAN_COMPLETE_ELAPSED_TICKS;
+
+  private static final int SCAN_RELEASE_TOLERANCE_TICKS;
+
+  private static final int AURA_CHECK_INTERVAL_TICKS;
+
+  private static final int FLUX_WARN_BASE_DIVISOR;
+
+  public com.leclowndu93150.thaumaturge.content.item.ThaumometerItem(net.minecraft.world.item.Item$Properties);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokespecial #1                  // Method net/minecraft/world/item/Item."<init>":(Lnet/minecraft/world/item/Item$Properties;)V
+         5: return
+
+  public net.minecraft.world.InteractionResult onItemUseFirst(net.minecraft.world.item.ItemStack, net.minecraft.world.item.context.UseOnContext);
+    Code:
+         0: aload_2
+         1: invokevirtual #7                  // Method net/minecraft/world/item/context/UseOnContext.getPlayer:()Lnet/minecraft/world/entity/player/Player;
+         4: astore_3
+         5: aload_3
+         6: ifnull        16
+         9: aload_3
+        10: invokevirtual #13                 // Method net/minecraft/world/entity/player/Player.isShiftKeyDown:()Z
+        13: ifeq          20
+        16: getstatic     #19                 // Field net/minecraft/world/InteractionResult.PASS:Lnet/minecraft/world/InteractionResult$Pass;
+        19: areturn
+        20: aload_0
+        21: aload_2
+        22: invokevirtual #25                 // Method net/minecraft/world/item/context/UseOnContext.getLevel:()Lnet/minecraft/world/level/Level;
+        25: aload_3
+        26: aload_2
+        27: invokevirtual #29                 // Method net/minecraft/world/item/context/UseOnContext.getHand:()Lnet/minecraft/world/InteractionHand;
+        30: invokevirtual #33                 // Method beginScan:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;
+        33: areturn
+
+  public net.minecraft.world.InteractionResult use(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player, net.minecraft.world.InteractionHand);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: aload_3
+         4: invokevirtual #33                 // Method beginScan:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;
+         7: areturn
+
+  private net.minecraft.world.InteractionResult beginScan(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player, net.minecraft.world.InteractionHand);
+    Code:
+         0: aload_2
+         1: aload_1
+         2: aload_2
+         3: invokestatic  #39                 // Method resolveTarget:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;)Ljava/lang/Object;
+         6: invokestatic  #43                 // Method com/leclowndu93150/thaumaturge/api/research/scan/ScanningManager.isThingStillScannable:(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z
+         9: ifne          16
+        12: getstatic     #19                 // Field net/minecraft/world/InteractionResult.PASS:Lnet/minecraft/world/InteractionResult$Pass;
+        15: areturn
+        16: aload_2
+        17: aload_3
+        18: invokevirtual #49                 // Method net/minecraft/world/entity/player/Player.startUsingItem:(Lnet/minecraft/world/InteractionHand;)V
+        21: getstatic     #53                 // Field net/minecraft/world/InteractionResult.CONSUME:Lnet/minecraft/world/InteractionResult$Success;
+        24: invokevirtual #57                 // Method net/minecraft/world/InteractionResult$Success.withoutItem:()Lnet/minecraft/world/InteractionResult$Success;
+        27: areturn
+
+  public int getUseDuration(net.minecraft.world.item.ItemStack, net.minecraft.world.entity.LivingEntity);
+    Code:
+         0: bipush        25
+         2: ireturn
+
+  public net.minecraft.world.item.ItemUseAnimation getUseAnimation(net.minecraft.world.item.ItemStack);
+    Code:
+         0: getstatic     #63                 // Field net/minecraft/world/item/ItemUseAnimation.NONE:Lnet/minecraft/world/item/ItemUseAnimation;
+         3: areturn
+
+  public void onUseTick(net.minecraft.world.level.Level, net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack, int);
+    Code:
+         0: aload_1
+         1: invokevirtual #69                 // Method net/minecraft/world/level/Level.isClientSide:()Z
+         4: ifne          14
+         7: aload_2
+         8: instanceof    #14                 // class net/minecraft/world/entity/player/Player
+        11: ifne          15
+        14: return
+        15: bipush        25
+        17: iload         4
+        19: isub
+        20: bipush        20
+        22: if_icmplt     29
+        25: aload_2
+        26: invokevirtual #74                 // Method net/minecraft/world/entity/LivingEntity.releaseUsingItem:()V
+        29: return
+
+  public boolean releaseUsing(net.minecraft.world.item.ItemStack, net.minecraft.world.level.Level, net.minecraft.world.entity.LivingEntity, int);
+    Code:
+         0: aload_2
+         1: invokevirtual #69                 // Method net/minecraft/world/level/Level.isClientSide:()Z
+         4: ifne          23
+         7: aload_3
+         8: instanceof    #14                 // class net/minecraft/world/entity/player/Player
+        11: ifeq          23
+        14: aload_3
+        15: checkcast     #14                 // class net/minecraft/world/entity/player/Player
+        18: astore        5
+        20: goto          25
+        23: iconst_0
+        24: ireturn
+        25: bipush        25
+        27: iload         4
+        29: isub
+        30: bipush        18
+        32: if_icmpge     37
+        35: iconst_0
+        36: ireturn
+        37: aload_2
+        38: aload         5
+        40: invokestatic  #39                 // Method resolveTarget:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;)Ljava/lang/Object;
+        43: astore        6
+        45: aload         5
+        47: aload         6
+        49: invokestatic  #43                 // Method com/leclowndu93150/thaumaturge/api/research/scan/ScanningManager.isThingStillScannable:(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z
+        52: ifne          57
+        55: iconst_0
+        56: ireturn
+        57: aload         5
+        59: aload         6
+        61: invokestatic  #80                 // Method com/leclowndu93150/thaumaturge/api/research/scan/ScanningManager.scanTheThing:(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)V
+        64: iconst_1
+        65: ireturn
+
+  public static java.lang.Object resolveTarget(net.minecraft.world.level.Level, net.minecraft.world.entity.player.Player);
+    Code:
+         0: aload_1
+         1: getstatic     #84                 // Field net/minecraft/world/level/ClipContext$Fluid.SOURCE_ONLY:Lnet/minecraft/world/level/ClipContext$Fluid;
+         4: invokestatic  #90                 // Method com/leclowndu93150/thaumaturge/content/research/scan/ScanRaycastHelper.performRaycast:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/ClipContext$Fluid;)Lnet/minecraft/world/phys/HitResult;
+         7: astore_2
+         8: aload_2
+         9: invokevirtual #96                 // Method net/minecraft/world/phys/HitResult.getType:()Lnet/minecraft/world/phys/HitResult$Type;
+        12: getstatic     #102                // Field net/minecraft/world/phys/HitResult$Type.BLOCK:Lnet/minecraft/world/phys/HitResult$Type;
+        15: if_acmpne     28
+        18: aload_2
+        19: checkcast     #108                // class net/minecraft/world/phys/BlockHitResult
+        22: invokevirtual #110                // Method net/minecraft/world/phys/BlockHitResult.getBlockPos:()Lnet/minecraft/core/BlockPos;
+        25: goto          48
+        28: aload_2
+        29: instanceof    #114                // class net/minecraft/world/phys/EntityHitResult
+        32: ifeq          47
+        35: aload_2
+        36: checkcast     #114                // class net/minecraft/world/phys/EntityHitResult
+        39: astore_3
+        40: aload_3
+        41: invokevirtual #116                // Method net/minecraft/world/phys/EntityHitResult.getEntity:()Lnet/minecraft/world/entity/Entity;
+        44: goto          48
+        47: aconst_null
+        48: areturn
+
+  public void inventoryTick(net.minecraft.world.item.ItemStack, net.minecraft.server.level.ServerLevel, net.minecraft.world.entity.Entity, net.minecraft.world.entity.EquipmentSlot);
+    Code:
+         0: aload         4
+         2: getstatic     #120                // Field net/minecraft/world/entity/EquipmentSlot.MAINHAND:Lnet/minecraft/world/entity/EquipmentSlot;
+         5: if_acmpeq     16
+         8: aload         4
+        10: getstatic     #126                // Field net/minecraft/world/entity/EquipmentSlot.OFFHAND:Lnet/minecraft/world/entity/EquipmentSlot;
+        13: if_acmpne     20
+        16: iconst_1
+        17: goto          21
+        20: iconst_0
+        21: istore        5
+        23: iload         5
+        25: ifeq          57
+        28: aload_3
+        29: getfield      #129                // Field net/minecraft/world/entity/Entity.tickCount:I
+        32: bipush        20
+        34: irem
+        35: ifne          57
+        38: aload_3
+        39: instanceof    #135                // class net/minecraft/server/level/ServerPlayer
+        42: ifeq          57
+        45: aload_3
+        46: checkcast     #135                // class net/minecraft/server/level/ServerPlayer
+        49: astore        6
+        51: aload_2
+        52: aload         6
+        54: invokestatic  #137                // Method warnAboutFlux:(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/server/level/ServerPlayer;)V
+        57: return
+
+  private static void warnAboutFlux(net.minecraft.server.level.ServerLevel, net.minecraft.server.level.ServerPlayer);
+    Code:
+         0: aload_1
+         1: invokevirtual #141                // Method net/minecraft/server/level/ServerPlayer.blockPosition:()Lnet/minecraft/core/BlockPos;
+         4: astore_2
+         5: aload_0
+         6: aload_2
+         7: invokestatic  #144                // Method com/leclowndu93150/thaumaturge/api/aura/AuraHelper.getFlux:(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)F
+        10: fstore_3
+        11: fload_3
+        12: aload_0
+        13: aload_2
+        14: invokestatic  #150                // Method com/leclowndu93150/thaumaturge/api/aura/AuraHelper.getVis:(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)F
+        17: fcmpl
+        18: ifgt          35
+        21: fload_3
+        22: aload_0
+        23: aload_2
+        24: invokestatic  #153                // Method com/leclowndu93150/thaumaturge/api/aura/AuraHelper.getAuraBase:(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)I
+        27: i2f
+        28: ldc           #157                // float 3.0f
+        30: fdiv
+        31: fcmpl
+        32: ifle          39
+        35: iconst_1
+        36: goto          40
+        39: iconst_0
+        40: istore        4
+        42: iload         4
+        44: ifeq          85
+        47: aload_1
+        48: invokestatic  #158                // Method com/leclowndu93150/thaumaturge/api/capability/KnowledgeAccess.of:(Lnet/minecraft/world/entity/player/Player;)Lcom/leclowndu93150/thaumaturge/api/capability/IPlayerKnowledge;
+        51: getstatic     #164                // Field com/leclowndu93150/thaumaturge/api/research/TCResearchEntries.FLUX:Lnet/minecraft/resources/Identifier;
+        54: invokeinterface #170,  2          // InterfaceMethod com/leclowndu93150/thaumaturge/api/capability/IPlayerKnowledge.isResearchKnown:(Lnet/minecraft/resources/Identifier;)Z
+        59: ifne          85
+        62: aload_1
+        63: getstatic     #164                // Field com/leclowndu93150/thaumaturge/api/research/TCResearchEntries.FLUX:Lnet/minecraft/resources/Identifier;
+        66: invokestatic  #176                // Method com/leclowndu93150/thaumaturge/content/research/ResearchManager.complete:(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/resources/Identifier;)Z
+        69: pop
+        70: aload_1
+        71: ldc           #182                // String research.thaumaturge.flux.warn
+        73: invokestatic  #184                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        76: getstatic     #190                // Field net/minecraft/ChatFormatting.DARK_PURPLE:Lnet/minecraft/ChatFormatting;
+        79: invokevirtual #196                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        82: invokevirtual #202                // Method net/minecraft/server/level/ServerPlayer.sendOverlayMessage:(Lnet/minecraft/network/chat/Component;)V
+        85: return
+}

@@ -14,6 +14,6 @@ public final class TweaksEnUsProvider extends LanguageProvider {
     protected void addTranslations() {
         add("thaumaturgetweaks.inventoryscan.scanning", "Scanning");
         add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip", "Used for inventory scanning");
-        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "Scan items in your inventory or containers by hovering over them with the Thaumometer held.");
+        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "Scan items in your inventory or containers by hovering over them with the Thaumometer held. Use it on a container block to scan every item inside it.");
     }
 }

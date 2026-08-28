@@ -2,6 +2,8 @@
 package com.blackmoss.thaumaturgetweaks.inventoryscan;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
+import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
+import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -24,6 +26,10 @@ public final class InventoryScanPayloadRegistration {
                 ServerboundScanSelfPayload.TYPE,
                 ServerboundScanSelfPayload.STREAM_CODEC,
                 InventoryScanPayloads::handleScanSelf);
+        registrar.playToServer(
+                ServerboundScanContainerPayload.TYPE,
+                ServerboundScanContainerPayload.STREAM_CODEC,
+                ContainerScanPayloads::handleScanContainer);
         registrar.playToClient(
                 ClientboundScanAvailablePayload.TYPE,
                 ClientboundScanAvailablePayload.STREAM_CODEC,

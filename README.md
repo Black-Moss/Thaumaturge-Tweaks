@@ -26,6 +26,7 @@ Inspired by and referencing [Thaumcraft Inventory Scanning](https://www.cursefor
 - Hold a **Thaumometer** on your cursor (pick it up from your inventory) and hover over an item in any open container or over your own player model to scan it.
 - A short scan animation plays while hovering; once complete, the item/entity is added to your Thaumaturge scan knowledge and its aspects are revealed.
 - Already-scanned targets instantly show their aspect tags.
+- Use the Thaumometer on a **container block** to scan the block **and every item inside it**. This also works when the container block has already been scanned, so items placed inside later can still be scanned.
 - Requires the mod to be installed on both the client and the server.
 
 ### Thaumonomicon Controls 
