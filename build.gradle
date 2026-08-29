@@ -157,10 +157,14 @@ configurations {
 
 dependencies {
     // Thaumaturge parent mod (the API surface this addon consumes).
-    // Referenced from the parent project's build output via the flatDir repository above.
-    // group id is ignored for flatDir; the jar name matches the artifact below.
-    compileOnly "com.leclowndu93150:thaumaturge:0.1.4"
-    localRuntime "com.leclowndu93150:thaumaturge:0.1.4"
+    // Referenced by absolute path to the parent project's build output: flatDir requires the file to be
+    // named exactly <name>-<version>.jar, but the parent's jar is versioned by its full archive name,
+    // so the path is given explicitly instead of through a module coordinate.
+    // Keep this in sync with the Thaumaturge version installed in the game's mods folder, since mixin
+    // injection points are validated against it at runtime.
+    def thaumaturgeJar = "E:/MossProject/MinecraftJava/Thaumaturge/build/libs/thaumaturge-26.1.2-NeoForge-BETA-0.2.0.jar"
+    compileOnly files(thaumaturgeJar)
+    localRuntime files(thaumaturgeJar)
 
     // REI (Roughly Enough Items) — optional, client-side recipe viewer integration.
     // The API is needed at compile time only; the full mod is pulled in by localRuntime so that

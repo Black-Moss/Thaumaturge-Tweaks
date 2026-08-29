@@ -12,8 +12,7 @@ public final class TweaksZhCnProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add("thaumaturgetweaks.inventoryscan.scanning", "扫描中");
-        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip", "用于物品栏扫描");
-        add("thaumaturgetweaks.inventoryscan.thaumometer_tooltip_more", "手持魔导透镜并悬停在物品栏或存储容器的物品上即可进行扫描；对容器方块使用可一并扫描其中的所有物品。");
+        // 物品栏扫描已由本体 Thaumaturge 0.2.0 内置，相关文案已移除。
+        add("thaumaturgetweaks.containerscan.tooltip", "对容器方块使用可一并扫描其中的所有物品");
     }
 }

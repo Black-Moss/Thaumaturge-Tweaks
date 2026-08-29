@@ -13,16 +13,6 @@ to [Semantic Versioning](https://semver.org/).
 
 - Container Scanning: using the Thaumometer on a container block now scans every item inside it, in addition to the block itself. Unlike the base mod, this still works when the container block has already been scanned, so items placed inside later can be scanned too.
 
-## v1.2.0
+### Removed
 
-### Added
-
-- Research Table: right-click a placed aspect on the research hex grid to erase it (same behavior as left-click erase).
-- REI: the Arcane Workbench category now shows the missing research on the research gate barrier tooltip (previously the barrier was shown without any explanation).
-- Curios: right-clicking the Revealing Goggles now equips them into the Curios head slot first (falling back to the helmet slot when the head slot is full).
-- Aspect Icons: while holding Shift, Essentia Phials and Essentia Crystal Shards render as their contained aspect icon (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, as dropped items, and in REI entry panels (inspired by and referencing [Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)).
-- Thaumatorium: scroll the recipe grid with the mouse wheel (hover over the grid) or the PageUp / PageDown / arrow keys (same as clicking the up/down arrows).
-
-### Fixed
-
-- REI: the Arcane Workbench category no longer shows a fake barrier item in the essence crystal column when a recipe does not use crystals from the start of the primal order — the placeholder is now an empty slot, matching the base mod.
+- Inventory Scanning: removed our duplicate implementation (hover over items in open containers / your player model with the Thaumometer on the cursor). Thaumaturge 0.2.0 now ships this feature itself (`InventoryScanHandler`), including its own tooltip hint, so the addon no longer duplicates it. Container block scanning above is a separate feature and is unaffected.

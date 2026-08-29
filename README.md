@@ -4,7 +4,7 @@
 
 A quality-of-life addon mod for **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**, built for **NeoForge 26.1.2** (Minecraft 26.1.2).
 
-It adds REI recipe/information support for Thaumaturge's crafting systems, a ThaumicInventoryScanning-style inventory scanning feature, and enhanced controls for the Thaumonomicon, Research Table, and Thaumatorium screens.
+It adds REI recipe/information support for Thaumaturge's crafting systems, container block scanning, and enhanced controls for the Thaumonomicon, Research Table, and Thaumatorium screens.
 
 ## Features
 
@@ -20,13 +20,10 @@ Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.
 - **Aspect From Stacks** — which items carry a given aspect
 - A dedicated **Aspect** entry type, with an information page for every registered aspect
 
-### Inventory Scanning
-Inspired by and referencing [Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning) by Adrimar:
+### Container Scanning
 
-- Hold a **Thaumometer** on your cursor (pick it up from your inventory) and hover over an item in any open container or over your own player model to scan it.
-- A short scan animation plays while hovering; once complete, the item/entity is added to your Thaumaturge scan knowledge and its aspects are revealed.
-- Already-scanned targets instantly show their aspect tags.
-- Use the Thaumometer on a **container block** to scan the block **and every item inside it**. This also works when the container block has already been scanned, so items placed inside later can still be scanned.
+- Use the **Thaumometer** on a **container block** to scan the block **and every item inside it**.
+- Unlike the base mod, this also works when the container block has already been scanned, so items placed inside later can still be scanned.
 - Requires the mod to be installed on both the client and the server.
 
 ### Thaumonomicon Controls 
@@ -61,7 +58,6 @@ Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying item
 ## Credits
 
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** by Leclowndu93150 — the parent mod this addon extends.
-- **[Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)** by BlayTheNinth — the inventory scanning feature is inspired by and references this mod.
 - **[Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)** by Aedial — the aspect icon display feature is inspired by and references this mod.
 
 ## Authorization

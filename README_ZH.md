@@ -4,7 +4,7 @@
 
 面向 **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** 的便利性扩展模组，基于 **NeoForge 26.1.2**（Minecraft 26.1.2）构建。
 
-为本体模组补充了 REI 配方/信息支持、参考 ThaumicInventoryScanning 的物品栏扫描功能，以及魔导手册、研究台与神秘炼金塔界面的操作增强。
+为本体模组补充了 REI 配方/信息支持、容器方块扫描功能，以及魔导手册、研究台与神秘炼金塔界面的操作增强。
 
 ## 功能特性
 
@@ -20,13 +20,10 @@
 - **要素来源物**——某要素出现在哪些物品上
 - 专用的**要素（Aspect）条目类型**，并为每个已注册要素提供信息页
 
-### 物品栏扫描
-灵感来源并参考了 [神秘时代物品栏扫描 Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)（作者 BlayTheNinth）：
+### 容器方块扫描
 
-- 将**魔导透镜**拿在鼠标指针上（从物品栏中拿起），悬停在任意打开容器内的物品或自己的玩家模型上即可扫描。
-- 悬停时播放短暂的扫描动画，完成后该物品/实体被记入你的扫描知识，并揭示其要素构成。
-- 已扫描过的目标会直接显示要素标签。
-- 对**容器方块**使用魔导透镜，可扫描方块**以及其中的所有物品**；容器方块本身已被扫描过时同样生效，之后放进容器的物品依然可以扫到。
+- 对**容器方块**使用**魔导透镜**，可扫描方块**以及其中的所有物品**。
+- 与本体不同，容器方块本身已被扫描过时同样生效，之后放进容器的物品依然可以扫到。
 - 需要客户端与服务端同时安装本模组。
 
 ### 魔导手册操作增强
@@ -61,7 +58,6 @@
 ## 致谢
 
 - **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**，作者 Leclowndu93150——本模组扩展的父模组。
-- **[神秘时代物品栏扫描 Thaumcraft Inventory Scanning](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-inventory-scanning)**，作者 BlayTheNinth——物品栏扫描功能的灵感来源与参考对象。
 - **[神秘时代要素注释 Thaumcraft Aspect Annotations](https://www.curseforge.com/minecraft/mc-mods/thaumcraft-aspect-annotations)**，作者 Aedial——要素图标显示功能的灵感来源与参考对象。
 
 ## 授权

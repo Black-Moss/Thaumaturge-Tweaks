@@ -18,9 +18,10 @@ public abstract class ThaumometerItemMixin {
     }
 
     // 起手扫描：允许对有可扫描内容的容器方块按住使用。
-    // 注意：注入点依赖父模组 Thaumaturge 0.1.4 的 ThaumometerItem#beginScan(Level, Player, InteractionHand)。
+    // 注意：注入点依赖父模组 Thaumaturge 0.2.0 的 ThaumometerItem#beginScanAt(Player, InteractionHand, Object)。
+    // 0.2.0 中 beginScan 只是委托给 beginScanAt，实际的可扫描性检查在 beginScanAt 内。
     @Redirect(
-            method = "beginScan",
+            method = "beginScanAt",
             at = @At(
                     value = "INVOKE",
                     target = "Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanningManager;isThingStillScannable(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z"))
