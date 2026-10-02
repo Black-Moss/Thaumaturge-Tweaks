@@ -24,15 +24,16 @@ repositories {
         dirs "E:/MossProject/MinecraftJava/Thaumaturge/build/libs"
     }
 
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
+    maven {
+        name = "Modrinth Maven"
+        url = "https://api.modrinth.com/maven"
+    }
+
+    maven {
+        name = 'Curse Maven'
+        url = 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
         }
     }
 
@@ -42,19 +43,7 @@ repositories {
     }
 
     maven {
-        name = 'JEI Maven'
-        url = 'https://maven.blamejared.com/'
-    }
-    maven {
-        name = 'Curse Maven'
-        url = 'https://cursemaven.com'
-        content {
-            includeGroup 'curse.maven'
-        }
-    }
-    maven{
-        name = 'Architectury'
-        url = 'https://maven.architectury.dev/'
+        url "https://maven.shedaniel.me/"
     }
 }
 
@@ -108,23 +97,22 @@ configurations {
 }
 
 dependencies {
-def thaumaturgeJar = "E:/MossProject/MinecraftJava/Thaumaturge/build/libs/thaumaturge-26.1.2-NeoForge-BETA-0.2.1.jar"
+    def thaumaturgeJar = "E:/MossProject/MinecraftJava/Thaumaturge/build/libs/thaumaturge-26.1.2-NeoForge-BETA-0.2.1.jar"
     compileOnly files(thaumaturgeJar)
     localRuntime files(thaumaturgeJar)
 
-    compileOnly "maven.modrinth:nfn13YXA:${rei_version}"
-    localRuntime "maven.modrinth:nfn13YXA:${rei_version}"
+    // REI
+    api "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 
-    compileOnly "maven.modrinth:vvuO3ImH:dRnRThvD"
-    localRuntime "maven.modrinth:vvuO3ImH:dRnRThvD"
+    // Cloth Config
+    api "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
-    implementation "maven.modrinth:9s6osm5g:TimoYzse"
+    // Curios
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
-    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api"
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}"
-
-    compileOnly "maven.modrinth:jade:${jade_version}"
-    runtimeOnly "maven.modrinth:jade:${jade_version}"
+    // Jade
+    implementation "maven.modrinth:jade:${jade_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
