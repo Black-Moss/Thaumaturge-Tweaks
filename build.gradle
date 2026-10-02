@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.148'
     id 'idea'
 }
 
@@ -43,7 +43,13 @@ repositories {
     }
 
     maven {
+        name = "Shedaniel"
         url "https://maven.shedaniel.me/"
+    }
+
+    maven {
+        name = "Nucleoid"
+        url = 'https://maven.nucleoid.xyz/releases'
     }
 }
 
@@ -101,11 +107,17 @@ dependencies {
     compileOnly files(thaumaturgeJar)
     localRuntime files(thaumaturgeJar)
 
-    // REI
-    api "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    // Lithostitched
+    implementation "maven.modrinth:lithostitched:${lithostitched_version}"
+
+    // Architectury API
+    api "dev.architectury:architectury-neoforge:${architectury_version}"
 
     // Cloth Config
     api "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+
+    // REI
+    api "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 
     // Curios
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
@@ -113,6 +125,9 @@ dependencies {
 
     // Jade
     implementation "maven.modrinth:jade:${jade_version}"
+
+    // Trinkets Updated
+    implementation "eu.pb4:trinkets:${trinkets_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
