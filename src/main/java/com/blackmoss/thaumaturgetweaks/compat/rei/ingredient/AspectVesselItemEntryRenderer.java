@@ -1,6 +1,3 @@
-// 按住 Shift 时，把 REI 界面中要素安瓿 / 要素水晶碎片的物品本体替换成对应要素图标。
-// 与背包 GUI 的 AspectSlotAnnotations 行为一致：先画圆形背景盖住物品本体，再画要素符号；
-// 未按 Shift 或无法取得要素时，委托给 REI 默认的物品条目渲染器。
 package com.blackmoss.thaumaturgetweaks.compat.rei.ingredient;
 
 import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
@@ -24,14 +21,14 @@ public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemSt
     }
 
     @Override
-    public void render(@NotNull EntryStack<ItemStack> entry,
-                       @NotNull GuiGraphics graphics,
-                       @NotNull Rectangle bounds,
-                       int mouseX,
-                       int mouseY,
-                       float delta) {
+    public void render(
+            @NotNull EntryStack<ItemStack> entry,
+            @NotNull GuiGraphics graphics,
+            @NotNull Rectangle bounds,
+            int mouseX,
+            int mouseY,
+            float delta) {
         ItemStack stack = entry.getValue();
-        // Shift 按下且是要素容器 → 替换为要素图标；否则走 REI 默认渲染。
         if (Minecraft.getInstance().hasShiftDown()
                 && AspectSlotAnnotations.renderAspectIcon(graphics, bounds.x, bounds.y, stack)) {
             return;

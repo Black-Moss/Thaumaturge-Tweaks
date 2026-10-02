@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// REI Display 承载某要素的一页来源物品，供搜索与列表匹配。
 public final class AspectFromStacksDisplay implements Display {
-
     private final AspectFromStacksCategory.Wrapper wrapper;
 
     AspectFromStacksDisplay(AspectFromStacksCategory.Wrapper wrapper) {

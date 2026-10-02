@@ -1,6 +1,4 @@
-// 客户端 -> 服务器：请求将手持的揭示之护目镜装备到饰品栏 head 槽。
-// 服务端做权威校验与放入，结果通过 Curios 槽数据同步回客户端。
-package com.blackmoss.thaumaturgetweaks.curios;
+package com.blackmoss.thaumaturgetweaks.compat.curios;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -27,10 +27,37 @@ import java.util.Optional;
 
 @Mixin(ResearchTableScreen.class)
 public abstract class ResearchTableScreenMixin {
-
-    // Shift 批量合成次数。
     @Unique
     private static final int SHIFT_COMBINE_BATCH = 10;
+
+    @Unique
+    private static int thaumaturgeTweaks$maxCombinations(
+            Player player,
+            @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
+            Holder<IAspect> first,
+            Holder<IAspect> second) {
+        return Math.min(thaumaturgeTweaks$available(player, table, first), thaumaturgeTweaks$available(player, table, second));
+    }
+
+    @Unique
+    private static int thaumaturgeTweaks$available(
+            Player player,
+            @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
+            Holder<IAspect> aspect) {
+        int amount = AspectPools.amount(player, aspect);
+        if (table != null) {
+            amount += table.bonusAspects().amountOf(aspect);
+        }
+        return amount;
+    }
+
+    @Unique
+    private static boolean thaumaturgeTweaks$isBonusSource(
+            Player player,
+            @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
+            Holder<IAspect> aspect) {
+        return table != null && AspectPools.amount(player, aspect) <= 0 && table.bonusAspects().amountOf(aspect) > 0;
+    }
 
     @Inject(method = "mouseReleased", at = @At("HEAD"), cancellable = true)
     private void thaumaturgetweaks$combineOnPaletteDrop(
@@ -40,19 +67,16 @@ public abstract class ResearchTableScreenMixin {
         if (dragged == null || event.button() != 0) {
             return;
         }
-        // 释放位置必须落在调色板的另一个要素上。
         Holder<IAspect> target = self.thaumaturgetweaks$paletteAspectAt(event.x(), event.y());
         if (target == null || Objects.equals(target.getKey(), dragged.getKey())) {
             return;
         }
         Player player = Minecraft.getInstance().player;
-        // menu 字段定义在父类 AbstractContainerScreen，经其 public getMenu() 获取。
         MenuResearchTable menu = ((ResearchTableScreen) (Object) this).getMenu();
         if (player == null || menu == null) {
             return;
         }
 
-        // 组合无效时服务端也会消耗输入，前置校验避免白扣。
         if (AspectCombinations.result(player.level().registryAccess(), dragged, target) == null) {
             return;
         }
@@ -71,8 +95,6 @@ public abstract class ResearchTableScreenMixin {
         cir.setReturnValue(true);
     }
 
-    // 右键擦除增强：右键点击研究纸张上已放置要素（TYPE_PLACED）的六边形格子，
-    // 发送空要素放置请求（Optional.empty()）将其擦除，行为与左键擦除一致。
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void thaumaturgetweaks$eraseOnRightClick(
             MouseButtonEvent event, boolean doubleClick, CallbackInfoReturnable<Boolean> cir) {
@@ -103,33 +125,5 @@ public abstract class ResearchTableScreenMixin {
             player.playSound(TCSounds.ERASE.get(), 0.2F, 1.0F);
         }
         cir.setReturnValue(true);
-    }
-
-    // 两个输入各自可提供的最大合成次数（玩家池 + 研究台 bonus），取较小者。
-    @Unique
-    private static int thaumaturgeTweaks$maxCombinations(
-            Player player, @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
-            Holder<IAspect> first, Holder<IAspect> second) {
-        return Math.min(thaumaturgeTweaks$available(player, table, first), thaumaturgeTweaks$available(player, table, second));
-    }
-
-    @Unique
-    private static int thaumaturgeTweaks$available(
-            Player player, @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
-            Holder<IAspect> aspect) {
-        int amount = AspectPools.amount(player, aspect);
-        if (table != null) {
-            amount += table.bonusAspects().amountOf(aspect);
-        }
-        return amount;
-    }
-
-    // 与 ResearchTableScreen.handleCombineButton 相同的 bonus 判定：
-    // 玩家池为 0 时改用研究台 bonus 要素源。
-    @Unique
-    private static boolean thaumaturgeTweaks$isBonusSource(
-            Player player, @org.jetbrains.annotations.Nullable BlockEntityResearchTable table,
-            Holder<IAspect> aspect) {
-        return table != null && AspectPools.amount(player, aspect) <= 0 && table.bonusAspects().amountOf(aspect) > 0;
     }
 }

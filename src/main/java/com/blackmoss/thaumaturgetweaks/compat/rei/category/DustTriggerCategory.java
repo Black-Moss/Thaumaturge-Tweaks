@@ -1,6 +1,3 @@
-// 尘触发类别：对标 Thaumaturge 本体 JEI 的 DustTriggerCategory。
-// 渲染盐晶（Salis Mundus）触发、目标方块（单个方块或方块标签）、输出。
-// 仅包含 Simple 与 Tag 两类尘触发配方，Multiblock 配方归入多方块类别。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -38,43 +35,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class DustTriggerCategory implements DisplayCategory<DustTriggerDisplay> {
-
-    public static final CategoryIdentifier<DustTriggerDisplay> ID =
-            CategoryIdentifier.of("thaumaturgetweaks:dust_trigger");
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(TCIds.MODID, "textures/gui/gui_researchbook_overlay.png");
-
+    public static final CategoryIdentifier<DustTriggerDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:dust_trigger");
+    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 54;
-
     private static final int DUST_SLOT_X = 7;
     private static final int DUST_SLOT_Y = 19;
     private static final int TARGET_SLOT_X = 57;
     private static final int TARGET_SLOT_Y = 19;
     private static final int RESULT_SLOT_X = 119;
     private static final int RESULT_SLOT_Y = 19;
-
     private static final int BARRIER_X = 87;
     private static final int BARRIER_Y = 20;
-
     private static final int OP_COLOR = 0xFF000000 | darkGrayColor();
+    private final ReiDrawable resultIcon =
+            new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 12);
+    private final Renderer icon;
+    public DustTriggerCategory() {
+        this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
+    }
 
-    // ChatFormatting.getColor() 返回可空 Integer，此处提供默认值避免拆箱 NPE。
     private static int darkGrayColor() {
         Integer color = ChatFormatting.DARK_GRAY.getColor();
         return color == null ? 0x555555 : color;
     }
 
-    private final ReiDrawable resultIcon =
-            new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 12);
-    private final Renderer icon;
-
-    public DustTriggerCategory() {
-        this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
-    }
-
-    // 取三种尘触发配方的输出物品。
     static ItemStack resultStack(DustTrigger recipe) {
         if (recipe instanceof DustTriggerSimpleRecipe simple) {
             return simple.result();
@@ -118,10 +103,8 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 输出装饰图标（固定坐标纹理 widget，避免跟随鼠标）。
         widgets.add(resultIcon.toWidget(start.x, start.y));
 
-        // 盐晶输入槽 + 用法提示。
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
                 .disableBackground().markInput();
@@ -160,13 +143,11 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
                     .disableBackground().markOutput());
         }
 
-        // 运算符标注（本体 scale(2) 绘制，实际像素位置 + 在 (34,20)、= 在 (90,20)，坐标为全局屏幕坐标）。
         widgets.add(Widgets.createDrawableWidget(
                 new ReiTextDrawable(Component.literal("+"), 2.0F, OP_COLOR, start.x + 34, start.y + 20)));
         widgets.add(Widgets.createDrawableWidget(
                 new ReiTextDrawable(Component.literal("="), 2.0F, OP_COLOR, start.x + 90, start.y + 20)));
 
-        // 研究门控屏障与缺失研究提示。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))

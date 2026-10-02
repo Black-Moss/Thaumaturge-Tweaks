@@ -1,5 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.ingredient;
 
+import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public final class AspectEntryHelper {
     public static final String ENTRY_UID = "thaumaturgetweaks:aspect";
 
-    private static final Identifier UNKNOWN = Identifier.fromNamespaceAndPath("thaumaturgetweaks", "unknown");
+    private static final Identifier UNKNOWN = ThaumaturgeTweaks.identifier("unknown");
 
     private AspectEntryHelper() {
     }

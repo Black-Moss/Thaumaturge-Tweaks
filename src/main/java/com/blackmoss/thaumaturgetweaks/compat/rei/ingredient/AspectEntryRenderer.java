@@ -19,12 +19,13 @@ public final class AspectEntryRenderer implements EntryRenderer<AspectInstance> 
     }
 
     @Override
-    public void render(@NotNull EntryStack<AspectInstance> entry,
-                       @NotNull GuiGraphics graphics,
-                       @NotNull Rectangle bounds,
-                       int mouseX,
-                       int mouseY,
-                       float delta) {
+    public void render(
+            @NotNull EntryStack<AspectInstance> entry,
+            @NotNull GuiGraphics graphics,
+            @NotNull Rectangle bounds,
+            int mouseX,
+            int mouseY,
+            float delta) {
         AspectInstance value = entry.getValue();
         if (value == null || value.aspect() == null) {
             return;

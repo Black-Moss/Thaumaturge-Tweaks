@@ -20,10 +20,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-// REI Display 承载一份尘触发配方，供搜索与列表匹配。
 public final class DustTriggerDisplay implements Display {
-
     private final RecipeHolder<DustTrigger> holder;
 
     DustTriggerDisplay(RecipeHolder<DustTrigger> holder) {
@@ -44,7 +41,6 @@ public final class DustTriggerDisplay implements Display {
             list.add(EntryIngredient.of(
                     EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(simple.target()))));
         } else if (recipe instanceof DustTriggerTagRecipe tag) {
-            // 方块标签：把标签内所有方块作为候选输入。
             List<EntryStack<?>> stacks = new ArrayList<>();
             for (Holder<Block> blockHolder : BuiltInRegistries.BLOCK.getTagOrEmpty(tag.targetTag())) {
                 ItemStack stack = new ItemStack(blockHolder.value());

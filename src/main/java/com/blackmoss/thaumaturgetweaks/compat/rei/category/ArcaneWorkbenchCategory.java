@@ -1,5 +1,3 @@
-// 奥术工作台类别：对标 Thaumaturge 本体 JEI 的 ArcaneWorkbenchCategory。
-// 渲染 3x3 合成网格、要素水晶列、VIS 消耗、研究门控屏障，并注册为 REI Display。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -39,37 +37,26 @@ import java.util.List;
 import java.util.Optional;
 
 public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWorkbenchDisplay> {
-
-    public static final CategoryIdentifier<ArcaneWorkbenchDisplay> ID =
-            CategoryIdentifier.of("thaumaturgetweaks:arcane_workbench");
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(TCIds.MODID, "textures/gui/gui_researchbook_overlay.png");
-
+    public static final CategoryIdentifier<ArcaneWorkbenchDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:arcane_workbench");
+    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 162;
     private static final int HEIGHT = 138;
-
     private static final int GRID_ORIGIN_X = 42;
     private static final int GRID_ORIGIN_Y = 48;
     private static final int GRID_SPACING = 31;
-
     private static final int OUTPUT_X = 73;
     private static final int OUTPUT_Y = 7;
-
     private static final int CRYSTAL_X = 141;
     private static final int CRYSTAL_Y = 6;
     private static final int CRYSTAL_SPACING = 22;
-
     private static final int PLATE_X = 65;
     private static final int PLATE_Y = 0;
     private static final int ARROW_X = 12;
     private static final int ARROW_Y = 4;
     private static final int BARRIER_X = 15;
     private static final int BARRIER_Y = 8;
-
     private static final int VIS_CENTER_X = 50;
     private static final int VIS_Y = 12;
-
     private final ReiDrawable background = new ReiDrawable(TEXTURE, 225, 31, 102, 102, 512, 512, 36, 0, 30, 30);
     private final ReiDrawable plate = new ReiDrawable(TEXTURE, 40, 6, 32, 32, 512, 512, 0, 0, 0, 0, PLATE_X, PLATE_Y);
     private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 135, 152, 23, 23, 512, 512, 0, 0, 0, 0, ARROW_X, ARROW_Y);
@@ -79,8 +66,6 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         this.icon = EntryStacks.of(TCItems.ARCANE_WORKBENCH.get());
     }
 
-    // 取配方的输出物品。ItemStackTemplate 转 ItemStack 使用 create()；
-    // 无序配方的 result() 可能为 null（@Nullable），此时返回空物品。
     static ItemStack resultOf(ArcaneCraftingRecipe recipe) {
         ItemStackTemplate result;
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
@@ -91,7 +76,6 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         return result == null ? ItemStack.EMPTY : result.create();
     }
 
-    // 在指定格子坐标添加一个输入槽。
     private static void addGridSlot(List<Widget> widgets, Point start, int x, int y, Ingredient ingredient) {
         widgets.add(Widgets.createSlot(new Point(
                         start.x + GRID_ORIGIN_X + x * GRID_SPACING,
@@ -130,14 +114,12 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 背景与装饰层（固定坐标纹理 widget，避免跟随鼠标）。
         widgets.add(background.toWidget(start.x, start.y));
         widgets.add(plate.toWidget(start.x, start.y));
         widgets.add(arrow.toWidget(start.x, start.y));
 
         ArcaneCraftingRecipe recipe = display.holder().value();
 
-        // 输入格子（3x3，有序网格或无序列表统一按格子坐标填充）。
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
             int width = shaped.getWidth();
             int height = shaped.getHeight();
@@ -158,7 +140,6 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             }
         }
 
-        // 要素水晶列：按原初要素固定顺序排布；PRIMAL_ORDER 空缺位置放空槽（与本体 JEI 一致，不放屏障物品）。
         AspectList crystals = recipe.getCrystals();
         if (!crystals.isEmpty()) {
             List<AspectInstance> aspects = crystals.entries().stream()
@@ -182,12 +163,10 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             }
         }
 
-        // 输出。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
                 .disableBackground().markOutput());
 
-        // VIS 消耗文本（本体颜色 0xFF000000 | DARK_GRAY = 0xFF404040，无阴影）。
         String vis = Integer.toString(recipe.getBaseVis());
         widgets.add(Widgets.createLabel(new Point(start.x + VIS_CENTER_X, start.y + VIS_Y),
                         Component.literal(vis))
@@ -195,7 +174,6 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                 .noShadow()
                 .color(0xFF404040));
 
-        // 研究门控屏障：未通过研究门槛时显示屏障，悬停提示缺失的研究。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))

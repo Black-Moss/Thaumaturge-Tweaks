@@ -1,6 +1,3 @@
-// 客户端：为魔导透镜补充容器方块扫描的用法提示。
-// 物品栏扫描已由本体 Thaumaturge 0.2.0 内置的 InventoryScanHandler 提供（含其自带提示），
-// 因此这里只提示本模组独有的容器方块扫描，避免与本体提示重复。
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;

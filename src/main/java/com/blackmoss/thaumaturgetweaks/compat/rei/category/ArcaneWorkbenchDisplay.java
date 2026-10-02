@@ -20,17 +20,13 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-// REI Display 承载一份奥术配方，供搜索与列表匹配。
 public final class ArcaneWorkbenchDisplay implements Display {
-
     private final RecipeHolder<ArcaneCraftingRecipe> holder;
 
     ArcaneWorkbenchDisplay(RecipeHolder<ArcaneCraftingRecipe> holder) {
         this.holder = holder;
     }
 
-    // 单个 Ingredient 的首个 ItemStack 作为 REI 输入条目。
     private static EntryIngredient itemEntry(Ingredient ingredient) {
         return ReiRecipeEntries.ingredientEntry(ingredient);
     }

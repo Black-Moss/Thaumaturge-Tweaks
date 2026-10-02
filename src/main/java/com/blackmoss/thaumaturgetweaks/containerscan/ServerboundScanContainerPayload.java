@@ -1,4 +1,3 @@
-// 客户端 -> 服务器：请求扫描指定容器方块内的所有物品。
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;

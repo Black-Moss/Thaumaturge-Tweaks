@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-// REI Display 承载一份多方块尘触发配方，供搜索与列表匹配。
 public final class MultiblockDisplay implements Display {
-
     private final RecipeHolder<DustTrigger> holder;
 
     MultiblockDisplay(RecipeHolder<DustTrigger> holder) {

@@ -1,6 +1,3 @@
-// 带缩放与固定坐标的文本绘制，复刻本体 JEI category 中 pose().scale() 的文本效果。
-// 坐标基于 display 面板原点（x/y 为缩放后实际像素位置；centerX 时 x 为居中参考点）。
-// 不使用 REI 传入的鼠标坐标，因此不会随鼠标移动。
 package com.blackmoss.thaumaturgetweaks.compat.rei.drawable;
 
 import me.shedaniel.rei.api.client.gui.DrawableConsumer;
@@ -10,7 +7,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 
 public final class ReiTextDrawable implements DrawableConsumer {
-
     private final Component text;
     private final float scale;
     private final int color;

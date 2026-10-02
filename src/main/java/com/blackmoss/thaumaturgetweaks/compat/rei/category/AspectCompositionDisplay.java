@@ -11,10 +11,7 @@ import net.minecraft.resources.Identifier;
 
 import java.util.List;
 import java.util.Optional;
-
-// REI Display 承载一份要素合成关系，供搜索与列表匹配。
 public final class AspectCompositionDisplay implements Display {
-
     private final AspectCompositionCategory.Composition composition;
 
     AspectCompositionDisplay(AspectCompositionCategory.Composition composition) {

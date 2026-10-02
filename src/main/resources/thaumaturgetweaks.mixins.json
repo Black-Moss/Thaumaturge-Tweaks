@@ -7,11 +7,11 @@
     "ThaumometerItemMixin"
   ],
   "client": [
+    "client.item.ThaumometerClientHandlerMixin",
+    "client.screen.essentia.ThaumatoriumScreenAccessor",
     "client.screen.research.EntryDetailScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
-    "client.screen.research.ResearchTableScreenMixin",
-    "client.screen.essentia.ThaumatoriumScreenAccessor",
-    "client.item.ThaumometerClientHandlerMixin"
+    "client.screen.research.ResearchTableScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

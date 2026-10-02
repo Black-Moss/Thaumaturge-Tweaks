@@ -1,5 +1,3 @@
-// 熔锅类别：对标 Thaumaturge 本体 JEI 的 CrucibleCategory。
-// 渲染催化剂槽、输出槽、要素行，支持研究门控屏障与缺失研究提示。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -31,38 +29,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> {
-
-    public static final CategoryIdentifier<CrucibleDisplay> ID =
-            CategoryIdentifier.of("thaumaturgetweaks:crucible");
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(TCIds.MODID, "textures/gui/gui_researchbook_overlay.png");
-
+    public static final CategoryIdentifier<CrucibleDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:crucible");
+    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 129;
     private static final int HEIGHT = 129;
-
     private static final int OUTPUT_X = 55;
     private static final int OUTPUT_Y = 8;
     private static final int CATALYST_X = 2;
     private static final int CATALYST_Y = 2;
     private static final int BARRIER_X = 22;
     private static final int BARRIER_Y = 14;
-
     private static final int ASPECT_X = 66;
     private static final int ASPECT_Y = 66;
     private static final int ASPECT_SPACING = 22;
-
-    private final ReiDrawable background =
-            new ReiDrawable(TEXTURE, 2, 5, 109, 129, 512, 512, 0, 0, 9, 10);
-    private final ReiDrawable arrow =
-            new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 16, 6);
+    private final ReiDrawable background = new ReiDrawable(TEXTURE, 2, 5, 109, 129, 512, 512, 0, 0, 9, 10);
+    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 16, 6);
     private final Renderer icon;
 
     public CrucibleCategory() {
         this.icon = EntryStacks.of(TCItems.CRUCIBLE.get());
     }
 
-    // 取配方的输出物品。ItemStackTemplate 转 ItemStack 使用 create()。
     static ItemStack resultOf(CrucibleRecipe recipe) {
         return recipe.rawResult().create();
     }
@@ -97,23 +84,19 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 背景与箭头装饰（固定坐标纹理 widget，避免跟随鼠标）。
         widgets.add(background.toWidget(start.x, start.y));
         widgets.add(arrow.toWidget(start.x, start.y));
 
         CrucibleRecipe recipe = display.holder().value();
 
-        // 输出槽。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
                 .disableBackground().markOutput());
 
-        // 催化剂输入槽。
         widgets.add(Widgets.createSlot(new Point(start.x + CATALYST_X, start.y + CATALYST_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(recipe.catalyst())))
                 .disableBackground().markInput());
 
-        // 要素行（按数量降序居中排列）。
         int center = (recipe.aspects().entries().size() * ASPECT_SPACING) / 2;
         int index = 0;
         for (AspectInstance instance : recipe.aspects().sortedByAmount()) {
@@ -125,7 +108,6 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
             index++;
         }
 
-        // 研究门控屏障与缺失研究提示。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))

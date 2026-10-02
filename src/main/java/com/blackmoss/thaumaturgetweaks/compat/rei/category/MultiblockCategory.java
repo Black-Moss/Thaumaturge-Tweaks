@@ -1,5 +1,3 @@
-// 多方块尘触发类别：对标 Thaumaturge 本体 JEI 的 MultiblockCategory。
-// 渲染盐晶触发、输出、蓝图所需方块（按需求量降序排列）以及 3D 方块预览。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -12,11 +10,6 @@ import com.leclowndu93150.thaumaturge.client.screen.pip.BlockPreviewRenderState;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.mixin.client.gui.GuiGraphicsExtractorAccessor;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -41,32 +34,24 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
+
 public final class MultiblockCategory implements DisplayCategory<MultiblockDisplay> {
-
-    public static final CategoryIdentifier<MultiblockDisplay> ID =
-            CategoryIdentifier.of("thaumaturgetweaks:multiblock_dust_trigger");
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(TCIds.MODID, "textures/gui/gui_researchbook_overlay.png");
-
+    public static final CategoryIdentifier<MultiblockDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:multiblock_dust_trigger");
+    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 108;
-
     private static final int DUST_SLOT_X = 22;
     private static final int DUST_SLOT_Y = -2;
     private static final int RESULT_SLOT_X = 119;
     private static final int RESULT_SLOT_Y = 45;
     private static final int BARRIER_X = 45;
     private static final int BARRIER_Y = 4;
-
     private static final int SLOT_ROW_Y = HEIGHT - 20;
     private static final int SLOT_ROW_START_X = 5;
     private static final int SLOT_ROW_SPACING = 20;
-
-    private final ReiDrawable resultIcon =
-            new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 39);
-    private final ReiDrawable arrow =
-            new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 39, 0);
+    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 39);
+    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 39, 0);
     private final Renderer icon;
     private int rotation;
 
@@ -74,7 +59,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
     }
 
-    // 从注册表查找蓝图，null 表示不可用。
     @Nullable
     private static Blueprint lookupBlueprint(Identifier blueprintId) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -90,7 +74,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         return registry.get(key).map(Holder::value).orElse(null);
     }
 
-    // 统计蓝图各来源方块的需求数量，按数量降序返回。
     static List<Map.Entry<BlueprintSource, Integer>> sortedBlueprintSources(DustTriggerMultiblockRecipe recipe) {
         Map<BlueprintSource, Integer> counts = new HashMap<>();
         Blueprint blueprint = lookupBlueprint(recipe.blueprintId());
@@ -112,7 +95,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                 .toList();
     }
 
-    // 注入本体画中画渲染的 3D 方块预览（与本体 JEI MultiblockCategory.drawExtra 一致）。
     private void drawBlueprintPreview(GuiGraphics graphics, Rectangle bounds, DustTriggerMultiblockRecipe recipe) {
         Blueprint blueprint = lookupBlueprint(recipe.blueprintId());
         if (blueprint == null) {
@@ -133,7 +115,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         if (blocks.isEmpty()) {
             return;
         }
-        // REI 渲染 widget 时 pose 无 display 平移，直接用 bounds 的屏幕坐标。
         int originX = bounds.x;
         int originY = bounds.y;
         ((GuiGraphicsExtractorAccessor) graphics).thaumaturge$getGuiRenderState().addPicturesInPictureState(
@@ -173,11 +154,9 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 输出装饰图标与箭头（固定坐标纹理 widget，避免跟随鼠标）。
         widgets.add(resultIcon.toWidget(start.x, start.y));
         widgets.add(arrow.toWidget(start.x, start.y));
 
-        // 盐晶输入槽 + 用法提示。
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
                 .disableBackground().markInput();
@@ -187,12 +166,10 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
 
         DustTriggerMultiblockRecipe recipe = (DustTriggerMultiblockRecipe) display.holder().value();
 
-        // 3D 方块预览（每帧注入画中画渲染，带旋转动画）。
         widgets.add(Widgets.createDrawableWidget(
                 (GuiGraphics graphics, int mx, int my, float delta) ->
                         drawBlueprintPreview(graphics, bounds, recipe)));
 
-        // 输出槽。
         ItemStack result = recipe.result();
         if (!result.isEmpty()) {
             widgets.add(Widgets.createSlot(new Point(start.x + RESULT_SLOT_X, start.y + RESULT_SLOT_Y))
@@ -200,7 +177,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                     .disableBackground().markOutput());
         }
 
-        // 蓝图所需方块行（按需求量降序）。
         List<Map.Entry<BlueprintSource, Integer>> sorted = sortedBlueprintSources(recipe);
         int index = 0;
         for (Map.Entry<BlueprintSource, Integer> entry : sorted) {
@@ -217,7 +193,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
             index++;
         }
 
-        // 研究门控屏障与缺失研究提示。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))

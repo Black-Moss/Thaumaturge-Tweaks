@@ -15,10 +15,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-// REI Display 承载一份熔锅配方，供搜索与列表匹配。
 public final class CrucibleDisplay implements Display {
-
     private final RecipeHolder<CrucibleRecipe> holder;
 
     CrucibleDisplay(RecipeHolder<CrucibleRecipe> holder) {

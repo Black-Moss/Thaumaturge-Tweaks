@@ -1,6 +1,3 @@
-// 注魔类别：对标 Thaumaturge 本体 JEI 的 InfusionCategory。
-// 泛型支持三种注魔配方（普通注魔 / 注魔附魔 / 符文强化）。
-// 渲染中心催化剂、环形组件槽、要素行、输出，并显示不稳定度与研究门控。
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
@@ -37,26 +34,16 @@ import net.minecraft.world.item.crafting.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
-        implements DisplayCategory<InfusionDisplay<R>> {
-
-    public static final CategoryIdentifier<InfusionDisplay<InfusionRecipe>> INFUSION_ID =
-            CategoryIdentifier.of("thaumaturgetweaks:infusion");
-    public static final CategoryIdentifier<InfusionDisplay<InfusionEnchantmentRecipe>> ENCHANTMENT_ID =
-            CategoryIdentifier.of("thaumaturgetweaks:infusion_enchantment");
-    public static final CategoryIdentifier<InfusionDisplay<InfusionRunicAugmentRecipe>> RUNIC_ID =
-            CategoryIdentifier.of("thaumaturgetweaks:runic_augment");
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(TCIds.MODID, "textures/gui/gui_researchbook_overlay.png");
-
+public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe> implements DisplayCategory<InfusionDisplay<R>> {
+    public static final CategoryIdentifier<InfusionDisplay<InfusionRecipe>> INFUSION_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion");
+    public static final CategoryIdentifier<InfusionDisplay<InfusionEnchantmentRecipe>> ENCHANTMENT_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion_enchantment");
+    public static final CategoryIdentifier<InfusionDisplay<InfusionRunicAugmentRecipe>> RUNIC_ID = CategoryIdentifier.of("thaumaturgetweaks:runic_augment");
+    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 146;
     private static final int HEIGHT = 170;
-
     private static final int ASPECT_Y = 135;
     private static final int ASPECT_X = 46;
     private static final int ASPECT_SPACING = 22;
-
     private static final int OUTPUT_X = 65;
     private static final int OUTPUT_Y = 7;
     private static final int CATALYST_X = 65;
@@ -64,7 +51,6 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
     private static final int RING_RADIUS = 40;
     private static final int BARRIER_X = 92;
     private static final int BARRIER_Y = 9;
-
     private static final int PAGE_TEXT_COLOR = 0xFF504030;
     private static final int INSTABILITY_LEVEL_CAP = 5;
     private static final ChatFormatting[] INSTABILITY_COLORS = {
@@ -75,11 +61,8 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
             ChatFormatting.GOLD,
             ChatFormatting.DARK_RED
     };
-
-    private final ReiDrawable background =
-            new ReiDrawable(TEXTURE, 413, 154, 86, 86, 512, 512, 40, 44, 30, 30);
-    private final ReiDrawable headIcon =
-            new ReiDrawable(TEXTURE, 40, 6, 32, 32, 512, 512, 0, 0, 0, 0, 57, 0);
+    private final ReiDrawable background = new ReiDrawable(TEXTURE, 413, 154, 86, 86, 512, 512, 40, 44, 30, 30);
+    private final ReiDrawable headIcon = new ReiDrawable(TEXTURE, 40, 6, 32, 32, 512, 512, 0, 0, 0, 0, 57, 0);
     private final Renderer icon;
     private final CategoryIdentifier<InfusionDisplay<R>> id;
     private final Component title;
@@ -120,23 +103,19 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 背景与顶部图标（固定坐标纹理 widget，避免跟随鼠标）。
         widgets.add(background.toWidget(start.x, start.y));
         widgets.add(headIcon.toWidget(start.x, start.y));
 
         IInfusionRecipe recipe = display.holder().value();
 
-        // 输出槽。
         widgets.add(Widgets.createSlot(new Point(start.x + OUTPUT_X, start.y + OUTPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, recipe.resultItem()))
                 .disableBackground().markOutput());
 
-        // 中心催化剂槽。
         widgets.add(Widgets.createSlot(new Point(start.x + CATALYST_X, start.y + CATALYST_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, ReiRecipeEntries.firstStack(recipe.catalyst())))
                 .disableBackground().markInput());
 
-        // 周围组件环（以催化剂为中心，半径 40，顺时针均匀分布）。
         List<Ingredient> components = recipe.components();
         float currentRotation = -90.0F;
         for (Ingredient component : components) {
@@ -150,7 +129,6 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
             currentRotation += 360.0F / components.size();
         }
 
-        // 要素行（按数量降序居中排列）。
         int center = (recipe.aspects().entries().size() * ASPECT_SPACING) / 2;
         int index = 0;
         for (AspectInstance aspect : recipe.aspects().sortedByAmount()) {
@@ -162,7 +140,6 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
             index++;
         }
 
-        // 不稳定度文本。
         int level = Math.min(INSTABILITY_LEVEL_CAP, recipe.instability() / 2);
         Component levelName = Component.translatable("gui.thaumaturge.infusion.instability." + level)
                 .withStyle(INSTABILITY_COLORS[level]);
@@ -171,7 +148,6 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe>
                 .centered()
                 .color(PAGE_TEXT_COLOR));
 
-        // 研究门控屏障与缺失研究提示。
         if (!recipe.doesPassGate(Minecraft.getInstance().player)) {
             Slot barrier = Widgets.createSlot(new Point(start.x + BARRIER_X, start.y + BARRIER_Y))
                     .entry(EntryStack.of(VanillaEntryTypes.ITEM, Items.BARRIER.getDefaultInstance()))

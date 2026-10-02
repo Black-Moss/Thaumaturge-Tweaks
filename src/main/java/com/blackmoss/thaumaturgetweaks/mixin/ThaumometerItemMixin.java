@@ -1,6 +1,3 @@
-// 放宽魔导透镜对容器方块的扫描前置条件：
-// 本体要求目标本身仍可扫描，否则无法"起手"也无法完成扫描；
-// 容器方块被扫描过之后，里面新放进去的物品就再也扫不到了。这里在容器仍有可扫描内容时放行。
 package com.blackmoss.thaumaturgetweaks.mixin;
 
 import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanRules;
@@ -17,9 +14,6 @@ public abstract class ThaumometerItemMixin {
     private ThaumometerItemMixin() {
     }
 
-    // 起手扫描：允许对有可扫描内容的容器方块按住使用。
-    // 注意：注入点依赖父模组 Thaumaturge 0.2.0 的 ThaumometerItem#beginScanAt(Player, InteractionHand, Object)。
-    // 0.2.0 中 beginScan 只是委托给 beginScanAt，实际的可扫描性检查在 beginScanAt 内。
     @Redirect(
             method = "beginScanAt",
             at = @At(
@@ -29,7 +23,6 @@ public abstract class ThaumometerItemMixin {
         return ContainerScanRules.allowsScan(player, target);
     }
 
-    // 完成扫描：允许对有可扫描内容的容器方块结束扫描并结算。
     @Redirect(
             method = "releaseUsing",
             at = @At(

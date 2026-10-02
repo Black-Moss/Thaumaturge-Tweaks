@@ -19,10 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-// REI Display 承载一份注魔配方，供搜索与列表匹配。
 public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implements Display {
-
     private final RecipeHolder<@NonNull R> holder;
     private final CategoryIdentifier<?> categoryId;
 

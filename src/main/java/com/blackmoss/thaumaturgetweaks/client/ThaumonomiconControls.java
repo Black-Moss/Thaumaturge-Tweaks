@@ -60,7 +60,6 @@ public final class ThaumonomiconControls {
         event.setCanceled(true);
     }
 
-    // 处于配方/要素/知识子视图时，翻页键不作用于主页面。
     private static boolean inSubView(EntryDetailScreen screen) {
         EntryDetailScreenAccessor accessor = accessor(screen);
         return accessor.thaumaturgetweaks$shownRecipe() != null
@@ -68,7 +67,6 @@ public final class ThaumonomiconControls {
                 || accessor.thaumaturgetweaks$showingKnowledge();
     }
 
-    // Mixin 在运行时为 EntryDetailScreen 注入该接口，因此先经 Object 转换以通过编译期检查。
     private static EntryDetailScreenAccessor accessor(EntryDetailScreen screen) {
         return (EntryDetailScreenAccessor) (Object) screen;
     }

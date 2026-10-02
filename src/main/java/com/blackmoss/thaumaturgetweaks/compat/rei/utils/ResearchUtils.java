@@ -1,5 +1,3 @@
-// 研究门控提示生成：对标 Thaumaturge 本体 JEI 插件的 ResearchUtils。
-// 当配方带有的 ResearchGate 未通过时，返回缺失研究的本地化名称列表，供 REI 显示。
 package com.blackmoss.thaumaturgetweaks.compat.rei.utils;
 
 import com.leclowndu93150.thaumaturge.api.recipe.ResearchGate;
@@ -16,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ResearchUtils {
-
     private ResearchUtils() {
     }
 
-    // 生成未通过研究门槛的研究条目名称列表。
     @NotNull
     public static List<Component> generateMissingResearchList(ResearchGate... research) {
         List<Component> list = new ArrayList<>();

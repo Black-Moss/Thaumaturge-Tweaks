@@ -1,7 +1,3 @@
-// 神秘炼金塔界面（ThaumatoriumScreen）操作增强：
-// - 鼠标位于配方网格区域时：滚轮上滚 = 上一页，下滚 = 下一页（与点上下箭头等效）
-// - PageUp / 上方向键 = 上一页，PageDown / 下方向键 = 下一页
-// 通过 Mixin accessor（ThaumatoriumScreenAccessor）读写私有 index 字段，避免反射。
 package com.blackmoss.thaumaturgetweaks.client;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
@@ -19,12 +15,10 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class ThaumatoriumControls {
-
-    // 配方网格区域（相对界面左上角），与 ThaumatoriumScreen 常量一致。
     private static final int GRID_X = 48;
     private static final int GRID_Y = 56;
-    private static final int GRID_W = 32; // 2 列 x 16
-    private static final int GRID_H = 48; // 3 行 x 16
+    private static final int GRID_W = 32;
+    private static final int GRID_H = 48;
     private static final int VISIBLE = 6;
 
     private ThaumatoriumControls() {
@@ -39,7 +33,6 @@ public final class ThaumatoriumControls {
         int mouseY = (int) event.getMouseY();
         int left = screen.getLeftPos();
         int top = screen.getTopPos();
-        // 仅在鼠标位于配方网格区域时响应滚轮，避免影响背包等其它区域。
         if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y, GRID_W, GRID_H)) {
             return;
         }
@@ -75,14 +68,12 @@ public final class ThaumatoriumControls {
         }
     }
 
-    // 配方列表翻页：步进 -1=上一页 1=下一页，边界与界面上下箭头的可见条件一致。
     private static boolean scroll(ThaumatoriumScreen screen, int step) {
         MenuThaumatorium menu = screen.getMenu();
         if (menu.clientRecipes == null) {
             return false;
         }
         int size = menu.clientRecipes.size();
-        // 配方不超过一页时无需翻页。
         if (size <= VISIBLE) {
             return false;
         }
@@ -90,13 +81,11 @@ public final class ThaumatoriumControls {
         int index = accessor.thaumaturgetweaks$index();
         int next;
         if (step < 0) {
-            // 上一页：与向上箭头条件一致（index > 0）。
             if (index <= 0) {
                 return false;
             }
             next = index - 1;
         } else {
-            // 下一页：与向下箭头条件一致（index < size/2 - 3）。
             if ((float) index >= (float) size / 2.0F - 3.0F) {
                 return false;
             }
