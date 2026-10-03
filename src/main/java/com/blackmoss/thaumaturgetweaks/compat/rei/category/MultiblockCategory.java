@@ -1,17 +1,19 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
-import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.recipe.Blueprint;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintPart;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
+import com.leclowndu93150.thaumaturge.content.infusion.BlockEntityInfusionMatrix;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
+import com.leclowndu93150.thaumaturge.registry.TCBlocks;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
-import net.minecraft.client.gui.GuiGraphics;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
@@ -21,23 +23,22 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public final class MultiblockCategory implements DisplayCategory<MultiblockDisplay> {
     public static final CategoryIdentifier<MultiblockDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:multiblock_dust_trigger");
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 108;
     private static final int DUST_SLOT_X = 22;
@@ -49,14 +50,21 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int SLOT_ROW_Y = HEIGHT - 20;
     private static final int SLOT_ROW_START_X = 5;
     private static final int SLOT_ROW_SPACING = 20;
-    // 等距投影里单个方块的基础投影宽度。
-    private static final int TILE = 10;
-    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 39);
-    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 39, 0);
+    private static final int ARROW_X = 39;
+    private static final int ARROW_Y = 0;
+    private static final float PREVIEW_CENTER_X = 54.5F;
+    private static final float PREVIEW_CENTER_Y = 56.5F;
+    private static final float PREVIEW_SCALE = 15.0F;
+    private static final float PREVIEW_ROT_X = 25.0F;
+    private static final float PREVIEW_DEPTH = 200.0F;
     private final Renderer icon;
+    private final BlockEntityInfusionMatrix matrixPreview;
+    private int rotation = 0;
 
     public MultiblockCategory() {
         this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
+        this.matrixPreview = new BlockEntityInfusionMatrix(BlockPos.ZERO,
+                TCBlocks.INFUSION_MATRIX.get().defaultBlockState());
     }
 
     @Nullable
@@ -89,25 +97,33 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                 .toList();
     }
 
-    // 1.21.1 的父模组没有 26.x 的 PiP（BlockPreviewRenderState）渲染通道，而 REI 的 widget 系统是纯 2D 的，
-    // 没有可用的 3D 方块渲染 API，所以这里自行做等距投影：按 MapColor 给每个方块画三个明暗不同的面。
-    private void drawBlueprintPreview(GuiGraphics graphics, Rectangle bounds, DustTriggerMultiblockRecipe recipe) {
+    private void drawBlueprintPreview(
+            GuiGraphics graphics,
+            Rectangle bounds,
+            DustTriggerMultiblockRecipe recipe,
+            int mouseX,
+            int mouseY,
+            float delta) {
         Blueprint blueprint = lookupBlueprint(recipe.blueprintId());
         if (blueprint == null) {
             return;
         }
-        Minecraft minecraft = Minecraft.getInstance();
-        int ySize = blueprint.ySize();
-        int xSize = blueprint.xSize();
-        int zSize = blueprint.zSize();
-
-        List<Map.Entry<BlockPos, BlockState>> blocks = new ArrayList<>();
-        for (int y = 0; y < ySize; y++) {
-            for (int x = 0; x < xSize; x++) {
-                for (int z = 0; z < zSize; z++) {
+        Map<BlockPos, BlockState> blocks = new HashMap<>();
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
+        for (int y = 0; y < blueprint.ySize(); y++) {
+            for (int x = 0; x < blueprint.xSize(); x++) {
+                for (int z = 0; z < blueprint.zSize(); z++) {
                     BlueprintPart part = blueprint.cell(y, x, z);
                     if (part != null) {
-                        blocks.add(Map.entry(new BlockPos(x, ySize - 1 - y, z), part.source().getState()));
+                        int py = -y + (blueprint.ySize() - 1);
+                        blocks.put(new BlockPos(x, py, z), part.source().getState());
+                        minX = Math.min(minX, x);
+                        maxX = Math.max(maxX, x);
+                        minY = Math.min(minY, py);
+                        maxY = Math.max(maxY, py);
+                        minZ = Math.min(minZ, z);
+                        maxZ = Math.max(maxZ, z);
                     }
                 }
             }
@@ -115,42 +131,37 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         if (blocks.isEmpty()) {
             return;
         }
-
-        // 按图纸尺寸缩放，保证整体落在显示区域内。
-        int spanX = xSize + zSize;
-        int spanY = (xSize + zSize) / 2 + ySize;
-        float scale = Math.min(
-                (float) (WIDTH - 16) / Math.max(1, spanX * TILE),
-                (float) (HEIGHT - 16) / Math.max(1, spanY * TILE));
-        int tile = Math.max(4, Math.round(TILE * scale));
-        int halfW = Math.max(2, tile / 2);
-        int quarterH = Math.max(1, tile / 4);
-        int sideH = Math.max(2, tile * 3 / 4);
-
-        int centerX = bounds.x + WIDTH / 2;
-        int centerY = bounds.y + HEIGHT / 2 + (ySize * sideH) / 2;
-
-        // 从远到近绘制，保证近处方块覆盖远处。
-        blocks.sort(Comparator.comparingInt(entry -> entry.getKey().getX() + entry.getKey().getZ()));
-        for (Map.Entry<BlockPos, BlockState> entry : blocks) {
-            BlockPos pos = entry.getKey();
-            int sx = centerX + (pos.getX() - pos.getZ()) * halfW;
-            int sy = centerY + (pos.getX() + pos.getZ()) * quarterH - pos.getY() * sideH;
-            MapColor mapColor = null;
-            if (minecraft.level != null) {
-                mapColor = entry.getValue().getMapColor(minecraft.level, BlockPos.ZERO);
+        float centerX = (float) (minX + maxX + 1) / 2.0F;
+        float centerY = (float) (minY + maxY + 1) / 2.0F;
+        float centerZ = (float) (minZ + maxZ + 1) / 2.0F;
+        BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+        MultiBufferSource.BufferSource buffers = graphics.bufferSource();
+        PoseStack pose = graphics.pose();
+        pose.pushPose();
+        pose.translate(bounds.x + PREVIEW_CENTER_X, bounds.y + PREVIEW_CENTER_Y, PREVIEW_DEPTH);
+        pose.scale(PREVIEW_SCALE, -PREVIEW_SCALE, PREVIEW_SCALE);
+        pose.mulPose(Axis.XP.rotationDegrees(PREVIEW_ROT_X));
+        pose.mulPose(Axis.YP.rotationDegrees((float) rotation / 8.0F + 90.0F));
+        pose.translate(-centerX, -centerY, -centerZ);
+        Lighting.setupFor3DItems();
+        for (Map.Entry<BlockPos, BlockState> entry : blocks.entrySet()) {
+            BlockPos blockPos = entry.getKey();
+            pose.pushPose();
+            pose.translate((float) blockPos.getX(), (float) blockPos.getY(), (float) blockPos.getZ());
+            BlockState state = entry.getValue();
+            if (state.is(TCBlocks.INFUSION_MATRIX.get())) {
+                Minecraft.getInstance().getBlockEntityRenderDispatcher()
+                        .renderItem(matrixPreview, pose, buffers, 15728880, OverlayTexture.NO_OVERLAY);
+            } else {
+                //noinspection deprecation
+                dispatcher.renderSingleBlock(state, pose, buffers, 15728880, OverlayTexture.NO_OVERLAY);
             }
-            if (mapColor == null) {
-                continue;
-            }
-            graphics.fill(sx - halfW, sy - quarterH, sx + halfW, sy, argb(mapColor, MapColor.Brightness.HIGH));
-            graphics.fill(sx - halfW, sy, sx, sy + sideH, argb(mapColor, MapColor.Brightness.NORMAL));
-            graphics.fill(sx, sy, sx + halfW, sy + sideH, argb(mapColor, MapColor.Brightness.LOW));
+            pose.popPose();
         }
-    }
-
-    private static int argb(MapColor mapColor, MapColor.Brightness brightness) {
-        return 0xFF000000 | mapColor.calculateRGBColor(brightness);
+        buffers.endBatch();
+        Lighting.setupForFlatItems();
+        pose.popPose();
+        rotation++;
     }
 
     @Override
@@ -183,14 +194,14 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 蓝图预览铺满整个显示区，必须在所有槽位之前绘制（层级由添加顺序决定，z 在 2D 矩阵栈下无效）。
         DustTriggerMultiblockRecipe recipe = (DustTriggerMultiblockRecipe) display.holder().value();
         widgets.add(Widgets.createDrawableWidget(
-                (GuiGraphics graphics, int mx, int my, float delta) -> drawBlueprintPreview(graphics, bounds, recipe)));
+                (GuiGraphics graphics, int mx, int my, float delta) ->
+                        drawBlueprintPreview(graphics, bounds, recipe, mx, my, delta)));
 
-        widgets.add(arrow.toWidget(start.x, start.y));
-        // 装饰图标与结果槽重叠，同样必须在槽位之前。
-        widgets.add(resultIcon.toWidget(start.x, start.y));
+        widgets.add(Widgets.createArrow(new Point(start.x + ARROW_X, start.y + ARROW_Y)));
+        widgets.add(Widgets.createResultSlotBackground(
+                new Point(start.x + RESULT_SLOT_X, start.y + RESULT_SLOT_Y)));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
