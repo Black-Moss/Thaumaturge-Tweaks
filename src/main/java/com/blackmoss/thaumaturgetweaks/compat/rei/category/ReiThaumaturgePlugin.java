@@ -8,16 +8,19 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
 import com.leclowndu93150.thaumaturge.client.recipes.TCClientRecipes;
+import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import com.leclowndu93150.thaumaturge.registry.TCRecipeTypes;
+import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.entry.EntryRegistry;
+import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.forge.REIPluginClient;
@@ -60,6 +63,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
                     _ -> List.of(AspectComponents.description(holder)));
         }
     }
+
     @Nullable
     private static Holder<IAspect> pickIconAspect() {
         RegistryAccess access = clientRegistryAccess();
@@ -127,6 +131,13 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             }
             return currentRenderer;
         });
+    }
+
+    @Override
+    public void registerExclusionZones(ExclusionZones zones) {
+        zones.register(FocalManipulatorScreen.class, screen -> screen.jeiExtraAreas().stream()
+                .map(area -> new Rectangle(area.getX(), area.getY(), area.getWidth(), area.getHeight()))
+                .toList());
     }
 
     @Override
