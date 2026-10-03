@@ -4,23 +4,13 @@
   "package": "com.blackmoss.thaumaturgetweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ThaumometerItemMixin",
-    "trinkets.AmuletVisItemMixin",
-    "trinkets.BaubleEventsMixin",
-    "trinkets.CasterManagerMixin",
-    "trinkets.GogglesAccessMixin",
-    "trinkets.RunicShieldingMixin",
-    "trinkets.ServerboundCloudJumpPayloadMixin",
-    "trinkets.WarpManagerMixin",
-    "trinkets.client.CloudRingClientHandlerMixin"
+    "ThaumometerItemMixin"
   ],
   "client": [
     "client.item.ThaumometerClientHandlerMixin",
     "client.screen.essentia.ThaumatoriumScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
-    "client.screen.research.ResearchTableScreenMixin",
-    "trinkets.client.RadialFocusOverlayMixin",
-    "trinkets.client.RechargeHudOverlayMixin"
+    "client.screen.research.ResearchTableScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

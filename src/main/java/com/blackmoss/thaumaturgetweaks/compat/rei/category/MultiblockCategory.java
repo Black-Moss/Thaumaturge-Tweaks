@@ -13,7 +13,7 @@ import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
-import me.shedaniel.rei.api.client.gui.compat.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphics;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
@@ -27,8 +27,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,7 +38,7 @@ import java.util.*;
 
 public final class MultiblockCategory implements DisplayCategory<MultiblockDisplay> {
     public static final CategoryIdentifier<MultiblockDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:multiblock_dust_trigger");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 108;
     private static final int DUST_SLOT_X = 22;
@@ -60,7 +60,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     }
 
     @Nullable
-    private static Blueprint lookupBlueprint(Identifier blueprintId) {
+    private static Blueprint lookupBlueprint(ResourceLocation blueprintId) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) {
             return null;

@@ -60,7 +60,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             plugin.registerInformation(
                     entry,
                     AspectComponents.shortName(holder),
-                    _ -> List.of(AspectComponents.description(holder)));
+                    aspect -> List.of(AspectComponents.description(holder)));
         }
     }
 

@@ -25,7 +25,7 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -38,7 +38,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe> imple
     public static final CategoryIdentifier<InfusionDisplay<InfusionRecipe>> INFUSION_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion");
     public static final CategoryIdentifier<InfusionDisplay<InfusionEnchantmentRecipe>> ENCHANTMENT_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion_enchantment");
     public static final CategoryIdentifier<InfusionDisplay<InfusionRunicAugmentRecipe>> RUNIC_ID = CategoryIdentifier.of("thaumaturgetweaks:runic_augment");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 146;
     private static final int HEIGHT = 170;
     private static final int ASPECT_Y = 135;

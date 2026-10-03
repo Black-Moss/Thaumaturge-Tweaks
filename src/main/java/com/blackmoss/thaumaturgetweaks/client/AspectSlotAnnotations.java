@@ -7,12 +7,11 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -22,9 +21,9 @@ import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class AspectSlotAnnotations {
-    private static final Identifier PHIAL_ID = TCIds.rl("phial");
-    private static final Identifier ESSENTIA_CRYSTAL_ID = TCIds.rl("essentia_crystal");
-    private static final Identifier ASPECT_BACK_TEXTURE = TCIds.rl("textures/aspects/_back.png");
+    private static final ResourceLocation PHIAL_ID = TCIds.rl("phial");
+    private static final ResourceLocation ESSENTIA_CRYSTAL_ID = TCIds.rl("essentia_crystal");
+    private static final ResourceLocation ASPECT_BACK_TEXTURE = TCIds.rl("textures/aspects/_back.png");
 
     private AspectSlotAnnotations() {
     }
@@ -33,15 +32,15 @@ public final class AspectSlotAnnotations {
         if (stack == null || stack.isEmpty()) {
             return false;
         }
-        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
         return id.equals(PHIAL_ID) || id.equals(ESSENTIA_CRYSTAL_ID);
     }
 
-    public static Identifier aspectBackTexture() {
+    public static ResourceLocation aspectBackTexture() {
         return ASPECT_BACK_TEXTURE;
     }
 
-    public static boolean renderAspectIcon(GuiGraphicsExtractor graphics, int x, int y, ItemStack stack) {
+    public static boolean renderAspectIcon(GuiGraphics graphics, int x, int y, ItemStack stack) {
         if (graphics == null || stack == null || stack.isEmpty()) {
             return false;
         }
@@ -90,7 +89,7 @@ public final class AspectSlotAnnotations {
         if (stack == null || stack.isEmpty()) {
             return null;
         }
-        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
         if (!id.equals(PHIAL_ID) && !id.equals(ESSENTIA_CRYSTAL_ID)) {
             return null;
         }

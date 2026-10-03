@@ -3,11 +3,10 @@ package com.blackmoss.thaumaturgetweaks;
 import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
 import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.blackmoss.thaumaturgetweaks.compat.curios.GogglesCurioHandler;
-import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
@@ -28,13 +27,10 @@ public class ThaumaturgeTweaks {
         if (ModList.get().isLoaded("curios")) {
             GogglesCurioHandler.register(modEventBus);
         }
-        if (ModList.get().isLoaded("trinkets_updated")) {
-            ThaumaturgeTrinketsCompat.register(modEventBus);
-        }
     }
 
-    public static Identifier identifier(String path) {
-        return Identifier.fromNamespaceAndPath(MODID, path);
+    public static ResourceLocation rl(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     @SubscribeEvent
@@ -47,7 +43,7 @@ public class ThaumaturgeTweaks {
     }
 
     @SubscribeEvent
-    public static void onGatherData(GatherDataEvent.Client event) {
+    public static void onGatherData(GatherDataEvent event) {
         event.createProvider(EnUsProvider::new);
         event.createProvider(ZhCnProvider::new);
     }

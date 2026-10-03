@@ -5,12 +5,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public record ServerboundScanContainerPayload(BlockPos pos) implements CustomPacketPayload {
     public static final Type<ServerboundScanContainerPayload> TYPE =
-            new Type<>(Identifier.fromNamespaceAndPath(ThaumaturgeTweaks.MODID, "scan_container"));
+            new Type<>(ThaumaturgeTweaks.rl("scan_container"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundScanContainerPayload> STREAM_CODEC =
             StreamCodec.composite(
@@ -19,7 +18,7 @@ public record ServerboundScanContainerPayload(BlockPos pos) implements CustomPac
                     ServerboundScanContainerPayload::new);
 
     @Override
-    public @NonNull Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

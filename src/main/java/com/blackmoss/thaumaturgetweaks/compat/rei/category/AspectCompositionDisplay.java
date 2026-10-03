@@ -7,7 +7,7 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +43,7 @@ public final class AspectCompositionDisplay implements Display {
     }
 
     @Override
-    public DisplaySerializer<? extends Display> getSerializer() {
-        return null;
-    }
-
-    @Override
-    public Optional<Identifier> getDisplayLocation() {
-        return Optional.empty();
+    public Optional<ResourceLocation> getDisplayLocation() {
+        return Display.super.getDisplayLocation();
     }
 }

@@ -21,7 +21,7 @@ import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -30,7 +30,7 @@ import java.util.List;
 
 public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> {
     public static final CategoryIdentifier<CrucibleDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:crucible");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 129;
     private static final int HEIGHT = 129;
     private static final int OUTPUT_X = 55;
@@ -51,7 +51,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
     }
 
     static ItemStack resultOf(CrucibleRecipe recipe) {
-        return recipe.rawResult().create();
+        return recipe.rawResult();
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -44,7 +44,7 @@ public final class GogglesCurioHandler {
             if (client) {
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);
-                ClientPacketDistributor.sendToServer(ServerboundEquipGogglesPayload.INSTANCE);
+                PacketDistributor.sendToServer(ServerboundEquipGogglesPayload.INSTANCE);
             } else {
                 if (equipToHeadCurio(player, held)) {
                     event.setCancellationResult(InteractionResult.SUCCESS);

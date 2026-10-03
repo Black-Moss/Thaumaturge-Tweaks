@@ -7,13 +7,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
-public final class ContainerScanHelper {
+public final class
+ContainerScanHelper {
     private static final int MAX_SLOTS = 512;
 
     private ContainerScanHelper() {

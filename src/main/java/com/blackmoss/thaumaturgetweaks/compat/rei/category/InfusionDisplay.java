@@ -13,22 +13,21 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implements Display {
-    private final RecipeHolder<@NonNull R> holder;
+    private final RecipeHolder<R> holder;
     private final CategoryIdentifier<?> categoryId;
 
-    InfusionDisplay(RecipeHolder<@NonNull R> holder, CategoryIdentifier<?> categoryId) {
+    InfusionDisplay(RecipeHolder<R> holder, CategoryIdentifier<?> categoryId) {
         this.holder = Objects.requireNonNull(holder, "holder");
         this.categoryId = Objects.requireNonNull(categoryId, "categoryId");
     }
 
-    RecipeHolder<@NonNull R> holder() {
+    RecipeHolder<R> holder() {
         return holder;
     }
 

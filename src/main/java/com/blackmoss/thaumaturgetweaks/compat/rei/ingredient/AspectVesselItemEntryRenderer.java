@@ -3,17 +3,16 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.ingredient;
 import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
-import me.shedaniel.rei.api.client.gui.compat.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphics;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemStack> {
-
     private final EntryRenderer<ItemStack> fallback;
 
     public AspectVesselItemEntryRenderer(EntryRenderer<ItemStack> fallback) {

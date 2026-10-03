@@ -11,8 +11,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import org.jspecify.annotations.Nullable;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,7 +43,7 @@ public abstract class ThaumometerClientHandlerMixin {
         Level level = player.level();
         if (ThaumometerItem.resolveTarget(level, player) instanceof BlockPos pos
                 && ContainerScanHelper.isContainerBlock(level, pos)) {
-            ClientPacketDistributor.sendToServer(new ServerboundScanContainerPayload(pos));
+            PacketDistributor.sendToServer(new ServerboundScanContainerPayload(pos));
             thaumaturgetweaks$requestSent = true;
         }
     }
@@ -52,7 +51,7 @@ public abstract class ThaumometerClientHandlerMixin {
     @Redirect(method = "tickScanning", at = @At(
             value = "INVOKE",
             target = "Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanningManager;isThingStillScannable(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z"))
-    private static boolean thaumaturgetweaks$allowContainerRescan(Player player, @Nullable Object target) {
+    private static boolean thaumaturgetweaks$allowContainerRescan(Player player, Object target) {
         return ContainerScanRules.allowsScan(player, target);
     }
 }

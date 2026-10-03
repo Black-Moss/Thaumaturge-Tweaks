@@ -6,15 +6,15 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class AspectEntryHelper {
     public static final String ENTRY_UID = "thaumaturgetweaks:aspect";
 
-    private static final Identifier UNKNOWN = ThaumaturgeTweaks.identifier("unknown");
+    private static final ResourceLocation UNKNOWN = ThaumaturgeTweaks.rl("unknown");
 
     private AspectEntryHelper() {
     }
@@ -28,11 +28,11 @@ public final class AspectEntryHelper {
     }
 
     @NotNull
-    public static Identifier identifierOf(@Nullable Holder<IAspect> aspect) {
+    public static ResourceLocation identifierOf(@Nullable Holder<IAspect> aspect) {
         ResourceKey<IAspect> key = keyOf(aspect);
         return key == null
                 ? UNKNOWN
-                : key.identifier();
+                : key.registry();
     }
 
     @NotNull

@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.mixin;
 import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanRules;
 import com.leclowndu93150.thaumaturge.content.item.ThaumometerItem;
 import net.minecraft.world.entity.player.Player;
-import org.jspecify.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

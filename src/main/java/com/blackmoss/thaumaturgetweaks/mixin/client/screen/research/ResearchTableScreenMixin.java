@@ -12,10 +12,9 @@ import com.leclowndu93150.thaumaturge.network.ServerboundTableCombinePayload;
 import com.leclowndu93150.thaumaturge.network.ServerboundTablePlaceAspectPayload;
 import com.leclowndu93150.thaumaturge.registry.TCSounds;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -61,13 +60,13 @@ public abstract class ResearchTableScreenMixin {
 
     @Inject(method = "mouseReleased", at = @At("HEAD"), cancellable = true)
     private void thaumaturgetweaks$combineOnPaletteDrop(
-            MouseButtonEvent event, CallbackInfoReturnable<Boolean> cir) {
+            double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         ResearchTableScreenAccessor self = (ResearchTableScreenAccessor) this;
         Holder<IAspect> dragged = self.thaumaturgetweaks$draggedAspect();
-        if (dragged == null || event.button() != 0) {
+        if (dragged == null || button != 0) {
             return;
         }
-        Holder<IAspect> target = self.thaumaturgetweaks$paletteAspectAt(event.x(), event.y());
+        Holder<IAspect> target = self.thaumaturgetweaks$paletteAspectAt(mouseX, mouseY);
         if (target == null || Objects.equals(target.getKey(), dragged.getKey())) {
             return;
         }
@@ -86,7 +85,7 @@ public abstract class ResearchTableScreenMixin {
         for (int i = 0; i < count; i++) {
             boolean bonus1 = thaumaturgeTweaks$isBonusSource(player, table, dragged);
             boolean bonus2 = thaumaturgeTweaks$isBonusSource(player, table, target);
-            ClientPacketDistributor.sendToServer(new ServerboundTableCombinePayload(
+            PacketDistributor.sendToServer(new ServerboundTableCombinePayload(
                     menu.pos(), AspectPools.idOf(dragged), AspectPools.idOf(target), bonus1, bonus2)
             );
         }
@@ -97,12 +96,12 @@ public abstract class ResearchTableScreenMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void thaumaturgetweaks$eraseOnRightClick(
-            MouseButtonEvent event, boolean doubleClick, CallbackInfoReturnable<Boolean> cir) {
-        if (event.button() != 1) {
+            double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (button != 1) {
             return;
         }
         ResearchTableScreenAccessor self = (ResearchTableScreenAccessor) this;
-        HexGrid.Hex hex = self.thaumaturgetweaks$hexAt(event.x(), event.y());
+        HexGrid.Hex hex = self.thaumaturgetweaks$hexAt(mouseX, mouseY);
         if (hex == null) {
             return;
         }
@@ -118,7 +117,7 @@ public abstract class ResearchTableScreenMixin {
         if (menu == null) {
             return;
         }
-        ClientPacketDistributor.sendToServer(
+        PacketDistributor.sendToServer(
                 new ServerboundTablePlaceAspectPayload(menu.pos(), hex.q(), hex.r(), Optional.empty()));
         Player player = Minecraft.getInstance().player;
         if (player != null) {

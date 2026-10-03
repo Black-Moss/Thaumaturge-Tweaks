@@ -19,11 +19,6 @@ sourceSets.main.resources {
 }
 
 repositories {
-    flatDir {
-        name = "thaumaturgeLocal"
-        dirs "E:/MossProject/MinecraftJava/Thaumaturge/build/libs"
-    }
-
     maven {
         name = "Modrinth Maven"
         url = "https://api.modrinth.com/maven"
@@ -57,10 +52,15 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
     version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
 
     runs {
         client {
@@ -80,7 +80,7 @@ neoForge {
         }
 
         data {
-            clientData()
+            data()
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
@@ -103,7 +103,7 @@ configurations {
 }
 
 dependencies {
-    def thaumaturgeJar = "E:/MossProject/MinecraftJava/Thaumaturge/build/libs/thaumaturge-26.1.2-NeoForge-BETA-0.2.1.jar"
+    def thaumaturgeJar = "thaumaturge-${thaumaturge_version}.jar"
     compileOnly files(thaumaturgeJar)
     localRuntime files(thaumaturgeJar)
 
@@ -113,22 +113,18 @@ dependencies {
     // Architectury API
     api "dev.architectury:architectury-neoforge:${architectury_version}"
 
-    // Cloth Config
+    // Cloth Config API
     api "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
     // REI
     api "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 
-    // Curios
+    // Curios API
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     // Jade
     implementation "maven.modrinth:jade:${jade_version}"
-
-    // Trinkets Updated — optional trinket mod integration.
-    compileOnly "eu.pb4:trinkets:${trinkets_version}"
-    localRuntime "eu.pb4:trinkets:${trinkets_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -136,6 +132,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

@@ -25,9 +25,8 @@ import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -38,7 +37,7 @@ import java.util.Optional;
 
 public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWorkbenchDisplay> {
     public static final CategoryIdentifier<ArcaneWorkbenchDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:arcane_workbench");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 162;
     private static final int HEIGHT = 138;
     private static final int GRID_ORIGIN_X = 42;

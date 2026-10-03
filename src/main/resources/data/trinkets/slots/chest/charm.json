@@ -1,7 +1,0 @@
-{
-  "icon": "trinkets:container/slots/charm",
-  "order": 1,
-  "validator_predicates": [
-    "trinkets:default"
-  ]
-}

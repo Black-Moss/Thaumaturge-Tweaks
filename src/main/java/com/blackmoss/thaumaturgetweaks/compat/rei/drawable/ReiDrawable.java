@@ -2,10 +2,10 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.drawable;
 
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public final class ReiDrawable {
-    private final Identifier texture;
+    private final ResourceLocation texture;
     private final int u;
     private final int v;
     private final int width;
@@ -20,7 +20,7 @@ public final class ReiDrawable {
     private final int offsetY;
 
     public ReiDrawable(
-            Identifier texture,
+            ResourceLocation texture,
             int u,
             int v,
             int width,
@@ -31,7 +31,7 @@ public final class ReiDrawable {
     }
 
     public ReiDrawable(
-            Identifier texture,
+            ResourceLocation texture,
             int u,
             int v,
             int width,
@@ -46,7 +46,7 @@ public final class ReiDrawable {
     }
 
     public ReiDrawable(
-            Identifier texture,
+            ResourceLocation texture,
             int u,
             int v,
             int width,

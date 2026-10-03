@@ -25,7 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public final class DustTriggerCategory implements DisplayCategory<DustTriggerDisplay> {
     public static final CategoryIdentifier<DustTriggerDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:dust_trigger");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 54;
     private static final int DUST_SLOT_X = 7;
