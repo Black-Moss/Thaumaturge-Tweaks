@@ -17,7 +17,6 @@
   "client": [
     "client.item.ThaumometerClientHandlerMixin",
     "client.screen.essentia.ThaumatoriumScreenAccessor",
-    "client.screen.research.EntryDetailScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
     "client.screen.research.ResearchTableScreenMixin",
     "trinkets.client.RadialFocusOverlayMixin",
