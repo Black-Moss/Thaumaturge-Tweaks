@@ -4,7 +4,7 @@
 
 A quality-of-life addon mod for **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**, built for **NeoForge 26.1.2** (Minecraft 26.1.2).
 
-It adds REI recipe/information support for Thaumaturge's crafting systems, container block scanning, and enhanced controls for the Thaumonomicon, Research Table, and Thaumatorium screens.
+It adds REI recipe/information support for Thaumaturge's crafting systems, container block scanning, Trinkets support for Thaumaturge accessories, and enhanced controls for the Research Table and Thaumatorium screens.
 
 ## Features
 
@@ -26,13 +26,8 @@ Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.
 - Unlike the base mod, this also works when the container block has already been scanned, so items placed inside later can still be scanned.
 - Requires the mod to be installed on both the client and the server.
 
-### Thaumonomicon Controls 
-Quality-of-life controls for the research/entry detail screens of the Thaumonomicon:
-
-- **Mouse wheel** up/down — previous/next page
-- **Left/Right arrow keys** — previous/next page
-- **Backspace** — close the screen
-- **Right mouse button** — close the screen (or return from a sub-view first)
+### Trinkets Support (Requires Trinkets)
+Thaumaturge accessories now work when equipped in a [Trinkets](https://modrinth.com/mod/trinkets-updated) slot, not only in Curios — both accessory mods are checked, so you can keep using either one.
 
 ### Research Table Controls
 Quality-of-life enhancements for the Research Table:
