@@ -40,7 +40,7 @@ public final class ArcaneWorkbenchDisplay implements Display {
         List<EntryIngredient> list = new ArrayList<>();
         ArcaneCraftingRecipe recipe = holder.value();
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
-            for (Optional<Ingredient> opt : shaped.getIngredients()) {
+            for (Optional<Ingredient> opt : shaped.optionalIngredients()) {
                 opt.ifPresent(ingredient -> list.add(itemEntry(ingredient)));
             }
         } else if (recipe instanceof ArcaneShapelessCraftingRecipe shapeless) {

@@ -28,7 +28,7 @@ public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemSt
             int mouseY,
             float delta) {
         ItemStack stack = entry.getValue();
-        if (Minecraft.getInstance().hasShiftDown()
+        if (Minecraft.getInstance().options.keyShift.isDown()
                 && AspectSlotAnnotations.renderAspectIcon(graphics, bounds.x, bounds.y, stack)) {
             return;
         }

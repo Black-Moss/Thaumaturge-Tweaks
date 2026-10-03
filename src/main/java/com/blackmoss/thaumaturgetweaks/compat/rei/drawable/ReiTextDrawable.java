@@ -32,10 +32,10 @@ public final class ReiTextDrawable implements DrawableConsumer {
         Font font = Minecraft.getInstance().font;
         float textWidth = font.width(text);
         float drawX = centerX ? x - textWidth * scale / 2.0F : x;
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(drawX, y);
-        graphics.pose().scale(scale, scale);
-        graphics.text(font, text, 0, 0, color, false);
-        graphics.pose().popMatrix();
+        graphics.pose().pushPose();
+        graphics.pose().translate(drawX, y, 0.0F);
+        graphics.pose().scale(scale, scale, 1.0F);
+        graphics.drawString(font, text, 0, 0, color, false);
+        graphics.pose().popPose();
     }
 }

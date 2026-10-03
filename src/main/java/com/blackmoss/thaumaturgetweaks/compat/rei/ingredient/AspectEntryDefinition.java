@@ -3,7 +3,6 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.ingredient;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.content.item.PhialItem;
-import com.mojang.serialization.Codec;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
 import me.shedaniel.rei.api.common.entry.EntrySerializer;
 import me.shedaniel.rei.api.common.entry.EntryStack;
@@ -11,10 +10,9 @@ import me.shedaniel.rei.api.common.entry.comparison.ComparisonContext;
 import me.shedaniel.rei.api.common.entry.type.EntryDefinition;
 import me.shedaniel.rei.api.common.entry.type.EntryType;
 import net.minecraft.core.Holder;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +22,7 @@ import java.util.stream.Stream;
 public final class AspectEntryDefinition implements EntryDefinition<AspectInstance> {
     public static final AspectEntryDefinition INSTANCE = new AspectEntryDefinition();
     public static final EntryType<AspectInstance> ENTRY_TYPE =
-            EntryType.deferred(Identifier.parse(AspectEntryHelper.ENTRY_UID));
+            EntryType.deferred(ResourceLocation.parse(AspectEntryHelper.ENTRY_UID));
 
     private AspectEntryDefinition() {
     }
@@ -49,7 +47,7 @@ public final class AspectEntryDefinition implements EntryDefinition<AspectInstan
 
     @Override
     @NotNull
-    public Identifier getIdentifier(@NotNull EntryStack<AspectInstance> entryStack, @NotNull AspectInstance value) {
+    public ResourceLocation getIdentifier(@NotNull EntryStack<AspectInstance> entryStack, @NotNull AspectInstance value) {
         return AspectEntryHelper.identifierOf(value.aspect());
     }
 
@@ -132,15 +130,23 @@ public final class AspectEntryDefinition implements EntryDefinition<AspectInstan
         }
 
         @Override
-        @NotNull
-        public Codec<AspectInstance> codec() {
-            return AspectInstance.CODEC;
+        public boolean supportSaving() {
+            return false;
         }
 
         @Override
-        @NotNull
-        public StreamCodec<RegistryFriendlyByteBuf, AspectInstance> streamCodec() {
-            return AspectInstance.STREAM_CODEC;
+        public boolean supportReading() {
+            return false;
+        }
+
+        @Override
+        public CompoundTag save(EntryStack<AspectInstance> entryStack, AspectInstance value) {
+            return new CompoundTag();
+        }
+
+        @Override
+        public AspectInstance read(CompoundTag tag) {
+            return null;
         }
     }
 }

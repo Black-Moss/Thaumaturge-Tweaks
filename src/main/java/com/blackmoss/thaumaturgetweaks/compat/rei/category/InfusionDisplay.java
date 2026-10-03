@@ -9,7 +9,7 @@ import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -57,12 +57,7 @@ public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implem
     }
 
     @Override
-    public DisplaySerializer<? extends Display> getSerializer() {
-        return null;
-    }
-
-    @Override
-    public Optional<Identifier> getDisplayLocation() {
-        return Optional.of(holder.id().identifier());
+    public Optional<ResourceLocation> getDisplayLocation() {
+        return Optional.of(holder.id());
     }
 }

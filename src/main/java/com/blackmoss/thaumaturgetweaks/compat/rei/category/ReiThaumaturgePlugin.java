@@ -2,12 +2,12 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectVesselItemEntryRenderer;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
-import com.leclowndu93150.thaumaturge.client.recipes.TCClientRecipes;
 import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
@@ -33,7 +33,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,18 +43,19 @@ import java.util.function.Consumer;
 
 @REIPluginClient
 public final class ReiThaumaturgePlugin implements REIClientPlugin {
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Class<REIClientPlugin> getPluginProviderClass() {
+        return (Class<REIClientPlugin>) (Class<?>) ReiThaumaturgePlugin.class;
+    }
     private static void registerAspectInfoPages() {
         RegistryAccess access = clientRegistryAccess();
         if (access == null) {
             return;
         }
-        Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
-        if (registryOpt.isEmpty()) {
-            return;
-        }
-        Registry<IAspect> aspectRegistry = registryOpt.get();
         BuiltinClientPlugin plugin = BuiltinClientPlugin.getInstance();
-        for (Holder.Reference<IAspect> holder : aspectRegistry.listElements().toList()) {
+        for (Holder.Reference<IAspect> holder : ResearchUtils.listAll(access, IAspect.REGISTRY_KEY)) {
             EntryStack<?> entry = EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(holder, 1));
             plugin.registerInformation(
                     entry,
@@ -67,21 +67,16 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
     @Nullable
     private static Holder<IAspect> pickIconAspect() {
         RegistryAccess access = clientRegistryAccess();
-        if (access != null) {
-            Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
-            if (registryOpt.isPresent()) {
-                Registry<IAspect> registry = registryOpt.get();
-                Optional<Holder.Reference<IAspect>> stable = registry.get(TCAspects.PRAECANTATIO);
-                if (stable.isPresent()) {
-                    return stable.get();
-                }
-                Optional<Holder.Reference<IAspect>> first = registry.listElements().findFirst();
-                if (first.isPresent()) {
-                    return first.get();
-                }
+        if (access == null) {
+            return null;
+        }
+        List<Holder.Reference<IAspect>> all = ResearchUtils.listAll(access, IAspect.REGISTRY_KEY);
+        for (Holder.Reference<IAspect> holder : all) {
+            if (holder.is(TCAspects.PRAECANTATIO)) {
+                return holder;
             }
         }
-        return null;
+        return all.isEmpty() ? null : all.getFirst();
     }
 
     @Nullable
@@ -95,9 +90,11 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     private static <R extends Recipe<?>> void forEachTypedRecipe(
             ClientLevel level, RecipeType<R> type, Consumer<RecipeHolder<R>> consumer) {
-        RecipeMap map = TCClientRecipes.getRecipeMapForType(level, type);
-        //noinspection unchecked,rawtypes
-        List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) map.byType((RecipeType) type);
+        // 1.21.1 的签名是 <I extends RecipeInput, T extends Recipe<I>> getAllRecipesFor(RecipeType<T>)，
+        // 无法直接用 R extends Recipe<?> 推导，这里按原始类型调用再强转回去。
+        //noinspection rawtypes,unchecked
+        List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) (List) level.getRecipeManager()
+                .getAllRecipesFor((RecipeType) type);
         for (RecipeHolder<R> holder : holders) {
             consumer.accept(holder);
         }
@@ -109,13 +106,8 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         if (registryAccess == null) {
             return;
         }
-        Optional<Registry<IAspect>> registryOpt = registryAccess.lookup(IAspect.REGISTRY_KEY);
-        if (registryOpt.isEmpty()) {
-            return;
-        }
-        Registry<IAspect> aspectRegistry = registryOpt.get();
         List<EntryStack<?>> stacks = new ArrayList<>();
-        for (Holder<IAspect> holder : aspectRegistry.listElements().toList()) {
+        for (Holder.Reference<IAspect> holder : ResearchUtils.listAll(registryAccess, IAspect.REGISTRY_KEY)) {
             stacks.add(EntryStack.of(AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(holder, 1)));
         }
         registry.addEntries(stacks);
@@ -195,12 +187,9 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         });
 
         RegistryAccess access = level.registryAccess();
-        Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
-        if (registryOpt.isPresent()) {
-            for (AspectCompositionDisplay display :
-                    AspectCompositionCategory.collect(registryOpt.get().listElements().toList())) {
-                registry.add(display);
-            }
+        for (AspectCompositionDisplay display :
+                AspectCompositionCategory.collect(ResearchUtils.listAll(access, IAspect.REGISTRY_KEY))) {
+            registry.add(display);
         }
 
         for (AspectFromStacksDisplay display : AspectFromStacksCategory.collectAll(access)) {

@@ -6,6 +6,7 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -49,33 +50,36 @@ public final class AspectSlotAnnotations {
             return false;
         }
         graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 ASPECT_BACK_TEXTURE,
                 x, y,
-                0.0F, 0.0F,
+                0, 0,
                 16, 16,
                 32, 32,
-                32, 32,
-                0xFFFFFFFF);
+                32, 32);
+        int color = aspect.value().color();
+        RenderSystem.setShaderColor(
+                ((color >> 16) & 0xFF) / 255.0F,
+                ((color >> 8) & 0xFF) / 255.0F,
+                (color & 0xFF) / 255.0F,
+                1.0F);
         graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 aspect.value().texture(),
                 x, y,
-                0.0F, 0.0F,
+                0, 0,
                 16, 16,
                 32, 32,
-                32, 32,
-                0xFF000000 | aspect.value().color());
+                32, 32);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         return true;
     }
 
     @SubscribeEvent
     public static void onContainerRenderForeground(ContainerScreenEvent.Render.Foreground event) {
-        if (!Minecraft.getInstance().hasShiftDown()) {
+        if (!Minecraft.getInstance().options.keyShift.isDown()) {
             return;
         }
         AbstractContainerScreen<?> screen = event.getContainerScreen();
-        GuiGraphicsExtractor graphics = event.getGuiGraphics();
+        GuiGraphics graphics = event.getGuiGraphics();
         for (Slot slot : screen.getMenu().slots) {
             ItemStack stack = slot.getItem();
             if (stack.isEmpty()) {

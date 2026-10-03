@@ -31,8 +31,8 @@ public final class ThaumatoriumControls {
         }
         int mouseX = (int) event.getMouseX();
         int mouseY = (int) event.getMouseY();
-        int left = screen.getLeftPos();
-        int top = screen.getTopPos();
+        int left = screen.getGuiLeft();
+        int top = screen.getGuiTop();
         if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y, GRID_W, GRID_H)) {
             return;
         }

@@ -39,8 +39,8 @@ public final class ResearchTableControls {
         }
         int mouseX = (int) event.getMouseX();
         int mouseY = (int) event.getMouseY();
-        int left = screen.getLeftPos();
-        int top = screen.getTopPos();
+        int left = screen.getGuiLeft();
+        int top = screen.getGuiTop();
         ResearchTableScreenAccessor accessor = (ResearchTableScreenAccessor) (Object) screen;
         if (accessor.thaumaturgetweaks$helperOpen()) {
             if (inRect(mouseX, mouseY, left + SHEET_X, top + SHEET_Y, SHEET_SIZE, SHEET_SIZE)

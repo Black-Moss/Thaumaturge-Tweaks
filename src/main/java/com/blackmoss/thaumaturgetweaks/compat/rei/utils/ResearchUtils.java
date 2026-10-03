@@ -6,15 +6,33 @@ import com.leclowndu93150.thaumaturge.content.research.ResearchManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class ResearchUtils {
     private ResearchUtils() {
+    }
+
+    public static <T> List<Holder.Reference<T>> listAll(
+            RegistryAccess access, ResourceKey<? extends Registry<? extends T>> key) {
+        return access.<T>registry(key)
+                .map(registry -> registry.holders().toList())
+                .orElse(List.of());
+    }
+
+    public static <T> Optional<T> find(
+            RegistryAccess access, ResourceKey<? extends Registry<? extends T>> key, ResourceLocation id) {
+        return access.registry(key)
+                .flatMap(registry -> registry.getHolder(id))
+                .map(Holder::value);
     }
 
     @NotNull
@@ -37,10 +55,7 @@ public final class ResearchUtils {
                         .withStyle(ChatFormatting.RED));
                 continue;
             }
-            IResearchEntry entry = access.lookup(IResearchEntry.REGISTRY_KEY)
-                    .flatMap(registry -> registry.get(gate.entry()))
-                    .map(Holder::value)
-                    .orElse(null);
+            IResearchEntry entry = find(access, IResearchEntry.REGISTRY_KEY, gate.entry()).orElse(null);
             if (entry != null) {
                 list.add(Component.literal("- ")
                         .append(Component.translatable(entry.nameKey()))

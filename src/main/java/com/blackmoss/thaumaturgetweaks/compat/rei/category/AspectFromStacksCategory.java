@@ -63,14 +63,14 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
         if (access == null) {
             return displays;
         }
-        Registry<IAspect> aspectRegistry = access.lookup(IAspect.REGISTRY_KEY).orElse(null);
+        Registry<IAspect> aspectRegistry = access.registry(IAspect.REGISTRY_KEY).orElse(null);
         if (aspectRegistry == null) {
             return displays;
         }
 
         Map<Holder<IAspect>, List<ItemStack>> inverted = new HashMap<>();
         Map<ItemStack, AspectList> stackAspects = new HashMap<>();
-        for (Holder.Reference<Item> itemRef : BuiltInRegistries.ITEM.listElements().toList()) {
+        for (Holder.Reference<Item> itemRef : BuiltInRegistries.ITEM.holders().toList()) {
             ItemStack stack = new ItemStack(itemRef);
             if (stack.isEmpty()) {
                 continue;

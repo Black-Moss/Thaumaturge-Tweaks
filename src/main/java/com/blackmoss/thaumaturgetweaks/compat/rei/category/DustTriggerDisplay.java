@@ -12,7 +12,7 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
@@ -68,12 +68,7 @@ public final class DustTriggerDisplay implements Display {
     }
 
     @Override
-    public DisplaySerializer<? extends Display> getSerializer() {
-        return null;
-    }
-
-    @Override
-    public Optional<Identifier> getDisplayLocation() {
-        return Optional.of(holder.id().identifier());
+    public Optional<ResourceLocation> getDisplayLocation() {
+        return Optional.of(holder.id());
     }
 }

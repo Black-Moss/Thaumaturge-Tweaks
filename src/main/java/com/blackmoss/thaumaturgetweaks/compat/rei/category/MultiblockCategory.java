@@ -6,9 +6,7 @@ import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.recipe.Blueprint;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintPart;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
-import com.leclowndu93150.thaumaturge.client.screen.pip.BlockPreviewRenderState;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
-import com.leclowndu93150.thaumaturge.mixin.client.gui.GuiGraphicsExtractorAccessor;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -32,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -50,10 +49,11 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int SLOT_ROW_Y = HEIGHT - 20;
     private static final int SLOT_ROW_START_X = 5;
     private static final int SLOT_ROW_SPACING = 20;
+    // 等距投影里单个方块的基础投影宽度。
+    private static final int TILE = 10;
     private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 39);
     private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512, 0, 0, 0, 0, 39, 0);
     private final Renderer icon;
-    private int rotation;
 
     public MultiblockCategory() {
         this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
@@ -65,13 +65,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         if (minecraft.level == null) {
             return null;
         }
-        Registry<Blueprint> registry =
-                minecraft.level.registryAccess().lookup(Blueprint.REGISTRY_KEY).orElse(null);
-        if (registry == null) {
-            return null;
-        }
-        ResourceKey<Blueprint> key = ResourceKey.create(Blueprint.REGISTRY_KEY, blueprintId);
-        return registry.get(key).map(Holder::value).orElse(null);
+        return ResearchUtils.find(minecraft.level.registryAccess(), Blueprint.REGISTRY_KEY, blueprintId).orElse(null);
     }
 
     static List<Map.Entry<BlueprintSource, Integer>> sortedBlueprintSources(DustTriggerMultiblockRecipe recipe) {
@@ -95,19 +89,25 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                 .toList();
     }
 
+    // 1.21.1 的父模组没有 26.x 的 PiP（BlockPreviewRenderState）渲染通道，而 REI 的 widget 系统是纯 2D 的，
+    // 没有可用的 3D 方块渲染 API，所以这里自行做等距投影：按 MapColor 给每个方块画三个明暗不同的面。
     private void drawBlueprintPreview(GuiGraphics graphics, Rectangle bounds, DustTriggerMultiblockRecipe recipe) {
         Blueprint blueprint = lookupBlueprint(recipe.blueprintId());
         if (blueprint == null) {
             return;
         }
-        Map<BlockPos, BlockState> blocks = new HashMap<>();
+        Minecraft minecraft = Minecraft.getInstance();
         int ySize = blueprint.ySize();
+        int xSize = blueprint.xSize();
+        int zSize = blueprint.zSize();
+
+        List<Map.Entry<BlockPos, BlockState>> blocks = new ArrayList<>();
         for (int y = 0; y < ySize; y++) {
-            for (int x = 0; x < blueprint.xSize(); x++) {
-                for (int z = 0; z < blueprint.zSize(); z++) {
+            for (int x = 0; x < xSize; x++) {
+                for (int z = 0; z < zSize; z++) {
                     BlueprintPart part = blueprint.cell(y, x, z);
                     if (part != null) {
-                        blocks.put(new BlockPos(x, -y + (ySize - 1), z), part.source().getState());
+                        blocks.add(Map.entry(new BlockPos(x, ySize - 1 - y, z), part.source().getState()));
                     }
                 }
             }
@@ -115,13 +115,39 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         if (blocks.isEmpty()) {
             return;
         }
-        int originX = bounds.x;
-        int originY = bounds.y;
-        ((GuiGraphicsExtractorAccessor) graphics).thaumaturge$getGuiRenderState().addPicturesInPictureState(
-                new BlockPreviewRenderState(
-                        blocks, 25, rotation / 8F + 90, 1, 15, 0, 0,
-                        originX - 35, originY + 5, originX + WIDTH, originY + HEIGHT, null));
-        rotation++;
+
+        // 按图纸尺寸缩放，保证整体落在显示区域内。
+        int spanX = xSize + zSize;
+        int spanY = (xSize + zSize) / 2 + ySize;
+        float scale = Math.min(
+                (float) (WIDTH - 16) / Math.max(1, spanX * TILE),
+                (float) (HEIGHT - 16) / Math.max(1, spanY * TILE));
+        int tile = Math.max(4, Math.round(TILE * scale));
+        int halfW = Math.max(2, tile / 2);
+        int quarterH = Math.max(1, tile / 4);
+        int sideH = Math.max(2, tile * 3 / 4);
+
+        int centerX = bounds.x + WIDTH / 2;
+        int centerY = bounds.y + HEIGHT / 2 + (ySize * sideH) / 2;
+
+        // 从远到近绘制，保证近处方块覆盖远处。
+        blocks.sort(Comparator.comparingInt(entry -> entry.getKey().getX() + entry.getKey().getZ()));
+        for (Map.Entry<BlockPos, BlockState> entry : blocks) {
+            BlockPos pos = entry.getKey();
+            int sx = centerX + (pos.getX() - pos.getZ()) * halfW;
+            int sy = centerY + (pos.getX() + pos.getZ()) * quarterH - pos.getY() * sideH;
+            MapColor mapColor = entry.getValue().getMapColor(minecraft.level, BlockPos.ZERO);
+            if (mapColor == null) {
+                continue;
+            }
+            graphics.fill(sx - halfW, sy - quarterH, sx + halfW, sy, argb(mapColor, MapColor.Brightness.HIGH));
+            graphics.fill(sx - halfW, sy, sx, sy + sideH, argb(mapColor, MapColor.Brightness.NORMAL));
+            graphics.fill(sx, sy, sx + halfW, sy + sideH, argb(mapColor, MapColor.Brightness.LOW));
+        }
+    }
+
+    private static int argb(MapColor mapColor, MapColor.Brightness brightness) {
+        return 0xFF000000 | mapColor.calculateRGBColor(brightness);
     }
 
     @Override

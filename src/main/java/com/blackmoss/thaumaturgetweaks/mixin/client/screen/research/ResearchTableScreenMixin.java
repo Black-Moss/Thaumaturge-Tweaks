@@ -80,7 +80,7 @@ public abstract class ResearchTableScreenMixin {
             return;
         }
         BlockEntityResearchTable table = self.thaumaturgetweaks$table();
-        boolean batch = Minecraft.getInstance().hasShiftDown();
+        boolean batch = Minecraft.getInstance().options.keyShift.isDown();
         int count = batch ? Math.min(SHIFT_COMBINE_BATCH, thaumaturgeTweaks$maxCombinations(player, table, dragged, target)) : 1;
         for (int i = 0; i < count; i++) {
             boolean bonus1 = thaumaturgeTweaks$isBonusSource(player, table, dragged);

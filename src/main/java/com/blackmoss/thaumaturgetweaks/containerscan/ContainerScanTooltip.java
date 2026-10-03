@@ -11,7 +11,6 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class ContainerScanTooltip {
-
     private ContainerScanTooltip() {
     }
 

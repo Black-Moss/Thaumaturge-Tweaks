@@ -66,13 +66,10 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
     }
 
     static ItemStack resultOf(ArcaneCraftingRecipe recipe) {
-        ItemStackTemplate result;
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
-            result = shaped.result();
-        } else {
-            result = ((ArcaneShapelessCraftingRecipe) recipe).result();
+            return shaped.result();
         }
-        return result == null ? ItemStack.EMPTY : result.create();
+        return ((ArcaneShapelessCraftingRecipe) recipe).result();
     }
 
     private static void addGridSlot(List<Widget> widgets, Point start, int x, int y, Ingredient ingredient) {
@@ -122,7 +119,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         if (recipe instanceof ArcaneShapedCraftingRecipe shaped) {
             int width = shaped.getWidth();
             int height = shaped.getHeight();
-            List<Optional<Ingredient>> ingredients = shaped.getIngredients();
+            List<Optional<Ingredient>> ingredients = shaped.optionalIngredients();
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     Optional<Ingredient> opt = ingredients.get(x + y * width);
