@@ -41,6 +41,10 @@ public final class ThaumaturgeTrinketsCompat {
 
     public static void register(IEventBus modBus) {
         GogglesTrinketHandler.register(modBus);
+        CuriosityBandTrinketHandler.register(modBus);
+        AmuletVisTrinketHandler.register(modBus);
+        VerdantCharmTrinketHandler.register(modBus);
+        VoidseerCharmTrinketHandler.register(modBus);
         modBus.addListener(ThaumaturgeTrinketsCompat::onCommonSetup);
     }
 
@@ -51,39 +55,20 @@ public final class ThaumaturgeTrinketsCompat {
     private static void registerItemCallbacks() {
         for (var entry : TCItems.ITEMS.getEntries()) {
             Item item = entry.get();
-            boolean ticking = item instanceof AmuletVisItem
-                    || item instanceof VerdantCharmItem
-                    || item instanceof VoidseerCharmItem;
-            boolean discount = item instanceof IVisDiscountGear;
-            if (!ticking && !discount) {
+            if (hasOwnHandler(item) || !(item instanceof IVisDiscountGear)) {
                 continue;
             }
-            TrinketCallback.setCallback(item, new ThaumaturgeTrinketCallback(ticking, discount));
+            TrinketCallback.setCallback(item, new VisDiscountCallback());
         }
     }
 
-    private record ThaumaturgeTrinketCallback(boolean ticking, boolean discount) implements TrinketCallback {
-        @Override
-        public void tick(ItemStack stack, TrinketSlotAccess slot, LivingEntity entity) {
-            if (!ticking) {
-                return;
-            }
-            Item item = stack.getItem();
-            switch (item) {
-                case AmuletVisItem amulet -> amulet.wornTick(stack, entity);
-                case VerdantCharmItem charm -> charm.wornTick(stack, entity);
-                case VoidseerCharmItem charm -> charm.wornTick(stack, entity);
-                default -> {
-                }
-            }
-        }
+    private static boolean hasOwnHandler(Item item) {
+        return item instanceof AmuletVisItem
+                || item instanceof VerdantCharmItem
+                || item instanceof VoidseerCharmItem;
+    }
 
-        @Override
-        public void onUnequip(ItemStack stack, TrinketSlotAccess slot, LivingEntity entity) {
-            if (stack.getItem() instanceof VoidseerCharmItem) {
-                VoidseerCharmItem.clearDiscount(entity);
-            }
-        }
+    private record VisDiscountCallback() implements TrinketCallback {
 
         @Override
         public void forEachTrinketModifier(
@@ -92,7 +77,7 @@ public final class ThaumaturgeTrinketsCompat {
                 LivingEntity entity,
                 Identifier slotIdentifier,
                 BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
-            if (!discount || !(stack.getItem() instanceof IVisDiscountGear gear)) {
+            if (!(stack.getItem() instanceof IVisDiscountGear gear)) {
                 return;
             }
             float contribution = gear.getVisDiscount(stack) / 100.0F;

@@ -1,8 +1,8 @@
-package com.blackmoss.thaumaturgetweaks.mixin.trinkets.client;
+package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
 import com.leclowndu93150.thaumaturge.TCIds;
-import com.leclowndu93150.thaumaturge.client.equipment.CloudRingClientHandler;
+import com.leclowndu93150.thaumaturge.network.ServerboundCloudJumpPayload;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.neoforged.fml.ModList;
@@ -10,12 +10,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(CloudRingClientHandler.class)
-public class CloudRingClientHandlerMixin {
+@Mixin(ServerboundCloudJumpPayload.class)
+public class ServerboundCloudJumpPayloadMixin {
     @Redirect(
-            method = "onClientTick",
+            method = "handle",
             at = @At(value = "INVOKE", target = "Lnet/neoforged/fml/ModList;isLoaded(Ljava/lang/String;)Z"))
-    private static boolean thaumaturgetweaks$anyAccessoryModLoaded(ModList modList, String modId) {
+    private static boolean thaumaturgetweaks$anyAccessoryMod(ModList modList, String modId) {
         if (modList.isLoaded(modId)) {
             return true;
         }
@@ -23,9 +23,9 @@ public class CloudRingClientHandlerMixin {
     }
 
     @Redirect(
-            method = "onClientTick",
+            method = "handle",
             at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;isCurioEquipped(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/Item;)Z"))
-    private static boolean thaumaturgetweaks$ringEquippedInEitherMod(LivingEntity entity, Item item) {
+    private static boolean thaumaturgetweaks$ringEquipped(LivingEntity entity, Item item) {
         return AccessoryCompat.isEquipped(entity, item);
     }
 }
