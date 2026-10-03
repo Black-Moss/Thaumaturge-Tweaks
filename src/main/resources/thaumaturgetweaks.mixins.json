@@ -2,9 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.blackmoss.thaumaturgetweaks.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ThaumometerItemMixin"
+    "ThaumometerItemMixin",
+    "trinkets.GogglesAccessMixin",
+    "trinkets.client.CloudRingClientHandlerMixin"
   ],
   "client": [
     "client.item.ThaumometerClientHandlerMixin",

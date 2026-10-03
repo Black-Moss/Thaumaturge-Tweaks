@@ -90,6 +90,20 @@ type = "required"
 ordering = "AFTER"
 side = "BOTH"
 
+# Optional trinket mod integrations — only required when that mod is installed.
+[[dependencies.${ mod_id }]]
+modId = "curios"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+# Trinkets Updated 的 mod id 是 trinkets_updated（其资源命名空间是 trinkets）。
+modId = "trinkets_updated"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.

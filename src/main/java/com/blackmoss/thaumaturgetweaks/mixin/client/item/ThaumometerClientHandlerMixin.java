@@ -49,7 +49,9 @@ public abstract class ThaumometerClientHandlerMixin {
         }
     }
 
-    @Redirect(method = "tickScanning", at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanningManager;isThingStillScannable(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z"))
+    @Redirect(method = "tickScanning", at = @At(
+            value = "INVOKE",
+            target = "Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanningManager;isThingStillScannable(Lnet/minecraft/world/entity/player/Player;Ljava/lang/Object;)Z"))
     private static boolean thaumaturgetweaks$allowContainerRescan(Player player, @Nullable Object target) {
         return ContainerScanRules.allowsScan(player, target);
     }

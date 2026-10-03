@@ -126,8 +126,9 @@ dependencies {
     // Jade
     implementation "maven.modrinth:jade:${jade_version}"
 
-    // Trinkets Updated
-    implementation "eu.pb4:trinkets:${trinkets_version}"
+    // Trinkets Updated — optional trinket mod integration.
+    compileOnly "eu.pb4:trinkets:${trinkets_version}"
+    localRuntime "eu.pb4:trinkets:${trinkets_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
