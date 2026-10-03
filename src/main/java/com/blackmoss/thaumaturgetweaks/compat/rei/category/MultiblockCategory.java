@@ -136,7 +136,10 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
             BlockPos pos = entry.getKey();
             int sx = centerX + (pos.getX() - pos.getZ()) * halfW;
             int sy = centerY + (pos.getX() + pos.getZ()) * quarterH - pos.getY() * sideH;
-            MapColor mapColor = entry.getValue().getMapColor(minecraft.level, BlockPos.ZERO);
+            MapColor mapColor = null;
+            if (minecraft.level != null) {
+                mapColor = entry.getValue().getMapColor(minecraft.level, BlockPos.ZERO);
+            }
             if (mapColor == null) {
                 continue;
             }

@@ -95,13 +95,18 @@ public final class ReiDrawable {
     public Widget toWidget(int baseX, int baseY) {
         int drawX = baseX + paddingLeft + offsetX;
         int drawY = baseY + paddingTop + offsetY;
-        // 注意：不要调 graphics.disableScissor()，没有开启 scissor 时会抛
-        // IllegalStateException: Scissor stack underflow（REI 并未给我们开 scissor）。
-        return Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> graphics.blit(
+        // 用 REI 官方的 createTexturedWidget，由 REI 内部负责纹理绘制。
+        // 不要自己调 graphics.blit：GuiGraphics 在本版本只有三个重载
+        // ((RL;IIFFIIII) / (RL;IIIIII) / (RL;IIIIIIIIII))，参数语义极易搞错，
+        // 实测分别表现为"纯色色块"、"背景错乱"、"缩小并平铺"。
+        // 参数顺序（见 Widgets#createTexturedWidget 最终重载）：
+        //   texture, x, y, u, v, 绘制宽, 绘制高, 采样区域宽, 采样区域高, 纹理宽, 纹理高
+        return Widgets.createTexturedWidget(
                 texture,
                 drawX, drawY,
                 (float) u, (float) v,
                 width, height,
-                textureWidth, textureHeight));
+                width, height,
+                textureWidth, textureHeight);
     }
 }
