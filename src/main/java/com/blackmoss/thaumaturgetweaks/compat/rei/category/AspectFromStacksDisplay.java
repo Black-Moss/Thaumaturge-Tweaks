@@ -4,7 +4,6 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefiniti
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
@@ -48,6 +47,6 @@ public final class AspectFromStacksDisplay implements Display {
 
     @Override
     public Optional<ResourceLocation> getDisplayLocation() {
-        return Optional.empty();
+        return Display.super.getDisplayLocation();
     }
 }

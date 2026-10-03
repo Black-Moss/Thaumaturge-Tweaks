@@ -103,7 +103,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe> imple
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        widgets.add(background.toWidget(start.x, start.y));
+        widgets.add(background.toBackgroundWidget(start.x, start.y));
         widgets.add(headIcon.toWidget(start.x, start.y));
 
         IInfusionRecipe recipe = display.holder().value();

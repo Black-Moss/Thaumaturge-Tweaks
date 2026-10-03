@@ -82,10 +82,26 @@ public final class ReiDrawable {
         return height + paddingTop + paddingBottom;
     }
 
+    // 层级完全由 setupDisplay 里的添加顺序决定：MC 26.1 的 GUI 用的是 2D 矩阵栈
+    // （Matrix3x2fStack，父模组 AspectTagRenderer 也是 translate(x, y) 两参数），
+    // translate 的 z 参数无效，所以抬高 z 起不到任何作用。REI 自己的
+    // EntryWidget#drawCurrentEntry 里那句 translate(0, 0, 100) 同理无效。
+    // 结论：drawable 必须添加在所有 Slot 之前，槽位（物品）才会画在它上面。
+    // 两个方法名用于表达语义（背景 / 装饰），当前实现一致。
+    public Widget toBackgroundWidget(int baseX, int baseY) {
+        return toWidget(baseX, baseY);
+    }
+
     public Widget toWidget(int baseX, int baseY) {
         int drawX = baseX + paddingLeft + offsetX;
         int drawY = baseY + paddingTop + offsetY;
-        return Widgets.createTexturedWidget(
-                texture, drawX, drawY, u, v, width, height, width, height, textureWidth, textureHeight);
+        // 注意：不要调 graphics.disableScissor()，没有开启 scissor 时会抛
+        // IllegalStateException: Scissor stack underflow（REI 并未给我们开 scissor）。
+        return Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> graphics.blit(
+                texture,
+                drawX, drawY,
+                (float) u, (float) v,
+                width, height,
+                textureWidth, textureHeight));
     }
 }

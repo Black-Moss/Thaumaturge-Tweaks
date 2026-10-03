@@ -32,7 +32,8 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
     public static final CategoryIdentifier<CrucibleDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:crucible");
     private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 129;
-    private static final int HEIGHT = 129;
+    // 背景纹理高 129，显示高度若与它相等会被 REI 的裁剪切掉最后一行，这里多留 4 像素余量。
+    private static final int HEIGHT = 133;
     private static final int OUTPUT_X = 55;
     private static final int OUTPUT_Y = 8;
     private static final int CATALYST_X = 2;
@@ -84,7 +85,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        widgets.add(background.toWidget(start.x, start.y));
+        widgets.add(background.toBackgroundWidget(start.x, start.y));
         widgets.add(arrow.toWidget(start.x, start.y));
 
         CrucibleRecipe recipe = display.holder().value();

@@ -103,6 +103,8 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
+        // 装饰图标与结果槽重叠，必须在所有槽位之前绘制（层级由添加顺序决定，z 在 2D 矩阵栈下无效），
+        // 否则会盖住产物物品。
         widgets.add(resultIcon.toWidget(start.x, start.y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))

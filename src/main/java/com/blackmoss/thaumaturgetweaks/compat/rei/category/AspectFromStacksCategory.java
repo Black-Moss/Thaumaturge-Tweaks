@@ -135,7 +135,7 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        widgets.add(innerBackground.toWidget(start.x, start.y));
+        widgets.add(innerBackground.toBackgroundWidget(start.x, start.y));
         widgets.add(resultSlot.toWidget(start.x, start.y));
 
         // 输出：要素图标。

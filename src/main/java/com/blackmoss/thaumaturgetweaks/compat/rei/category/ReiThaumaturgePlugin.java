@@ -2,13 +2,14 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
-import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectVesselItemEntryRenderer;
+import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
 import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
+import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
@@ -28,27 +29,29 @@ import me.shedaniel.rei.plugin.client.BuiltinClientPlugin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.*;
+import net.neoforged.neoforge.registries.IRegistryExtension;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @REIPluginClient
 public final class ReiThaumaturgePlugin implements REIClientPlugin {
-
     @Override
     @SuppressWarnings("unchecked")
     public Class<REIClientPlugin> getPluginProviderClass() {
         return (Class<REIClientPlugin>) (Class<?>) ReiThaumaturgePlugin.class;
     }
+
     private static void registerAspectInfoPages() {
         RegistryAccess access = clientRegistryAccess();
         if (access == null) {
@@ -90,10 +93,8 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     private static <R extends Recipe<?>> void forEachTypedRecipe(
             ClientLevel level, RecipeType<R> type, Consumer<RecipeHolder<R>> consumer) {
-        // 1.21.1 的签名是 <I extends RecipeInput, T extends Recipe<I>> getAllRecipesFor(RecipeType<T>)，
-        // 无法直接用 R extends Recipe<?> 推导，这里按原始类型调用再强转回去。
         //noinspection rawtypes,unchecked
-        List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) (List) level.getRecipeManager()
+        List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) level.getRecipeManager()
                 .getAllRecipesFor((RecipeType) type);
         for (RecipeHolder<R> holder : holders) {
             consumer.accept(holder);
@@ -143,8 +144,8 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         registry.add(new MultiblockCategory());
         registry.add(new AspectCompositionCategory(pickIconAspect()));
         registry.add(new AspectFromStacksCategory());
+        registry.add(new InfernalFurnaceCategory());
 
-        // 催化剂（工作台）。
         registry.addWorkstations(ArcaneWorkbenchCategory.ID,
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.ARCANE_WORKBENCH.get())));
         registry.addWorkstations(CrucibleCategory.ID,
@@ -163,6 +164,20 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
         registry.addWorkstations(AspectFromStacksCategory.ID,
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+        registry.addWorkstations(InfernalFurnaceCategory.ID,
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFERNAL_FURNACE.get())));
+    }
+
+    private static ItemStack smeltingResult(ClientLevel level, ItemStack input) {
+        for (var holder : level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING)) {
+            SmeltingRecipe recipe = holder.value();
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.test(input)) {
+                    return recipe.getResultItem(level.registryAccess());
+                }
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -194,6 +209,18 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
         for (AspectFromStacksDisplay display : AspectFromStacksCategory.collectAll(access)) {
             registry.add(display);
+        }
+
+        // 炼狱熔炉不是配方，而是物品 → 随机产物列表的 datamap。
+        // 用 Holder#getData 逐个物品取，不依赖 RegistryAccess 上的 NeoForge 扩展接口。
+        for (Holder<Item> holder : BuiltInRegistries.ITEM.holders().toList()) {
+            List<InfernalBonus> bonuses = holder.getData(InfernalBonus.DATA_MAP);
+            Item item = holder.value();
+            if (item == null || item == Items.AIR || bonuses == null || bonuses.isEmpty()) {
+                continue;
+            }
+            ItemStack input = new ItemStack(item);
+            registry.add(new InfernalFurnaceDisplay(input, smeltingResult(level, input), bonuses));
         }
 
         registerAspectInfoPages();

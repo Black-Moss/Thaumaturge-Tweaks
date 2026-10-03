@@ -180,8 +180,14 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        widgets.add(resultIcon.toWidget(start.x, start.y));
+        // 蓝图预览铺满整个显示区，必须在所有槽位之前绘制（层级由添加顺序决定，z 在 2D 矩阵栈下无效）。
+        DustTriggerMultiblockRecipe recipe = (DustTriggerMultiblockRecipe) display.holder().value();
+        widgets.add(Widgets.createDrawableWidget(
+                (GuiGraphics graphics, int mx, int my, float delta) -> drawBlueprintPreview(graphics, bounds, recipe)));
+
         widgets.add(arrow.toWidget(start.x, start.y));
+        // 装饰图标与结果槽重叠，同样必须在槽位之前。
+        widgets.add(resultIcon.toWidget(start.x, start.y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
@@ -189,12 +195,6 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         widgets.add(dustSlot);
         widgets.add(Widgets.withTooltip(dustSlot,
                 Component.translatable("jei.thaumaturge.dust_trigger.target.multiblock")));
-
-        DustTriggerMultiblockRecipe recipe = (DustTriggerMultiblockRecipe) display.holder().value();
-
-        widgets.add(Widgets.createDrawableWidget(
-                (GuiGraphics graphics, int mx, int my, float delta) ->
-                        drawBlueprintPreview(graphics, bounds, recipe)));
 
         ItemStack result = recipe.result();
         if (!result.isEmpty()) {

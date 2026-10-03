@@ -8,7 +8,6 @@ import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapelessCr
 import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;

@@ -110,8 +110,8 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        widgets.add(background.toWidget(start.x, start.y));
-        widgets.add(plate.toWidget(start.x, start.y));
+        widgets.add(background.toBackgroundWidget(start.x, start.y));
+        widgets.add(plate.toBackgroundWidget(start.x, start.y));
         widgets.add(arrow.toWidget(start.x, start.y));
 
         ArcaneCraftingRecipe recipe = display.holder().value();
