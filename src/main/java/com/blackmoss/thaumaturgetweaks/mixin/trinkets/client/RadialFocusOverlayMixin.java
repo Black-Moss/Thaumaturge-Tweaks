@@ -4,14 +4,15 @@ import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.client.casters.RadialFocusOverlay;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat;
-import java.util.List;
-import java.util.function.Predicate;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 @Mixin(RadialFocusOverlay.class)
 public class RadialFocusOverlayMixin {

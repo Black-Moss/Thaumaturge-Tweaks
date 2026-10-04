@@ -1,9 +1,9 @@
 package com.blackmoss.thaumaturgetweaks;
 
-import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
-import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.blackmoss.thaumaturgetweaks.compat.curios.GogglesCurioHandler;
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
+import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
+import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
 import com.mojang.logging.LogUtils;

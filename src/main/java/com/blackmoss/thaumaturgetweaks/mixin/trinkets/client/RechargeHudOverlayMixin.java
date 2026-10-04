@@ -6,8 +6,6 @@ import com.leclowndu93150.thaumaturge.api.items.RechargeAccess;
 import com.leclowndu93150.thaumaturge.client.hud.RechargeHudOverlay;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -20,28 +18,27 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Mixin(RechargeHudOverlay.class)
 public class RechargeHudOverlayMixin {
     @Unique
     private static final int PERIODIC_SHOW_TICKS = 60;
-
+    @Unique
+    private final Map<Integer, Integer> thaumaturgetweaks$accessoryCharge = new HashMap<>();
+    @Unique
+    private final Map<Integer, Integer> thaumaturgetweaks$accessoryChangeTick = new HashMap<>();
     @Shadow
     @Final
     private Map<EquipmentSlot, Integer> lastCharge;
-
     @Shadow
     @Final
     private Map<EquipmentSlot, Integer> changeTick;
 
-    @Unique
-    private final Map<Integer, Integer> thaumaturgetweaks$accessoryCharge = new HashMap<>();
-
-    @Unique
-    private final Map<Integer, Integer> thaumaturgetweaks$accessoryChangeTick = new HashMap<>();
-
     @Invoker("drawMeter")
     private static void thaumaturgetweaks$drawMeter(GuiGraphicsExtractor graphics, Minecraft mc, ItemStack stack,
-            int max, int charge, int index, boolean showAmount) {
+                                                    int max, int charge, int index, boolean showAmount) {
     }
 
     @WrapMethod(method = "render")

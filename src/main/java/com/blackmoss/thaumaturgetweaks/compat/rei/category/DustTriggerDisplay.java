@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 public final class DustTriggerDisplay implements Display {
     private final RecipeHolder<DustTrigger> holder;
 

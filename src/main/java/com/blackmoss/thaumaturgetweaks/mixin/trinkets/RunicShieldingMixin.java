@@ -3,13 +3,14 @@ package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.content.equipment.runic.RunicShielding;
-import java.util.List;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.List;
 
 @Mixin(RunicShielding.class)
 public class RunicShieldingMixin {

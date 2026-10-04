@@ -11,6 +11,7 @@ import net.minecraft.resources.Identifier;
 
 import java.util.List;
 import java.util.Optional;
+
 public final class AspectCompositionDisplay implements Display {
     private final AspectCompositionCategory.Composition composition;
 

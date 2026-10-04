@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 public final class CrucibleDisplay implements Display {
     private final RecipeHolder<CrucibleRecipe> holder;
 

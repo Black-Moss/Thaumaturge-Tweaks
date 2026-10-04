@@ -68,30 +68,6 @@ public final class ThaumaturgeTrinketsCompat {
                 || item instanceof VoidseerCharmItem;
     }
 
-    private record VisDiscountCallback() implements TrinketCallback {
-
-        @Override
-        public void forEachTrinketModifier(
-                ItemStack stack,
-                TrinketSlotAccess slot,
-                LivingEntity entity,
-                Identifier slotIdentifier,
-                BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
-            if (!(stack.getItem() instanceof IVisDiscountGear gear)) {
-                return;
-            }
-            float contribution = gear.getVisDiscount(stack) / 100.0F;
-            if (contribution != 0.0F) {
-                consumer.accept(
-                        TCAttributes.VIS_DISCOUNT,
-                        new AttributeModifier(
-                                BuiltInRegistries.ITEM.getKey(stack.getItem()),
-                                contribution,
-                                AttributeModifier.Operation.ADD_VALUE));
-            }
-        }
-    }
-
     public static boolean anyTrinketMatches(LivingEntity entity, Predicate<ItemStack> predicate) {
         if (entity == null || predicate == null) {
             return false;
@@ -143,5 +119,29 @@ public final class ThaumaturgeTrinketsCompat {
             }
         }
         return false;
+    }
+
+    private record VisDiscountCallback() implements TrinketCallback {
+
+        @Override
+        public void forEachTrinketModifier(
+                ItemStack stack,
+                TrinketSlotAccess slot,
+                LivingEntity entity,
+                Identifier slotIdentifier,
+                BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
+            if (!(stack.getItem() instanceof IVisDiscountGear gear)) {
+                return;
+            }
+            float contribution = gear.getVisDiscount(stack) / 100.0F;
+            if (contribution != 0.0F) {
+                consumer.accept(
+                        TCAttributes.VIS_DISCOUNT,
+                        new AttributeModifier(
+                                BuiltInRegistries.ITEM.getKey(stack.getItem()),
+                                contribution,
+                                AttributeModifier.Operation.ADD_VALUE));
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 public final class InfusionDisplay<R extends Recipe<?> & IInfusionRecipe> implements Display {
     private final RecipeHolder<@NonNull R> holder;
     private final CategoryIdentifier<?> categoryId;

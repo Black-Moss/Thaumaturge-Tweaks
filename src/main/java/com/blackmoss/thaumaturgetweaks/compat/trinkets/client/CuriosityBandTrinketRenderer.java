@@ -17,10 +17,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public final class CuriosityBandTrinketRenderer implements TrinketRenderer {
-
     private static final Identifier TEXTURE = TCIds.rl("textures/item/curiosity_band_worn.png");
     private static final float FACE_Z = -0.26F;
     private static final float HELMET_LIFT = 0.06F;
+
+    private static void vertex(
+            VertexConsumer buffer,
+            PoseStack.Pose pose,
+            float x, float y, float z,
+            float u, float v,
+            int light) {
+        buffer.addVertex(pose, x, y, z)
+                .setColor(-1)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(pose, 0.0F, 0.0F, -1.0F);
+    }
 
     @Override
     public void submit(
@@ -48,19 +61,5 @@ public final class CuriosityBandTrinketRenderer implements TrinketRenderer {
             vertex(buffer, pose, 0.25F, -0.5F, z, 1.0F, 0.0F, light);
         });
         poseStack.popPose();
-    }
-
-    private static void vertex(
-            VertexConsumer buffer,
-            PoseStack.Pose pose,
-            float x, float y, float z,
-            float u, float v,
-            int light) {
-        buffer.addVertex(pose, x, y, z)
-                .setColor(-1)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light)
-                .setNormal(pose, 0.0F, 0.0F, -1.0F);
     }
 }

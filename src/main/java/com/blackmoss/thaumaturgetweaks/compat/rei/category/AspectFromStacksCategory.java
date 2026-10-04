@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 public final class AspectFromStacksCategory implements DisplayCategory<AspectFromStacksDisplay> {
     public static final CategoryIdentifier<AspectFromStacksDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:aspect_from_stacks");
     private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
-    private static final Identifier INNER_TEXTURE =TCIds.rl("textures/gui/gui_inner.png");
+    private static final Identifier INNER_TEXTURE = TCIds.rl("textures/gui/gui_inner.png");
     private static final int WIDTH = 176;
     private static final int HEIGHT = 109;
     private static final int PAGE_SIZE = 36;
@@ -138,7 +138,6 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
         widgets.add(innerBackground.toWidget(start.x, start.y));
         widgets.add(resultSlot.toWidget(start.x, start.y));
 
-        // 输出：要素图标。
         widgets.add(Widgets.createSlot(new Point(start.x + ASPECT_SLOT_X, start.y + ASPECT_SLOT_Y))
                 .entry(EntryStack.of(
                         AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(display.wrapper().aspect(), 1)))

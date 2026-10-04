@@ -6,8 +6,6 @@ import eu.pb4.trinkets.api.TrinketInventory;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketSlotUtils;
 import eu.pb4.trinkets.api.TrinketsApi;
-import java.util.Map;
-import java.util.Optional;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
@@ -21,6 +19,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jspecify.annotations.Nullable;
+
+import java.util.Map;
+import java.util.Optional;
 
 public final class GogglesTrinketHandler {
     private static final String HEAD_SLOT_PREFIX = "head/";
