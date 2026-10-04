@@ -29,7 +29,7 @@ public class ThaumaturgeTweaks {
         }
     }
 
-    public static ResourceLocation rl(String path) {
+    public static ResourceLocation identifier(String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 

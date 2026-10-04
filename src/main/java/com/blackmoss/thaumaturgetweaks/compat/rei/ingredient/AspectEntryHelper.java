@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public final class AspectEntryHelper {
     public static final String ENTRY_UID = "thaumaturgetweaks:aspect";
 
-    private static final ResourceLocation UNKNOWN = ThaumaturgeTweaks.rl("unknown");
+    private static final ResourceLocation UNKNOWN = ThaumaturgeTweaks.identifier("unknown");
 
     private AspectEntryHelper() {
     }

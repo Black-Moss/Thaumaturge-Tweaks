@@ -10,7 +10,7 @@ public record ServerboundEquipGogglesPayload() implements CustomPacketPayload {
     public static final ServerboundEquipGogglesPayload INSTANCE = new ServerboundEquipGogglesPayload();
 
     public static final Type<ServerboundEquipGogglesPayload> TYPE =
-            new Type<>(ThaumaturgeTweaks.rl("equip_goggles"));
+            new Type<>(ThaumaturgeTweaks.identifier("equip_goggles"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundEquipGogglesPayload> STREAM_CODEC =
             StreamCodec.unit(INSTANCE);
