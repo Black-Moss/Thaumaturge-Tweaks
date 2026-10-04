@@ -19,11 +19,6 @@ sourceSets.main.resources {
 }
 
 repositories {
-    flatDir {
-        name = "thaumaturgeLocal"
-        dirs "E:/MossProject/MinecraftJava/Thaumaturge/build/libs"
-    }
-
     maven {
         name = "Modrinth Maven"
         url = "https://api.modrinth.com/maven"
@@ -103,7 +98,7 @@ configurations {
 }
 
 dependencies {
-    def thaumaturgeJar = "E:/MossProject/MinecraftJava/Thaumaturge/build/libs/thaumaturge-26.1.2-NeoForge-BETA-0.2.1.jar"
+    def thaumaturgeJar = "thaumaturge-${thaumaturge_version}.jar"
     compileOnly files(thaumaturgeJar)
     localRuntime files(thaumaturgeJar)
 
@@ -126,7 +121,7 @@ dependencies {
     // Jade
     implementation "maven.modrinth:jade:${jade_version}"
 
-    // Trinkets Updated — optional trinket mod integration.
+    // Trinkets Updated
     compileOnly "eu.pb4:trinkets:${trinkets_version}"
     localRuntime "eu.pb4:trinkets:${trinkets_version}"
 }
