@@ -13,5 +13,6 @@ public final class EnUsProvider extends LanguageProvider {
     protected void addTranslations() {
         add("thaumaturgetweaks.containerscan.tooltip", "Use it on a container block to scan every item inside it");
         add("trinkets.slot.chest.charm", "Charm");
+        add("category.thaumaturgetweaks.infernal_furnace.chance", "Chance: %s%%");
     }
 }

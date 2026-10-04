@@ -1,4 +1,5 @@
 {
+  "category.thaumaturgetweaks.infernal_furnace.chance": "Chance: %s%%",
   "thaumaturgetweaks.containerscan.tooltip": "Use it on a container block to scan every item inside it",
   "trinkets.slot.chest.charm": "Charm"
 }

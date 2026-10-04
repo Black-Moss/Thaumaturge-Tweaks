@@ -9,6 +9,7 @@ import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
 import com.leclowndu93150.thaumaturge.client.recipes.TCClientRecipes;
 import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
+import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
@@ -30,11 +31,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -103,6 +109,24 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         }
     }
 
+    private static List<RecipeHolder<SmeltingRecipe>> smeltingRecipes(ClientLevel level) {
+        RecipeMap map = TCClientRecipes.getRecipeMapForType(level, RecipeType.SMELTING);
+        if (map == null) {
+            return List.of();
+        }
+        return (List<RecipeHolder<SmeltingRecipe>>) map.byType(RecipeType.SMELTING);
+    }
+
+    private static ItemStack smeltingResult(List<RecipeHolder<SmeltingRecipe>> recipes, ClientLevel level, ItemStack input) {
+        SingleRecipeInput recipeInput = new SingleRecipeInput(input);
+        for (RecipeHolder<SmeltingRecipe> holder : recipes) {
+            if (holder.value().matches(recipeInput, level)) {
+                return holder.value().assemble(recipeInput);
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
     @Override
     public void registerEntries(EntryRegistry registry) {
         RegistryAccess registryAccess = clientRegistryAccess();
@@ -151,8 +175,8 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         registry.add(new MultiblockCategory());
         registry.add(new AspectCompositionCategory(pickIconAspect()));
         registry.add(new AspectFromStacksCategory());
+        registry.add(new InfernalFurnaceCategory());
 
-        // 催化剂（工作台）。
         registry.addWorkstations(ArcaneWorkbenchCategory.ID,
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.ARCANE_WORKBENCH.get())));
         registry.addWorkstations(CrucibleCategory.ID,
@@ -171,6 +195,8 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
         registry.addWorkstations(AspectFromStacksCategory.ID,
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+        registry.addWorkstations(InfernalFurnaceCategory.ID,
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFERNAL_FURNACE.get())));
     }
 
     @Override
@@ -205,6 +231,20 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
         for (AspectFromStacksDisplay display : AspectFromStacksCategory.collectAll(access)) {
             registry.add(display);
+        }
+
+        List<RecipeHolder<SmeltingRecipe>> smelting = smeltingRecipes(level);
+        for (Holder.Reference<Item> holder : BuiltInRegistries.ITEM.listElements().toList()) {
+            Item item = holder.value();
+            if (item == Items.AIR) {
+                continue;
+            }
+            ItemStack input = new ItemStack(item);
+            List<InfernalBonus> bonuses = input.getData(InfernalBonus.DATA_MAP);
+            if (bonuses == null || bonuses.isEmpty()) {
+                continue;
+            }
+            registry.add(new InfernalFurnaceDisplay(input, smeltingResult(smelting, level, input), bonuses));
         }
 
         registerAspectInfoPages();

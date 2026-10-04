@@ -14,5 +14,6 @@ public final class ZhCnProvider extends LanguageProvider {
     protected void addTranslations() {
         add("thaumaturgetweaks.containerscan.tooltip", "对容器方块使用可一并扫描其中的所有物品");
         add("trinkets.slot.chest.charm", "护符");
+        add("category.thaumaturgetweaks.infernal_furnace.chance", "概率：%s%%");
     }
 }
