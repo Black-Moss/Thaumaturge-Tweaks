@@ -11,15 +11,6 @@ It adds REI recipe/information support for Thaumaturge's crafting systems, conta
 ### REI Integration (Requires REI)
 Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items):
 
-- **Arcane Workbench** recipes
-- **Crucible** recipes
-- **Infusion** recipes, including Infusion Enchantment and Runic Augment variants
-- **Dust Trigger** recipes (Salis Mundus triggers)
-- **Multiblock** structures
-- **Aspect Composition** — how each aspect is combined from its parents
-- **Aspect From Stacks** — which items carry a given aspect
-- A dedicated **Aspect** entry type, with an information page for every registered aspect
-
 ### Container Scanning
 
 - Use the **Thaumometer** on a **container block** to scan the block **and every item inside it**.
