@@ -3,13 +3,14 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.ingredient;
 import com.blackmoss.thaumaturgetweaks.client.AspectSlotAnnotations;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
-import net.minecraft.client.gui.GuiGraphics;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nullable;
 
 public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemStack> {
@@ -28,7 +29,7 @@ public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemSt
             int mouseY,
             float delta) {
         ItemStack stack = entry.getValue();
-        if (Minecraft.getInstance().options.keyShift.isDown()
+        if (Screen.hasShiftDown()
                 && AspectSlotAnnotations.renderAspectIcon(graphics, bounds.x, bounds.y, stack)) {
             return;
         }

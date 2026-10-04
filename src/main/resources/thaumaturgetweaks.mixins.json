@@ -8,6 +8,7 @@
   ],
   "client": [
     "client.item.ThaumometerClientHandlerMixin",
+    "client.screen.ContainerScreenAspectIconMixin",
     "client.screen.essentia.ThaumatoriumScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
     "client.screen.research.ResearchTableScreenMixin"
