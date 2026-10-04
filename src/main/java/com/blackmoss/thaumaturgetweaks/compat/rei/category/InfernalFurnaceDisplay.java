@@ -26,6 +26,14 @@ public final class InfernalFurnaceDisplay implements Display {
         this.bonuses = List.copyOf(bonuses);
     }
 
+    static List<ItemStack> stacksOf(InfernalBonus bonus) {
+        List<ItemStack> out = new ArrayList<>();
+        for (var holder : bonus.items()) {
+            out.add(new ItemStack(holder.value()));
+        }
+        return out;
+    }
+
     public ItemStack input() {
         return input;
     }
@@ -36,14 +44,6 @@ public final class InfernalFurnaceDisplay implements Display {
 
     public List<InfernalBonus> bonuses() {
         return bonuses;
-    }
-
-    static List<ItemStack> stacksOf(InfernalBonus bonus) {
-        List<ItemStack> out = new ArrayList<>();
-        for (var holder : bonus.items()) {
-            out.add(new ItemStack(holder.value()));
-        }
-        return out;
     }
 
     @Override
