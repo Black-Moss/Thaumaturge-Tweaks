@@ -51,6 +51,41 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
         this.icon = EntryStacks.of(TCItems.INFERNAL_FURNACE.get());
     }
 
+    private static List<ItemStack> stacksOf(InfernalBonus bonus) {
+        List<ItemStack> out = new ArrayList<>();
+        for (var holder : bonus.items()) {
+            if (holder.isBound()) {
+                holder.value();
+                out.add(new ItemStack(holder.value()));
+            }
+        }
+        return out;
+    }
+
+    private static int countOf(InfernalBonus bonus) {
+        return Math.max(1, bonus.count().getMaxValue());
+    }
+
+    private static Component bonusTooltip(List<InfernalBonus> bonuses) {
+        List<Component> lines = new ArrayList<>();
+        for (InfernalBonus bonus : bonuses) {
+            lines.add(oneBonusTooltip(bonus));
+        }
+        return lines.getFirst();
+    }
+
+    private static Component oneBonusTooltip(InfernalBonus bonus) {
+        int min = bonus.count().getMinValue();
+        int max = bonus.count().getMaxValue();
+        Component count = min == max
+                ? Component.literal(String.valueOf(min))
+                : Component.literal(min + "-" + max);
+        return Component.translatable("category.thaumaturge.infernal_furnace.chance", bonus.chance() * 100.0F)
+                .withStyle(ChatFormatting.GRAY)
+                .append(Component.literal(" x").withStyle(ChatFormatting.DARK_GRAY))
+                .append(count.copy().withStyle(ChatFormatting.GRAY));
+    }
+
     @Override
     public CategoryIdentifier<InfernalFurnaceDisplay> getCategoryIdentifier() {
         return ID;
@@ -112,41 +147,6 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
         }
 
         return widgets;
-    }
-
-    private static List<ItemStack> stacksOf(InfernalBonus bonus) {
-        List<ItemStack> out = new ArrayList<>();
-        for (var holder : bonus.items()) {
-            if (holder.isBound()) {
-                holder.value();
-                out.add(new ItemStack(holder.value()));
-            }
-        }
-        return out;
-    }
-
-    private static int countOf(InfernalBonus bonus) {
-        return Math.max(1, bonus.count().getMaxValue());
-    }
-
-    private static Component bonusTooltip(List<InfernalBonus> bonuses) {
-        List<Component> lines = new ArrayList<>();
-        for (InfernalBonus bonus : bonuses) {
-            lines.add(oneBonusTooltip(bonus));
-        }
-        return lines.getFirst();
-    }
-
-    private static Component oneBonusTooltip(InfernalBonus bonus) {
-        int min = bonus.count().getMinValue();
-        int max = bonus.count().getMaxValue();
-        Component count = min == max
-                ? Component.literal(String.valueOf(min))
-                : Component.literal(min + "-" + max);
-        return Component.translatable("category.thaumaturge.infernal_furnace.chance", bonus.chance() * 100.0F)
-                .withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(" x").withStyle(ChatFormatting.DARK_GRAY))
-                .append(count.copy().withStyle(ChatFormatting.GRAY));
     }
 }
  

@@ -57,13 +57,13 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int ARROW_X = 39;
     private static final int ARROW_Y = 0;
     private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
-    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512);
-    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512);
     private static final float PREVIEW_CENTER_X = 54.5F;
     private static final float PREVIEW_CENTER_Y = 56.5F;
     private static final float PREVIEW_SCALE = 15.0F;
     private static final float PREVIEW_ROT_X = 25.0F;
     private static final float PREVIEW_DEPTH = 200.0F;
+    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512);
+    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512);
     private final Renderer icon;
     private final BlockEntityInfusionMatrix matrixPreview;
     private int rotation = 0;

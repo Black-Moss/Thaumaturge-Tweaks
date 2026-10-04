@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 public final class ArcaneWorkbenchDisplay implements Display {
     private final RecipeHolder<ArcaneCraftingRecipe> holder;
 

@@ -51,6 +51,7 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
     private final ReiDrawable resultIcon =
             new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512, 0, 0, 0, 0, 112, 12);
     private final Renderer icon;
+
     public DustTriggerCategory() {
         this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
     }

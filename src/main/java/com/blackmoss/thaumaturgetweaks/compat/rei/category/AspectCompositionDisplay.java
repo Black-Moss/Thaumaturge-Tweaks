@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
+
 public final class AspectCompositionDisplay implements Display {
     private final AspectCompositionCategory.Composition composition;
 

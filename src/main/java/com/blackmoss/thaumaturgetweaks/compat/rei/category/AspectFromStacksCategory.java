@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 public final class AspectFromStacksCategory implements DisplayCategory<AspectFromStacksDisplay> {
     public static final CategoryIdentifier<AspectFromStacksDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:aspect_from_stacks");
     private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
-    private static final ResourceLocation INNER_TEXTURE =TCIds.rl("textures/gui/gui_inner.png");
+    private static final ResourceLocation INNER_TEXTURE = TCIds.rl("textures/gui/gui_inner.png");
     private static final int WIDTH = 176;
     private static final int HEIGHT = 109;
     private static final int PAGE_SIZE = 36;

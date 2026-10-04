@@ -6,7 +6,6 @@ import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockR
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 public final class MultiblockDisplay implements Display {
     private final RecipeHolder<DustTrigger> holder;
 

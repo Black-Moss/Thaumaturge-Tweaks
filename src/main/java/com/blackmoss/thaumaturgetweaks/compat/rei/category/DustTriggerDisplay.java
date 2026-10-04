@@ -6,7 +6,6 @@ import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 public final class DustTriggerDisplay implements Display {
     private final RecipeHolder<DustTrigger> holder;
 

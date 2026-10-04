@@ -1,9 +1,9 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.drawable;
 
 import me.shedaniel.rei.api.client.gui.DrawableConsumer;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public final class ReiTextDrawable implements DrawableConsumer {

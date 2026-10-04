@@ -5,7 +5,6 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.content.recipe.crucible.CrucibleRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 public final class CrucibleDisplay implements Display {
     private final RecipeHolder<CrucibleRecipe> holder;
 

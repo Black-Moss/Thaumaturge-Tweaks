@@ -31,27 +31,18 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
-import net.neoforged.neoforge.registries.IRegistryExtension;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 @REIPluginClient
 public final class ReiThaumaturgePlugin implements REIClientPlugin {
-    @Override
-    @SuppressWarnings("unchecked")
-    public Class<REIClientPlugin> getPluginProviderClass() {
-        return (Class<REIClientPlugin>) (Class<?>) ReiThaumaturgePlugin.class;
-    }
-
     private static void registerAspectInfoPages() {
         RegistryAccess access = clientRegistryAccess();
         if (access == null) {
@@ -99,6 +90,24 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         for (RecipeHolder<R> holder : holders) {
             consumer.accept(holder);
         }
+    }
+
+    private static ItemStack smeltingResult(ClientLevel level, ItemStack input) {
+        for (var holder : level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING)) {
+            SmeltingRecipe recipe = holder.value();
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.test(input)) {
+                    return recipe.getResultItem(level.registryAccess());
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public Class<REIClientPlugin> getPluginProviderClass() {
+        //noinspection unchecked
+        return (Class<REIClientPlugin>) (Class<?>) ReiThaumaturgePlugin.class;
     }
 
     @Override
@@ -168,18 +177,6 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
                 EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFERNAL_FURNACE.get())));
     }
 
-    private static ItemStack smeltingResult(ClientLevel level, ItemStack input) {
-        for (var holder : level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING)) {
-            SmeltingRecipe recipe = holder.value();
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                if (ingredient.test(input)) {
-                    return recipe.getResultItem(level.registryAccess());
-                }
-            }
-        }
-        return ItemStack.EMPTY;
-    }
-
     @Override
     public void registerDisplays(DisplayRegistry registry) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -211,12 +208,10 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             registry.add(display);
         }
 
-        // 炼狱熔炉不是配方，而是物品 → 随机产物列表的 datamap。
-        // 用 Holder#getData 逐个物品取，不依赖 RegistryAccess 上的 NeoForge 扩展接口。
         for (Holder<Item> holder : BuiltInRegistries.ITEM.holders().toList()) {
             List<InfernalBonus> bonuses = holder.getData(InfernalBonus.DATA_MAP);
             Item item = holder.value();
-            if (item == null || item == Items.AIR || bonuses == null || bonuses.isEmpty()) {
+            if (item == Items.AIR || bonuses == null || bonuses.isEmpty()) {
                 continue;
             }
             ItemStack input = new ItemStack(item);

@@ -23,7 +23,7 @@ public final class ResearchUtils {
 
     public static <T> List<Holder.Reference<T>> listAll(
             RegistryAccess access, ResourceKey<? extends Registry<? extends T>> key) {
-        return access.<T>registry(key)
+        return access.registry(key)
                 .map(registry -> registry.holders().toList())
                 .orElse(List.of());
     }
