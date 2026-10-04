@@ -1,3 +1,4 @@
 {
+  "category.thaumaturge.infernal_furnace.chance": "概率：%s%%",
   "thaumaturgetweaks.containerscan.tooltip": "对容器方块使用可一并扫描其中的所有物品"
 }

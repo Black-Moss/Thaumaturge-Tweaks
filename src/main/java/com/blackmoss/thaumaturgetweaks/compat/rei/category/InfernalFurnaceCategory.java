@@ -1,7 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
-import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import me.shedaniel.math.Point;
@@ -27,7 +26,6 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
     public static final CategoryIdentifier<InfernalFurnaceDisplay> ID =
             CategoryIdentifier.of("thaumaturgetweaks:infernal_furnace");
 
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 108;
     private static final int INPUT_X = 22;
@@ -38,15 +36,13 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
     private static final int BONUS_Y = 20;
     private static final int ARROW_X = 59;
     private static final int ARROW_Y = 20;
-    private static final int RESULT_ICON_X = 89;
-    private static final int RESULT_ICON_Y = 48;
+    private static final int FIRE_X = 48;
+    private static final int FIRE_Y = 50;
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/gui/gui_researchbook_overlay.png");
     private static final int FURNACE_X = 21;
     private static final int FURNACE_Y = 39;
-
-    private final ReiDrawable furnace = new ReiDrawable(TEXTURE, 445, 452, 67, 60, 512, 512);
-    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512);
-    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512);
     private final Renderer icon;
+    private final ReiDrawable furnace = new ReiDrawable(TEXTURE, 445, 452, 67, 60, 512, 512);
 
     public InfernalFurnaceCategory() {
         this.icon = EntryStacks.of(TCItems.INFERNAL_FURNACE.get());
@@ -82,17 +78,17 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 背景与装饰，坐标与本体 JEI 版一致。FURNACE 是背景，垫在最前。
         widgets.add(furnace.toBackgroundWidget(start.x + FURNACE_X, start.y + FURNACE_Y));
-        widgets.add(arrow.toWidget(start.x + ARROW_X, start.y + ARROW_Y));
-        // 装饰图标与产物槽重叠，必须在槽位之前绘制，否则会盖住产物物品（层级由顺序决定）。
-        widgets.add(resultIcon.toWidget(start.x + RESULT_ICON_X, start.y + RESULT_ICON_Y));
+        widgets.add(Widgets.createArrow(new Point(start.x + ARROW_X, start.y + ARROW_Y)));
+        widgets.add(Widgets.createBurningFire(new Point(start.x + FIRE_X, start.y + FIRE_Y)));
+        // 结果槽背景要对齐到成品物品槽坐标点（REI 内部以该点为 26×26 背景中心）。
+        widgets.add(Widgets.createResultSlotBackground(
+                new Point(start.x + DEFAULT_OUTPUT_X, start.y + DEFAULT_OUTPUT_Y)));
 
         widgets.add(Widgets.createSlot(new Point(start.x + INPUT_X, start.y + INPUT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, display.input()))
                 .disableBackground().markInput());
 
-        // 默认产物（该物品的熔炼产物）
         ItemStack defaultOutput = display.defaultOutput();
         if (!defaultOutput.isEmpty()) {
             widgets.add(Widgets.createSlot(new Point(start.x + DEFAULT_OUTPUT_X, start.y + DEFAULT_OUTPUT_Y))
@@ -100,7 +96,6 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
                     .disableBackground().markOutput());
         }
 
-        // 随机产物：全部放进同一个槽位（可切换），tooltip 列出各自的概率与数量。
         List<InfernalBonus> bonuses = display.bonuses();
         List<EntryStack<?>> bonusStacks = new ArrayList<>();
         for (InfernalBonus bonus : bonuses) {
@@ -148,7 +143,7 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
         Component count = min == max
                 ? Component.literal(String.valueOf(min))
                 : Component.literal(min + "-" + max);
-        return Component.translatable("gui.jei.category.compostable.chance", bonus.chance() * 100.0F)
+        return Component.translatable("category.thaumaturge.infernal_furnace.chance", bonus.chance() * 100.0F)
                 .withStyle(ChatFormatting.GRAY)
                 .append(Component.literal(" x").withStyle(ChatFormatting.DARK_GRAY))
                 .append(count.copy().withStyle(ChatFormatting.GRAY));
