@@ -138,7 +138,6 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
         widgets.add(innerBackground.toBackgroundWidget(start.x, start.y));
         widgets.add(resultSlot.toWidget(start.x, start.y));
 
-        // 输出：要素图标。
         widgets.add(Widgets.createSlot(new Point(start.x + ASPECT_SLOT_X, start.y + ASPECT_SLOT_Y))
                 .entry(EntryStack.of(
                         AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(display.wrapper().aspect(), 1)))

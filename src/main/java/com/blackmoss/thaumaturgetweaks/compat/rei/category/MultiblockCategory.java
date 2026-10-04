@@ -1,6 +1,8 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
+import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
+import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.recipe.Blueprint;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintPart;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
@@ -45,6 +47,8 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int DUST_SLOT_Y = -2;
     private static final int RESULT_SLOT_X = 119;
     private static final int RESULT_SLOT_Y = 45;
+    private static final int RESULT_ICON_X = 112;
+    private static final int RESULT_ICON_Y = 38;
     private static final int BARRIER_X = 45;
     private static final int BARRIER_Y = 4;
     private static final int SLOT_ROW_Y = HEIGHT - 20;
@@ -52,6 +56,9 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int SLOT_ROW_SPACING = 20;
     private static final int ARROW_X = 39;
     private static final int ARROW_Y = 0;
+    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private final ReiDrawable arrow = new ReiDrawable(TEXTURE, 199, 168, 26, 26, 512, 512);
+    private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512);
     private static final float PREVIEW_CENTER_X = 54.5F;
     private static final float PREVIEW_CENTER_Y = 56.5F;
     private static final float PREVIEW_SCALE = 15.0F;
@@ -199,9 +206,8 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
                 (GuiGraphics graphics, int mx, int my, float delta) ->
                         drawBlueprintPreview(graphics, bounds, recipe, mx, my, delta)));
 
-        widgets.add(Widgets.createArrow(new Point(start.x + ARROW_X, start.y + ARROW_Y)));
-        widgets.add(Widgets.createResultSlotBackground(
-                new Point(start.x + RESULT_SLOT_X, start.y + RESULT_SLOT_Y)));
+        widgets.add(arrow.toWidget(start.x + ARROW_X, start.y + ARROW_Y));
+        widgets.add(resultIcon.toWidget(start.x + RESULT_ICON_X, start.y + RESULT_ICON_Y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))

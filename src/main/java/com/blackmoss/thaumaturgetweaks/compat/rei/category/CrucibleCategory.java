@@ -32,7 +32,6 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
     public static final CategoryIdentifier<CrucibleDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:crucible");
     private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 129;
-    // 背景纹理高 129，显示高度若与它相等会被 REI 的裁剪切掉最后一行，这里多留 4 像素余量。
     private static final int HEIGHT = 133;
     private static final int OUTPUT_X = 55;
     private static final int OUTPUT_Y = 8;

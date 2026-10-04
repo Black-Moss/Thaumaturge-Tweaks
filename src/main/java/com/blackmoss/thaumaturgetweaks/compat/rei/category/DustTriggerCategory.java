@@ -103,8 +103,6 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         Point start = new Point(bounds.x, bounds.y);
         List<Widget> widgets = new ArrayList<>();
 
-        // 装饰图标与结果槽重叠，必须在所有槽位之前绘制（层级由添加顺序决定，z 在 2D 矩阵栈下无效），
-        // 否则会盖住产物物品。
         widgets.add(resultIcon.toWidget(start.x, start.y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
@@ -114,7 +112,6 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         widgets.add(Widgets.withTooltip(dustSlot,
                 Component.translatable("jei.thaumaturge.dust_trigger.usage")));
 
-        // 目标槽：单方块或方块标签。
         DustTrigger recipe = display.holder().value();
         Slot targetSlot = Widgets.createSlot(new Point(start.x + TARGET_SLOT_X, start.y + TARGET_SLOT_Y))
                 .disableBackground().markInput();
@@ -137,7 +134,6 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         }
         widgets.add(targetSlot);
 
-        // 输出槽。
         ItemStack result = resultStack(recipe);
         if (!result.isEmpty()) {
             widgets.add(Widgets.createSlot(new Point(start.x + RESULT_SLOT_X, start.y + RESULT_SLOT_Y))
