@@ -1,5 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
+import com.leclowndu93150.thaumaturge.api.research.scan.ScanTarget;
 import com.leclowndu93150.thaumaturge.api.research.scan.ScanningManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,7 +38,7 @@ public final class ContainerScanHelper {
             if (resource.isEmpty()) {
                 continue;
             }
-            if (ScanningManager.isThingStillScannable(player, resource.toStack(handler.getAmountAsInt(index)))) {
+            if (ScanningManager.isStillScannable(player, ScanTarget.stack(resource.toStack(handler.getAmountAsInt(index))))) {
                 return true;
             }
         }
@@ -57,10 +58,10 @@ public final class ContainerScanHelper {
                 continue;
             }
             ItemStack stack = resource.toStack(handler.getAmountAsInt(index));
-            if (!ScanningManager.isThingStillScannable(player, stack)) {
+            if (!ScanningManager.isStillScannable(player, ScanTarget.stack(stack))) {
                 continue;
             }
-            ScanningManager.scanTheThing(player, stack);
+            ScanningManager.scan(player, ScanTarget.stack(stack));
         }
     }
 

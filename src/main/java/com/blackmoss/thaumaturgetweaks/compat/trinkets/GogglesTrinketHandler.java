@@ -1,6 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.trinkets;
 
-import com.leclowndu93150.thaumaturge.api.items.IGoggles;
+import com.leclowndu93150.thaumaturge.api.items.GogglesAccess;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import eu.pb4.trinkets.api.TrinketInventory;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
@@ -21,7 +21,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Optional;
+
 
 public final class GogglesTrinketHandler {
     private static final String HEAD_SLOT_PREFIX = "head/";
@@ -38,9 +38,9 @@ public final class GogglesTrinketHandler {
         if (entity == null) {
             return false;
         }
-        Optional<TrinketSlotAccess> found = TrinketsApi.getAttachment(entity)
-                .findFirst(stack -> stack.getItem() instanceof IGoggles goggles && goggles.showIngamePopups(stack, entity));
-        return found.isPresent();
+        return TrinketsApi.getAttachment(entity)
+                .findFirst(GogglesAccess::isRevealing)
+                .isPresent();
     }
 
     private static void onRegisterPayloads(RegisterPayloadHandlersEvent event) {

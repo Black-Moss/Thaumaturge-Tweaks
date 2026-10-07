@@ -1,7 +1,8 @@
 package com.blackmoss.thaumaturgetweaks.mixin.trinkets.client;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
-import com.leclowndu93150.thaumaturge.api.items.IRechargable;
+import com.leclowndu93150.thaumaturge.api.items.ChargeDisplay;
+import com.leclowndu93150.thaumaturge.api.items.ChargeProfile;
 import com.leclowndu93150.thaumaturge.api.items.RechargeAccess;
 import com.leclowndu93150.thaumaturge.client.hud.RechargeHudOverlay;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -37,8 +38,12 @@ public class RechargeHudOverlayMixin {
     private Map<EquipmentSlot, Integer> changeTick;
 
     @Invoker("drawMeter")
-    private static void thaumaturgetweaks$drawMeter(GuiGraphicsExtractor graphics, Minecraft mc, ItemStack stack,
-                                                    int max, int charge, int index, boolean showAmount) {
+    private static void thaumaturgetweaks$drawMeter(
+            GuiGraphicsExtractor graphics,
+            Minecraft mc,
+            ItemStack stack,
+            int max, int charge,
+            int index, boolean showAmount) {
     }
 
     @WrapMethod(method = "render")
@@ -51,20 +56,24 @@ public class RechargeHudOverlayMixin {
         int shown = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (stack.getItem() instanceof IRechargable rechargable) {
-                IRechargable.ChargeDisplay display = rechargable.showInHud(stack, player);
-                if (display != IRechargable.ChargeDisplay.NEVER) {
-                    int charge = RechargeAccess.getCharge(stack);
-                    Integer previous = lastCharge.put(slot, charge);
-                    if (previous == null || previous != charge) {
-                        changeTick.put(slot, player.tickCount);
-                    }
-                    boolean held = slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
-                    if (held || display != IRechargable.ChargeDisplay.PERIODIC
-                            || player.tickCount - changeTick.getOrDefault(slot, Integer.MIN_VALUE) <= PERIODIC_SHOW_TICKS) {
-                        thaumaturgetweaks$drawMeter(graphics, mc, stack, rechargable.getMaxCharge(stack, player), charge,
-                                shown++, player.isShiftKeyDown());
-                    }
+            ChargeProfile profile = RechargeAccess.profile(stack);
+            if (profile == null) {
+                lastCharge.remove(slot);
+                changeTick.remove(slot);
+                continue;
+            }
+            ChargeDisplay display = profile.display();
+            if (display != ChargeDisplay.NEVER) {
+                int charge = RechargeAccess.getCharge(stack);
+                Integer previous = lastCharge.put(slot, charge);
+                if (previous == null || previous != charge) {
+                    changeTick.put(slot, player.tickCount);
+                }
+                boolean held = slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
+                if (held || display == ChargeDisplay.ALWAYS
+                        || player.tickCount - changeTick.getOrDefault(slot, Integer.MIN_VALUE) <= PERIODIC_SHOW_TICKS) {
+                    thaumaturgetweaks$drawMeter(graphics, mc, stack, profile.capacity(), charge,
+                            shown++, player.isShiftKeyDown());
                 }
             } else {
                 lastCharge.remove(slot);
@@ -72,11 +81,12 @@ public class RechargeHudOverlayMixin {
             }
         }
         for (ItemStack stack : AccessoryCompat.equippedInEither(player)) {
-            if (!(stack.getItem() instanceof IRechargable rechargable)) {
+            ChargeProfile profile = RechargeAccess.profile(stack);
+            if (profile == null) {
                 continue;
             }
-            IRechargable.ChargeDisplay display = rechargable.showInHud(stack, player);
-            if (display == IRechargable.ChargeDisplay.NEVER) {
+            ChargeDisplay display = profile.display();
+            if (display == ChargeDisplay.NEVER) {
                 continue;
             }
             int charge = RechargeAccess.getCharge(stack);
@@ -85,7 +95,7 @@ public class RechargeHudOverlayMixin {
             if (previous == null || previous != charge) {
                 thaumaturgetweaks$accessoryChangeTick.put(key, player.tickCount);
             }
-            if (display == IRechargable.ChargeDisplay.PERIODIC
+            if (display == ChargeDisplay.ON_CHANGE
                     && player.tickCount - thaumaturgetweaks$accessoryChangeTick.getOrDefault(key, Integer.MIN_VALUE) > PERIODIC_SHOW_TICKS) {
                 continue;
             }
@@ -93,7 +103,7 @@ public class RechargeHudOverlayMixin {
                     graphics,
                     mc,
                     stack,
-                    rechargable.getMaxCharge(stack, player), charge, shown++,
+                    profile.capacity(), charge, shown++,
                     player.isShiftKeyDown());
         }
     }

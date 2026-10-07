@@ -140,7 +140,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             }
         }
 
-        AspectList crystals = recipe.getCrystals();
+        AspectList crystals = recipe.crystalCost();
         if (!crystals.isEmpty()) {
             List<AspectInstance> aspects = crystals.entries().stream()
                     .sorted(Comparator.comparingInt(
@@ -167,7 +167,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
                 .disableBackground().markOutput());
 
-        String vis = Integer.toString(recipe.getBaseVis());
+        String vis = Integer.toString(recipe.visCost());
         widgets.add(Widgets.createLabel(new Point(start.x + VIS_CENTER_X, start.y + VIS_Y),
                         Component.literal(vis))
                 .centered()

@@ -1,4 +1,3 @@
-// 魔力护符的 Trinkets 集成：装备期间定期为主手物品与饰品充能。
 package com.blackmoss.thaumaturgetweaks.compat.trinkets;
 
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.AmuletVisItem;
@@ -19,7 +18,6 @@ public final class AmuletVisTrinketHandler {
         modBus.addListener(AmuletVisTrinketHandler::onCommonSetup);
     }
 
-    // 回调需要 TCItems 已注册完成，因此放到 setup 阶段执行。
     private static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             TrinketCallback.setCallback(TCItems.AMULET_VIS.get(), new Callback());
