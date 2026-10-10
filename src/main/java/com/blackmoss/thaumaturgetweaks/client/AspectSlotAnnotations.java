@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.client;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
@@ -22,9 +22,9 @@ import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class AspectSlotAnnotations {
-    private static final Identifier PHIAL_ID = TCIds.rl("phial");
-    private static final Identifier ESSENTIA_CRYSTAL_ID = TCIds.rl("essentia_crystal");
-    private static final Identifier ASPECT_BACK_TEXTURE = TCIds.rl("textures/aspects/_back.png");
+    private static final Identifier PHIAL_ID = TTIds.rl("phial");
+    private static final Identifier ESSENTIA_CRYSTAL_ID = TTIds.rl("essentia_crystal");
+    private static final Identifier ASPECT_BACK_TEXTURE = TTIds.rl("textures/aspects/_back.png");
 
     private AspectSlotAnnotations() {
     }

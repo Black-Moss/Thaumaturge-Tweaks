@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat;
 import com.leclowndu93150.thaumaturge.content.casters.CasterManager;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public class CasterManagerMixin {
         if (modList.isLoaded(modId)) {
             return true;
         }
-        return modId.equals(TCIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
+        return modId.equals(TTIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
     }
 
     @Redirect(

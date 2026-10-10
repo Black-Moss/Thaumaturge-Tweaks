@@ -6,15 +6,15 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectVesselItemEnt
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
-import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
-import com.leclowndu93150.thaumaturge.client.recipes.TCClientRecipes;
-import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
+import com.leclowndu93150.thaumaturge.api.aspect.TTAspects;
+import com.leclowndu93150.thaumaturge.client.recipes.TTClientRecipes;
+import com.leclowndu93150.thaumaturge.client.screen.casters.focal.FocalManipulatorScreen;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
-import com.leclowndu93150.thaumaturge.registry.TCRecipeTypes;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
+import com.leclowndu93150.thaumaturge.registry.TTRecipeTypes;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
@@ -72,7 +72,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             Optional<Registry<IAspect>> registryOpt = access.lookup(IAspect.REGISTRY_KEY);
             if (registryOpt.isPresent()) {
                 Registry<IAspect> registry = registryOpt.get();
-                Optional<Holder.Reference<IAspect>> stable = registry.get(TCAspects.PRAECANTATIO);
+                Optional<Holder.Reference<IAspect>> stable = registry.get(TTAspects.PRAECANTATIO);
                 if (stable.isPresent()) {
                     return stable.get();
                 }
@@ -96,7 +96,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     private static <R extends Recipe<?>> void forEachTypedRecipe(
             ClientLevel level, RecipeType<R> type, Consumer<RecipeHolder<R>> consumer) {
-        RecipeMap map = TCClientRecipes.getRecipeMapForType(level, type);
+        RecipeMap map = TTClientRecipes.getRecipeMapForType(level, type);
         //noinspection unchecked,rawtypes
         List<RecipeHolder<R>> holders = (List<RecipeHolder<R>>) map.byType((RecipeType) type);
         for (RecipeHolder<R> holder : holders) {
@@ -105,7 +105,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
     }
 
     private static List<RecipeHolder<SmeltingRecipe>> smeltingRecipes(ClientLevel level) {
-        RecipeMap map = TCClientRecipes.getRecipeMapForType(level, RecipeType.SMELTING);
+        RecipeMap map = TTClientRecipes.getRecipeMapForType(level, RecipeType.SMELTING);
         if (map == null) {
             return List.of();
         }
@@ -154,9 +154,12 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     @Override
     public void registerExclusionZones(ExclusionZones zones) {
-        zones.register(FocalManipulatorScreen.class, screen -> screen.jeiExtraAreas().stream()
-                .map(area -> new Rectangle(area.getX(), area.getY(), area.getWidth(), area.getHeight()))
-                .toList());
+        // 父模组 26.1.2：FocalManipulatorScreen 从 client.screen.casters 移到 ...casters.focal，
+        // 且不再提供 jeiExtraAreas()——额外区域改由父模组自己的
+        // FocalManipulatorGuiHandler#getGuiExtraAreas 计算：整屏都算（聚焦操纵器画布很大）。
+        // 这里照同样规则给 REI 声明排除区，避免 REI 的界面元素画在它上面。
+        zones.register(FocalManipulatorScreen.class,
+                screen -> List.of(new Rectangle(0, 0, screen.width, screen.height)));
     }
 
     @Override
@@ -173,25 +176,25 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         registry.add(new InfernalFurnaceCategory());
 
         registry.addWorkstations(ArcaneWorkbenchCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.ARCANE_WORKBENCH.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.ARCANE_WORKBENCH.get())));
         registry.addWorkstations(CrucibleCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.CRUCIBLE.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.CRUCIBLE.get())));
         registry.addWorkstations(InfusionCategory.INFUSION_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(InfusionCategory.ENCHANTMENT_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(InfusionCategory.RUNIC_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(DustTriggerCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())));
         registry.addWorkstations(MultiblockCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())));
         registry.addWorkstations(AspectCompositionCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.THAUMONOMICON.get())));
         registry.addWorkstations(AspectFromStacksCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.THAUMONOMICON.get())));
         registry.addWorkstations(InfernalFurnaceCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFERNAL_FURNACE.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFERNAL_FURNACE.get())));
     }
 
     @Override
@@ -202,12 +205,12 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             return;
         }
 
-        forEachTypedRecipe(level, TCRecipeTypes.ARCANE.get(), holder -> registry.add(new ArcaneWorkbenchDisplay(holder)));
-        forEachTypedRecipe(level, TCRecipeTypes.CRUCIBLE.get(), holder -> registry.add(new CrucibleDisplay(holder)));
-        forEachTypedRecipe(level, TCRecipeTypes.INFUSION.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.INFUSION_ENCHANTMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.RUNIC_AUGMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.DUST_TRIGGER.get(), holder -> {
+        forEachTypedRecipe(level, TTRecipeTypes.ARCANE.get(), holder -> registry.add(new ArcaneWorkbenchDisplay(holder)));
+        forEachTypedRecipe(level, TTRecipeTypes.CRUCIBLE.get(), holder -> registry.add(new CrucibleDisplay(holder)));
+        forEachTypedRecipe(level, TTRecipeTypes.INFUSION.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.INFUSION_ENCHANTMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.RUNIC_AUGMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.DUST_TRIGGER.get(), holder -> {
             if (holder.value() instanceof DustTriggerSimpleRecipe || holder.value() instanceof DustTriggerTagRecipe) {
                 registry.add(new DustTriggerDisplay(holder));
             } else if (holder.value() instanceof DustTriggerMultiblockRecipe) {

@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.BaubleEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -20,7 +20,7 @@ public class BaubleEventsMixin {
         if (modList.isLoaded(modTarget)) {
             return true;
         }
-        return modTarget.equals(TCIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
+        return modTarget.equals(TTIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
     }
 
     @Redirect(

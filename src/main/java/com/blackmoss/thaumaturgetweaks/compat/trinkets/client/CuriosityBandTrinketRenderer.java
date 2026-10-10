@@ -1,6 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.trinkets.client;
 
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public final class CuriosityBandTrinketRenderer implements TrinketRenderer {
-    private static final Identifier TEXTURE = TCIds.rl("textures/item/curiosity_band_worn.png");
+    private static final Identifier TEXTURE = TTIds.rl("textures/item/curiosity_band_worn.png");
     private static final float FACE_Z = -0.26F;
     private static final float HELMET_LIFT = 0.06F;
 

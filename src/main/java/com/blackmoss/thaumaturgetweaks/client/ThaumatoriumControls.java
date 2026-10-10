@@ -4,7 +4,7 @@ import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import com.blackmoss.thaumaturgetweaks.mixin.client.screen.essentia.ThaumatoriumScreenAccessor;
 import com.leclowndu93150.thaumaturge.client.screen.ThaumatoriumScreen;
 import com.leclowndu93150.thaumaturge.content.essentia.thaumatorium.MenuThaumatorium;
-import com.leclowndu93150.thaumaturge.registry.TCSounds;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -103,7 +103,7 @@ public final class ThaumatoriumControls {
     private static void playScrollSound() {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.KEY.get(), 0.3F, 1.0F);
+            player.playSound(TTSounds.KEY.get(), 0.3F, 1.0F);
         }
     }
 }

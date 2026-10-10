@@ -5,7 +5,7 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefiniti
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -42,7 +42,7 @@ public final class AspectCompositionCategory implements DisplayCategory<AspectCo
             this.icon = EntryStack.of(
                     AspectEntryDefinition.ENTRY_TYPE, new AspectInstance(iconAspect, 1));
         } else {
-            this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
+            this.icon = EntryStacks.of(TTItems.SALIS_MUNDUS.get());
         }
     }
 

@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.compat.trinkets;
 
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.AmuletVisItem;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.callback.TrinketCallback;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,8 +20,8 @@ public final class AmuletVisTrinketHandler {
 
     private static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            TrinketCallback.setCallback(TCItems.AMULET_VIS.get(), new Callback());
-            TrinketCallback.setCallback(TCItems.AMULET_VIS_CRAFTED.get(), new Callback());
+            TrinketCallback.setCallback(TTItems.AMULET_VIS.get(), new Callback());
+            TrinketCallback.setCallback(TTItems.AMULET_VIS_CRAFTED.get(), new Callback());
         });
     }
 

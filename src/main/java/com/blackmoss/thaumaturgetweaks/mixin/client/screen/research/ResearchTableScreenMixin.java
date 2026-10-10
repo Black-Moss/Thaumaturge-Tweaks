@@ -10,7 +10,7 @@ import com.leclowndu93150.thaumaturge.content.research.table.BlockEntityResearch
 import com.leclowndu93150.thaumaturge.content.research.table.MenuResearchTable;
 import com.leclowndu93150.thaumaturge.network.ServerboundTableCombinePayload;
 import com.leclowndu93150.thaumaturge.network.ServerboundTablePlaceAspectPayload;
-import com.leclowndu93150.thaumaturge.registry.TCSounds;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.core.Holder;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Mixin(ResearchTableScreen.class)
 public abstract class ResearchTableScreenMixin {
     @Unique
-    private static final int SHIFT_COMBINE_BATCH = 10;
+    private static final int SHIFT_COMBINE_BATTH = 10;
 
     @Unique
     private static int thaumaturgeTweaks$maxCombinations(
@@ -82,7 +82,7 @@ public abstract class ResearchTableScreenMixin {
         }
         BlockEntityResearchTable table = self.thaumaturgetweaks$table();
         boolean batch = Minecraft.getInstance().hasShiftDown();
-        int count = batch ? Math.min(SHIFT_COMBINE_BATCH, thaumaturgeTweaks$maxCombinations(player, table, dragged, target)) : 1;
+        int count = batch ? Math.min(SHIFT_COMBINE_BATTH, thaumaturgeTweaks$maxCombinations(player, table, dragged, target)) : 1;
         for (int i = 0; i < count; i++) {
             boolean bonus1 = thaumaturgeTweaks$isBonusSource(player, table, dragged);
             boolean bonus2 = thaumaturgeTweaks$isBonusSource(player, table, target);
@@ -91,7 +91,7 @@ public abstract class ResearchTableScreenMixin {
             );
         }
         self.thaumaturgetweaks$setDraggedAspect(null);
-        player.playSound(TCSounds.HHON.get(), 0.3F, 1.0F);
+        player.playSound(TTSounds.HHON.get(), 0.3F, 1.0F);
         cir.setReturnValue(true);
     }
 
@@ -122,7 +122,7 @@ public abstract class ResearchTableScreenMixin {
                 new ServerboundTablePlaceAspectPayload(menu.pos(), hex.q(), hex.r(), Optional.empty()));
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.ERASE.get(), 0.2F, 1.0F);
+            player.playSound(TTSounds.ERASE.get(), 0.2F, 1.0F);
         }
         cir.setReturnValue(true);
     }

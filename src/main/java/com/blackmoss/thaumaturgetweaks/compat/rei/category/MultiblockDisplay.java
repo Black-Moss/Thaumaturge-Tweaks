@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
 import com.leclowndu93150.thaumaturge.api.recipe.DustTrigger;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -34,7 +34,7 @@ public final class MultiblockDisplay implements Display {
     public List<EntryIngredient> getInputEntries() {
         List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredient.of(
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get()))));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get()))));
         for (Map.Entry<BlueprintSource, Integer> entry : MultiblockCategory.sortedBlueprintSources(
                 (DustTriggerMultiblockRecipe) holder.value())) {
             List<EntryStack<?>> stacks = new ArrayList<>();

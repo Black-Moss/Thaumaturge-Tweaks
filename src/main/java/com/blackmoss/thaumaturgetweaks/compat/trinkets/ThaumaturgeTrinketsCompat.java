@@ -5,8 +5,8 @@ import com.leclowndu93150.thaumaturge.api.items.RechargeAccess;
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.AmuletVisItem;
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.VerdantCharmItem;
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.VoidseerCharmItem;
-import com.leclowndu93150.thaumaturge.registry.TCAttributes;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTAttributes;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import eu.pb4.trinkets.api.callback.TrinketCallback;
@@ -53,7 +53,7 @@ public final class ThaumaturgeTrinketsCompat {
     }
 
     private static void registerItemCallbacks() {
-        for (var entry : TCItems.ITEMS.getEntries()) {
+        for (var entry : TTItems.ITEMS.getEntries()) {
             Item item = entry.get();
             if (hasOwnHandler(item) || !(item instanceof IVisDiscountGear)) {
                 continue;
@@ -136,7 +136,7 @@ public final class ThaumaturgeTrinketsCompat {
             float contribution = gear.getVisDiscount(stack) / 100.0F;
             if (contribution != 0.0F) {
                 consumer.accept(
-                        TCAttributes.VIS_DISCOUNT,
+                        TTAttributes.VIS_DISCOUNT,
                         new AttributeModifier(
                                 BuiltInRegistries.ITEM.getKey(stack.getItem()),
                                 contribution,

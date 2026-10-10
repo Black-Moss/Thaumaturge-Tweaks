@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.compat.trinkets;
 
 import com.leclowndu93150.thaumaturge.content.equipment.bauble.VerdantCharmItem;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.callback.TrinketCallback;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +18,7 @@ public final class VerdantCharmTrinketHandler {
     }
 
     private static void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> TrinketCallback.setCallback(TCItems.VERDANT_CHARM.get(), new Callback()));
+        event.enqueueWork(() -> TrinketCallback.setCallback(TTItems.VERDANT_CHARM.get(), new Callback()));
     }
 
     private static final class Callback implements TrinketCallback {

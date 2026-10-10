@@ -2,12 +2,12 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -32,8 +32,8 @@ import java.util.function.Predicate;
 
 public final class AspectFromStacksCategory implements DisplayCategory<AspectFromStacksDisplay> {
     public static final CategoryIdentifier<AspectFromStacksDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:aspect_from_stacks");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
-    private static final Identifier INNER_TEXTURE = TCIds.rl("textures/gui/gui_inner.png");
+    private static final Identifier TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final Identifier INNER_TEXTURE = TTIds.rl("textures/gui/gui_inner.png");
     private static final int WIDTH = 176;
     private static final int HEIGHT = 109;
     private static final int PAGE_SIZE = 36;
@@ -48,7 +48,7 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
     private final Renderer icon;
 
     public AspectFromStacksCategory() {
-        this.icon = EntryStacks.of(TCItems.THAUMONOMICON.get());
+        this.icon = EntryStacks.of(TTItems.THAUMONOMICON.get());
     }
 
     private static int aspectIdOrMax(Registry<IAspect> registry, Holder<IAspect> holder) {

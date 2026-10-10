@@ -3,12 +3,12 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiTextDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.recipe.DustTrigger;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public final class DustTriggerCategory implements DisplayCategory<DustTriggerDisplay> {
     public static final CategoryIdentifier<DustTriggerDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:dust_trigger");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final Identifier TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 144;
     private static final int HEIGHT = 54;
     private static final int DUST_SLOT_X = 7;
@@ -53,7 +53,7 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
     private final Renderer icon;
 
     public DustTriggerCategory() {
-        this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
+        this.icon = EntryStacks.of(TTItems.SALIS_MUNDUS.get());
     }
 
     private static int darkGrayColor() {
@@ -107,7 +107,7 @@ public final class DustTriggerCategory implements DisplayCategory<DustTriggerDis
         widgets.add(resultIcon.toWidget(start.x, start.y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
-                .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
+                .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())))
                 .disableBackground().markInput();
         widgets.add(dustSlot);
         widgets.add(Widgets.withTooltip(dustSlot,

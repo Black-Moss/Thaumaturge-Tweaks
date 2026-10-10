@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.client;
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import com.blackmoss.thaumaturgetweaks.mixin.client.screen.research.ResearchTableScreenAccessor;
 import com.leclowndu93150.thaumaturge.client.screen.research.ResearchTableScreen;
-import com.leclowndu93150.thaumaturge.registry.TCSounds;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -153,7 +153,7 @@ public final class ResearchTableControls {
         }
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.KEY.get(), 0.3F, 1.0F);
+            player.playSound(TTSounds.KEY.get(), 0.3F, 1.0F);
         }
     }
 
@@ -168,7 +168,7 @@ public final class ResearchTableControls {
     private static void playKeySound() {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.KEY.get(), 0.3F, 1.0F);
+            player.playSound(TTSounds.KEY.get(), 0.3F, 1.0F);
         }
     }
 }

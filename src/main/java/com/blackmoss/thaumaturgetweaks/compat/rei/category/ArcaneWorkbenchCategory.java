@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneCraftingRecipe;
@@ -11,7 +11,7 @@ import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapedCraft
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapelessCraftingRecipe;
 import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import com.leclowndu93150.thaumaturge.content.workbench.MenuArcaneWorkbench;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -38,7 +38,7 @@ import java.util.Optional;
 
 public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWorkbenchDisplay> {
     public static final CategoryIdentifier<ArcaneWorkbenchDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:arcane_workbench");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final Identifier TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 162;
     private static final int HEIGHT = 138;
     private static final int GRID_ORIGIN_X = 42;
@@ -63,7 +63,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
     private final Renderer icon;
 
     public ArcaneWorkbenchCategory() {
-        this.icon = EntryStacks.of(TCItems.ARCANE_WORKBENCH.get());
+        this.icon = EntryStacks.of(TTItems.ARCANE_WORKBENCH.get());
     }
 
     static ItemStack resultOf(ArcaneCraftingRecipe recipe) {

@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 import com.leclowndu93150.thaumaturge.api.recipe.DustTrigger;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -36,7 +36,7 @@ public final class DustTriggerDisplay implements Display {
     public List<EntryIngredient> getInputEntries() {
         List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredient.of(
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get()))));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get()))));
         DustTrigger recipe = holder.value();
         if (recipe instanceof DustTriggerSimpleRecipe simple) {
             list.add(EntryIngredient.of(

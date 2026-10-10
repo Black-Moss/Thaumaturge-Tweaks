@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.compat.trinkets;
 
 import com.leclowndu93150.thaumaturge.api.items.GogglesAccess;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import eu.pb4.trinkets.api.TrinketInventory;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketSlotUtils;
@@ -56,7 +56,7 @@ public final class GogglesTrinketHandler {
         }
         Player player = event.getEntity();
         ItemStack held = player.getItemInHand(event.getHand());
-        if (!held.is(TCItems.GOGGLES_REVEALING.get())) {
+        if (!held.is(TTItems.GOGGLES_REVEALING.get())) {
             return;
         }
         if (player.level().isClientSide()) {
@@ -78,7 +78,7 @@ public final class GogglesTrinketHandler {
                 return;
             }
             ItemStack held = player.getMainHandItem();
-            if (held.is(TCItems.GOGGLES_REVEALING.get())) {
+            if (held.is(TTItems.GOGGLES_REVEALING.get())) {
                 equipToHeadTrinket(player, held);
             }
         });

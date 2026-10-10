@@ -2,7 +2,7 @@
 
 # Thaumaturge Tweaks
 
-A quality-of-life addon mod for **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)**, built for **NeoForge 26.1.2** (Minecraft 26.1.2).
+A quality-of-life addon mod for **[Thaumaturge](https://www.curseforge.com/minecraft/mc-mods/thaumaturge)**.
 
 It adds REI recipe/information support for Thaumaturge's crafting systems, container block scanning, Trinkets support for Thaumaturge accessories, and enhanced controls for the Research Table and Thaumatorium screens.
 
@@ -10,12 +10,6 @@ It adds REI recipe/information support for Thaumaturge's crafting systems, conta
 
 ### REI Integration (Requires REI)
 Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items):
-
-### Container Scanning
-
-- Use the **Thaumometer** on a **container block** to scan the block **and every item inside it**.
-- Unlike the base mod, this also works when the container block has already been scanned, so items placed inside later can still be scanned.
-- Requires the mod to be installed on both the client and the server.
 
 ### Trinkets Support (Requires Trinkets)
 Thaumaturge accessories now work when equipped in a [Trinkets](https://modrinth.com/mod/trinkets-updated) slot, not only in Curios — both accessory mods are checked, so you can keep using either one.
@@ -43,7 +37,7 @@ Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying item
 
 ## Credits
 
-- **[Thaumaturge](https://github.com/Leclowndu93150/Thaumaturge)** by Leclowndu93150 — the parent mod this addon extends.
+- **[Thaumaturge](https://www.curseforge.com/minecraft/mc-mods/thaumaturge)** by Leclowndu93150 — the parent mod this addon extends.
 - **[Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)** by Aedial — the aspect icon display feature is inspired by and references this mod.
 
 ## Authorization

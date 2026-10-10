@@ -1,9 +1,9 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -43,14 +43,14 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
 
     private final Renderer icon;
     private final ReiDrawable furnace =
-            new ReiDrawable(TCIds.rl("textures/gui/gui_researchbook_overlay.png"), 445, 452, 67, 60, 512, 512);
+            new ReiDrawable(TTIds.rl("textures/gui/gui_researchbook_overlay.png"), 445, 452, 67, 60, 512, 512);
     private final ReiDrawable arrow =
-            new ReiDrawable(TCIds.rl("textures/gui/gui_researchbook_overlay.png"), 199, 168, 26, 26, 512, 512);
+            new ReiDrawable(TTIds.rl("textures/gui/gui_researchbook_overlay.png"), 199, 168, 26, 26, 512, 512);
     private final ReiDrawable resultIcon =
-            new ReiDrawable(TCIds.rl("textures/gui/gui_researchbook_overlay.png"), 41, 7, 30, 30, 512, 512);
+            new ReiDrawable(TTIds.rl("textures/gui/gui_researchbook_overlay.png"), 41, 7, 30, 30, 512, 512);
 
     public InfernalFurnaceCategory() {
-        this.icon = EntryStacks.of(TCItems.INFERNAL_FURNACE.get());
+        this.icon = EntryStacks.of(TTItems.INFERNAL_FURNACE.get());
     }
 
     static int countOf(InfernalBonus bonus) {

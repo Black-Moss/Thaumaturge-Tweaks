@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.mixin.trinkets.client;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.client.casters.RadialFocusOverlay;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public class RadialFocusOverlayMixin {
         if (modList.isLoaded(modId)) {
             return true;
         }
-        return modId.equals(TCIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
+        return modId.equals(TTIds.CURIOS) && AccessoryCompat.isAnyAccessoryModLoaded();
     }
 
     @Redirect(

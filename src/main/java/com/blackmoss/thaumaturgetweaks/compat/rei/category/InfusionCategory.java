@@ -4,13 +4,13 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.recipe.IInfusionRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionEnchantmentRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionRecipe;
 import com.leclowndu93150.thaumaturge.content.infusion.InfusionRunicAugmentRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -38,7 +38,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe> imple
     public static final CategoryIdentifier<InfusionDisplay<InfusionRecipe>> INFUSION_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion");
     public static final CategoryIdentifier<InfusionDisplay<InfusionEnchantmentRecipe>> ENCHANTMENT_ID = CategoryIdentifier.of("thaumaturgetweaks:infusion_enchantment");
     public static final CategoryIdentifier<InfusionDisplay<InfusionRunicAugmentRecipe>> RUNIC_ID = CategoryIdentifier.of("thaumaturgetweaks:runic_augment");
-    private static final Identifier TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final Identifier TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 146;
     private static final int HEIGHT = 170;
     private static final int ASPECT_Y = 135;
@@ -68,7 +68,7 @@ public final class InfusionCategory<R extends Recipe<?> & IInfusionRecipe> imple
     private final Component title;
 
     public InfusionCategory(CategoryIdentifier<InfusionDisplay<R>> id, String titleKey) {
-        this.icon = EntryStacks.of(TCItems.INFUSION_MATRIX.get());
+        this.icon = EntryStacks.of(TTItems.INFUSION_MATRIX.get());
         this.id = id;
         this.title = Component.translatable(titleKey);
     }

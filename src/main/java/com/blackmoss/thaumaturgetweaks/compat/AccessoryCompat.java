@@ -2,7 +2,7 @@ package com.blackmoss.thaumaturgetweaks.compat;
 
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketSlotAdapter;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat.CurioPouchRef;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
@@ -24,14 +24,14 @@ public final class AccessoryCompat {
     }
 
     public static boolean isAnyAccessoryModLoaded() {
-        return ModList.get().isLoaded(TCIds.CURIOS) || ThaumaturgeTrinketsCompat.isActive();
+        return ModList.get().isLoaded(TTIds.CURIOS) || ThaumaturgeTrinketsCompat.isActive();
     }
 
     public static boolean isEquipped(LivingEntity entity, Item item) {
         if (entity == null || item == null) {
             return false;
         }
-        if (ModList.get().isLoaded(TCIds.CURIOS) && ThaumaturgeCuriosCompat.isCurioEquipped(entity, item)) {
+        if (ModList.get().isLoaded(TTIds.CURIOS) && ThaumaturgeCuriosCompat.isCurioEquipped(entity, item)) {
             return true;
         }
         return ThaumaturgeTrinketsCompat.isActive() && ThaumaturgeTrinketsCompat.isEquipped(entity, item);
@@ -41,7 +41,7 @@ public final class AccessoryCompat {
         if (entity == null || item == null) {
             return ItemStack.EMPTY;
         }
-        if (ModList.get().isLoaded(TCIds.CURIOS)) {
+        if (ModList.get().isLoaded(TTIds.CURIOS)) {
             ItemStack removed = ThaumaturgeCuriosCompat.extractCurio(entity, item);
             if (!removed.isEmpty()) {
                 return removed;
@@ -58,7 +58,7 @@ public final class AccessoryCompat {
             return List.of();
         }
         List<ItemStack> stacks = new ArrayList<>();
-        if (ModList.get().isLoaded(TCIds.CURIOS)) {
+        if (ModList.get().isLoaded(TTIds.CURIOS)) {
             stacks.addAll(ThaumaturgeCuriosCompat.equippedCurios(entity));
         }
         if (ThaumaturgeTrinketsCompat.isActive()) {
@@ -71,7 +71,7 @@ public final class AccessoryCompat {
         if (player == null) {
             return false;
         }
-        if (ModList.get().isLoaded(TCIds.CURIOS) && ThaumaturgeCuriosCompat.rechargeFirstCurio(player)) {
+        if (ModList.get().isLoaded(TTIds.CURIOS) && ThaumaturgeCuriosCompat.rechargeFirstCurio(player)) {
             return true;
         }
         return ThaumaturgeTrinketsCompat.isActive() && ThaumaturgeTrinketsCompat.rechargeFirstTrinket(player);
@@ -82,7 +82,7 @@ public final class AccessoryCompat {
         if (entity == null || predicate == null) {
             return refs;
         }
-        if (ModList.get().isLoaded(TCIds.CURIOS)) {
+        if (ModList.get().isLoaded(TTIds.CURIOS)) {
             refs.addAll(ThaumaturgeCuriosCompat.equippedPouches(entity, predicate));
         }
         if (ThaumaturgeTrinketsCompat.isActive()) {
