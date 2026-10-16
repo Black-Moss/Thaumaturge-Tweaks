@@ -13,7 +13,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 public final class ReiRecipeEntries {
-
     private ReiRecipeEntries() {
     }
 

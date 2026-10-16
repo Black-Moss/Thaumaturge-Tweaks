@@ -9,7 +9,7 @@
 ## 功能特性
 
 ### REI 集成（需要 REI）
-为 [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) 添加了Thaumaturge全部内容支持：
+为 [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) 添加了Thaumaturge全部内容支持。
 
 ### Trinkets 支持（需要 Trinkets）
 Thaumaturge 的饰品装在 [Trinkets](https://modrinth.com/mod/trinkets-updated) 槽位中也能正常生效，不再仅限于 Curios —— 两个饰品模组都会识别，可任选其一使用。

@@ -9,7 +9,7 @@ It adds REI recipe/information support for Thaumaturge's crafting systems, conta
 ## Features
 
 ### REI Integration (Requires REI)
-Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items):
+Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items).
 
 ### Trinkets Support (Requires Trinkets)
 Thaumaturge accessories now work when equipped in a [Trinkets](https://modrinth.com/mod/trinkets-updated) slot, not only in Curios — both accessory mods are checked, so you can keep using either one.
