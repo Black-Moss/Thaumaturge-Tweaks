@@ -144,9 +144,9 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new ArcaneWorkbenchCategory());
         registry.add(new CrucibleCategory());
-        registry.add(new InfusionCategory<>(InfusionCategory.INFUSION_ID, "recipe.type.infusion"));
-        registry.add(new InfusionCategory<>(InfusionCategory.ENCHANTMENT_ID, "recipe.type.infusion_enchantment"));
-        registry.add(new InfusionCategory<>(InfusionCategory.RUNIC_ID, "recipe.type.runic_augment"));
+        registry.add(new InfusionCategory<>(InfusionCategory.INFUSION_ID, "gui.thaumaturge.recipe_type.infusion"));
+        registry.add(new InfusionCategory<>(InfusionCategory.ENCHANTMENT_ID, "gui.thaumaturge.recipe_type.infusion_enchantment"));
+        registry.add(new InfusionCategory<>(InfusionCategory.RUNIC_ID, "gui.thaumaturge.recipe_type.runic_augment"));
         registry.add(new DustTriggerCategory());
         registry.add(new MultiblockCategory());
         registry.add(new AspectCompositionCategory(pickIconAspect()));
