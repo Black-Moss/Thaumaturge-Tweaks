@@ -1,18 +1,15 @@
 package com.blackmoss.thaumaturgetweaks.compat;
 
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
-import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketSlotAdapter;
+import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketState;
 import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat;
 import com.leclowndu93150.thaumaturge.compat.curio.ThaumaturgeCuriosCompat.CurioPouchRef;
-import eu.pb4.trinkets.api.TrinketSlotAccess;
-import eu.pb4.trinkets.api.TrinketsApi;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ public final class AccessoryCompat {
     }
 
     public static boolean isAnyAccessoryModLoaded() {
-        return ModList.get().isLoaded(TTIds.CURIOS) || ThaumaturgeTrinketsCompat.isActive();
+        return ModList.get().isLoaded(TTIds.CURIOS) || TrinketState.isLoaded();
     }
 
     public static boolean isEquipped(LivingEntity entity, Item item) {
@@ -34,7 +31,7 @@ public final class AccessoryCompat {
         if (ModList.get().isLoaded(TTIds.CURIOS) && ThaumaturgeCuriosCompat.isCurioEquipped(entity, item)) {
             return true;
         }
-        return ThaumaturgeTrinketsCompat.isActive() && ThaumaturgeTrinketsCompat.isEquipped(entity, item);
+        return TrinketState.isLoaded() && ThaumaturgeTrinketsCompat.isEquipped(entity, item);
     }
 
     public static ItemStack extractEquipped(LivingEntity entity, @Nullable Item item) {
@@ -47,7 +44,7 @@ public final class AccessoryCompat {
                 return removed;
             }
         }
-        if (ThaumaturgeTrinketsCompat.isActive()) {
+        if (TrinketState.isLoaded()) {
             return ThaumaturgeTrinketsCompat.extractTrinket(entity, item);
         }
         return ItemStack.EMPTY;
@@ -61,7 +58,7 @@ public final class AccessoryCompat {
         if (ModList.get().isLoaded(TTIds.CURIOS)) {
             stacks.addAll(ThaumaturgeCuriosCompat.equippedCurios(entity));
         }
-        if (ThaumaturgeTrinketsCompat.isActive()) {
+        if (TrinketState.isLoaded()) {
             stacks.addAll(ThaumaturgeTrinketsCompat.equippedTrinkets(entity));
         }
         return stacks;
@@ -74,7 +71,7 @@ public final class AccessoryCompat {
         if (ModList.get().isLoaded(TTIds.CURIOS) && ThaumaturgeCuriosCompat.rechargeFirstCurio(player)) {
             return true;
         }
-        return ThaumaturgeTrinketsCompat.isActive() && ThaumaturgeTrinketsCompat.rechargeFirstTrinket(player);
+        return TrinketState.isLoaded() && ThaumaturgeTrinketsCompat.rechargeFirstTrinket(player);
     }
 
     public static List<CurioPouchRef> equippedPouchesInEither(LivingEntity entity, Predicate<ItemStack> predicate) {
@@ -85,19 +82,8 @@ public final class AccessoryCompat {
         if (ModList.get().isLoaded(TTIds.CURIOS)) {
             refs.addAll(ThaumaturgeCuriosCompat.equippedPouches(entity, predicate));
         }
-        if (ThaumaturgeTrinketsCompat.isActive()) {
-            List<TrinketSlotAccess> matched = new ArrayList<>();
-            TrinketsApi.getAttachment(entity).forEach((slot, stack) -> {
-                if (!stack.isEmpty() && slot.isValid() && predicate.test(stack)) {
-                    matched.add(slot);
-                }
-            });
-            if (!matched.isEmpty()) {
-                IItemHandlerModifiable adapter = new TrinketSlotAdapter(matched);
-                for (int index = 0; index < matched.size(); index++) {
-                    refs.add(new CurioPouchRef(adapter, index));
-                }
-            }
+        if (TrinketState.isLoaded()) {
+            refs.addAll(ThaumaturgeTrinketsCompat.equippedPouches(entity, predicate));
         }
         return refs;
     }

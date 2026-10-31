@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.GogglesTrinketHandler;
-import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
+import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketState;
 import com.leclowndu93150.thaumaturge.api.items.GogglesAccess;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ public abstract class GogglesAccessMixin {
     @Inject(method = "wearsRevealingGear", at = @At("HEAD"), cancellable = true)
     private static void thaumaturgetweaks$trinketsWearsRevealingGear(
             LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (ThaumaturgeTrinketsCompat.isActive() && GogglesTrinketHandler.wearsGoggles(entity)) {
+        if (TrinketState.isLoaded() && GogglesTrinketHandler.wearsGoggles(entity)) {
             cir.setReturnValue(true);
         }
     }

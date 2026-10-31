@@ -2,6 +2,7 @@ package com.blackmoss.thaumaturgetweaks;
 
 import com.blackmoss.thaumaturgetweaks.compat.curios.GogglesCurioHandler;
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat;
+import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketState;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
 import com.mojang.logging.LogUtils;
@@ -24,7 +25,7 @@ public class ThaumaturgeTweaks {
         if (ModList.get().isLoaded("curios")) {
             GogglesCurioHandler.register(modEventBus);
         }
-        if (ModList.get().isLoaded("trinkets_updated")) {
+        if (TrinketState.isLoaded()) {
             ThaumaturgeTrinketsCompat.register(modEventBus);
         }
     }
