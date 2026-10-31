@@ -1,4 +1,5 @@
 license = "${mod_license}"
+issueTrackerURL = "https://github.com/Black-Moss/Thaumaturge-Tweaks/issues"
 
 [[mods]]
 modId = "${mod_id}"
@@ -7,6 +8,7 @@ displayName = "${mod_name}"
 logoFile = "logo.png"
 authors = "${mod_authors}"
 description = "${mod_description}"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/thaumaturge-tweaks"
 
 [[mixins]]
 config = "${mod_id}.mixins.json"
@@ -29,6 +31,13 @@ side = "BOTH"
 modId = "thaumaturge"
 type = "required"
 versionRange = "[1.0.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "rei"
+type = "optional"
+versionRange = "[26.1.819,)"
 ordering = "AFTER"
 side = "BOTH"
 
