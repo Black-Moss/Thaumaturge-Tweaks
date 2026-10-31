@@ -1,6 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.client;
 
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 public final class AspectSlotAnnotations {
     private static final String PHIAL_PATH = "phial";
     private static final String ESSENTIA_CRYSTAL_PATH = "essentia_crystal";
-    private static final ResourceLocation ASPECT_BACK_TEXTURE = TCIds.rl("textures/aspects/_back.png");
+    private static final ResourceLocation ASPECT_BACK_TEXTURE = TTIds.rl("textures/aspects/_back.png");
     private static final int BACK_TEXTURE_SIZE = 64;
     private static final int ASPECT_TEXTURE_SIZE = 32;
     private static final int ICON_SIZE = 16;

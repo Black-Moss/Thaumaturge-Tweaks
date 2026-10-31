@@ -11,7 +11,7 @@ import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapedCraft
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneShapelessCraftingRecipe;
 import com.leclowndu93150.thaumaturge.content.taint.item.EssentiaCrystalFactory;
 import com.leclowndu93150.thaumaturge.content.workbench.MenuArcaneWorkbench;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -62,7 +62,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
     private final Renderer icon;
 
     public ArcaneWorkbenchCategory() {
-        this.icon = EntryStacks.of(TCItems.ARCANE_WORKBENCH.get());
+        this.icon = EntryStacks.of(TTItems.ARCANE_WORKBENCH.get());
     }
 
     static ItemStack resultOf(ArcaneCraftingRecipe recipe) {

@@ -7,7 +7,7 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.TCIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.content.recipe.crucible.CrucibleRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -47,7 +47,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
     private final Renderer icon;
 
     public CrucibleCategory() {
-        this.icon = EntryStacks.of(TCItems.CRUCIBLE.get());
+        this.icon = EntryStacks.of(TTItems.CRUCIBLE.get());
     }
 
     static ItemStack resultOf(CrucibleRecipe recipe) {

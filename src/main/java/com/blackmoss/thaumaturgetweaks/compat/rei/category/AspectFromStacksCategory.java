@@ -7,7 +7,7 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -48,7 +48,7 @@ public final class AspectFromStacksCategory implements DisplayCategory<AspectFro
     private final Renderer icon;
 
     public AspectFromStacksCategory() {
-        this.icon = EntryStacks.of(TCItems.THAUMONOMICON.get());
+        this.icon = EntryStacks.of(TTItems.THAUMONOMICON.get());
     }
 
     private static int aspectIdOrMax(Registry<IAspect> registry, Holder<IAspect> holder) {

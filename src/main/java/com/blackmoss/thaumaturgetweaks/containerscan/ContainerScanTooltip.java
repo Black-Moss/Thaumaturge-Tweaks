@@ -1,7 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
 import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
@@ -16,7 +16,7 @@ public final class ContainerScanTooltip {
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
-        if (!event.getItemStack().is(TCItems.THAUMOMETER.get())) {
+        if (!event.getItemStack().is(TTItems.THAUMOMETER.get())) {
             return;
         }
         event.getToolTip()

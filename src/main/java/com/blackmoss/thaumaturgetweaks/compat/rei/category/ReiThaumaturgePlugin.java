@@ -7,14 +7,13 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
-import com.leclowndu93150.thaumaturge.api.aspect.TCAspects;
-import com.leclowndu93150.thaumaturge.client.screen.casters.FocalManipulatorScreen;
+import com.leclowndu93150.thaumaturge.api.aspect.TTAspects;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerTagRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
-import com.leclowndu93150.thaumaturge.registry.TCRecipeTypes;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
+import com.leclowndu93150.thaumaturge.registry.TTRecipeTypes;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
@@ -66,7 +65,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         }
         List<Holder.Reference<IAspect>> all = ResearchUtils.listAll(access, IAspect.REGISTRY_KEY);
         for (Holder.Reference<IAspect> holder : all) {
-            if (holder.is(TCAspects.PRAECANTATIO)) {
+            if (holder.is(TTAspects.PRAECANTATIO)) {
                 return holder;
             }
         }
@@ -156,25 +155,25 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
         registry.add(new InfernalFurnaceCategory());
 
         registry.addWorkstations(ArcaneWorkbenchCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.ARCANE_WORKBENCH.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.ARCANE_WORKBENCH.get())));
         registry.addWorkstations(CrucibleCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.CRUCIBLE.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.CRUCIBLE.get())));
         registry.addWorkstations(InfusionCategory.INFUSION_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(InfusionCategory.ENCHANTMENT_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(InfusionCategory.RUNIC_ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFUSION_MATRIX.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFUSION_MATRIX.get())));
         registry.addWorkstations(DustTriggerCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())));
         registry.addWorkstations(MultiblockCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())));
         registry.addWorkstations(AspectCompositionCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.THAUMONOMICON.get())));
         registry.addWorkstations(AspectFromStacksCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.THAUMONOMICON.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.THAUMONOMICON.get())));
         registry.addWorkstations(InfernalFurnaceCategory.ID,
-                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.INFERNAL_FURNACE.get())));
+                EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.INFERNAL_FURNACE.get())));
     }
 
     @Override
@@ -185,12 +184,12 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
             return;
         }
 
-        forEachTypedRecipe(level, TCRecipeTypes.ARCANE.get(), holder -> registry.add(new ArcaneWorkbenchDisplay(holder)));
-        forEachTypedRecipe(level, TCRecipeTypes.CRUCIBLE.get(), holder -> registry.add(new CrucibleDisplay(holder)));
-        forEachTypedRecipe(level, TCRecipeTypes.INFUSION.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.INFUSION_ENCHANTMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.RUNIC_AUGMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID)));
-        forEachTypedRecipe(level, TCRecipeTypes.DUST_TRIGGER.get(), holder -> {
+        forEachTypedRecipe(level, TTRecipeTypes.ARCANE.get(), holder -> registry.add(new ArcaneWorkbenchDisplay(holder)));
+        forEachTypedRecipe(level, TTRecipeTypes.CRUCIBLE.get(), holder -> registry.add(new CrucibleDisplay(holder)));
+        forEachTypedRecipe(level, TTRecipeTypes.INFUSION.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.INFUSION_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.INFUSION_ENCHANTMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.ENCHANTMENT_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.RUNIC_AUGMENT.get(), holder -> registry.add(new InfusionDisplay<>(holder, InfusionCategory.RUNIC_ID)));
+        forEachTypedRecipe(level, TTRecipeTypes.DUST_TRIGGER.get(), holder -> {
             if (holder.value() instanceof DustTriggerSimpleRecipe || holder.value() instanceof DustTriggerTagRecipe) {
                 registry.add(new DustTriggerDisplay(holder));
             } else if (holder.value() instanceof DustTriggerMultiblockRecipe) {

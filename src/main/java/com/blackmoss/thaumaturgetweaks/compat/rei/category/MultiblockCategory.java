@@ -2,14 +2,14 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.recipe.Blueprint;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintPart;
 import com.leclowndu93150.thaumaturge.api.recipe.BlueprintSource;
 import com.leclowndu93150.thaumaturge.content.infusion.BlockEntityInfusionMatrix;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
-import com.leclowndu93150.thaumaturge.registry.TCBlocks;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTBlocks;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -56,7 +56,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private static final int SLOT_ROW_SPACING = 20;
     private static final int ARROW_X = 39;
     private static final int ARROW_Y = 0;
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final float PREVIEW_CENTER_X = 54.5F;
     private static final float PREVIEW_CENTER_Y = 56.5F;
     private static final float PREVIEW_SCALE = 15.0F;
@@ -69,9 +69,9 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
     private int rotation = 0;
 
     public MultiblockCategory() {
-        this.icon = EntryStacks.of(TCItems.SALIS_MUNDUS.get());
+        this.icon = EntryStacks.of(TTItems.SALIS_MUNDUS.get());
         this.matrixPreview = new BlockEntityInfusionMatrix(BlockPos.ZERO,
-                TCBlocks.INFUSION_MATRIX.get().defaultBlockState());
+                TTBlocks.INFUSION_MATRIX.get().defaultBlockState());
     }
 
     @Nullable
@@ -156,7 +156,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
             pose.pushPose();
             pose.translate((float) blockPos.getX(), (float) blockPos.getY(), (float) blockPos.getZ());
             BlockState state = entry.getValue();
-            if (state.is(TCBlocks.INFUSION_MATRIX.get())) {
+            if (state.is(TTBlocks.INFUSION_MATRIX.get())) {
                 Minecraft.getInstance().getBlockEntityRenderDispatcher()
                         .renderItem(matrixPreview, pose, buffers, 15728880, OverlayTexture.NO_OVERLAY);
             } else {
@@ -210,7 +210,7 @@ public final class MultiblockCategory implements DisplayCategory<MultiblockDispl
         widgets.add(resultIcon.toWidget(start.x + RESULT_ICON_X, start.y + RESULT_ICON_Y));
 
         Slot dustSlot = Widgets.createSlot(new Point(start.x + DUST_SLOT_X, start.y + DUST_SLOT_Y))
-                .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TCItems.SALIS_MUNDUS.get())))
+                .entry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(TTItems.SALIS_MUNDUS.get())))
                 .disableBackground().markInput();
         widgets.add(dustSlot);
         widgets.add(Widgets.withTooltip(dustSlot,

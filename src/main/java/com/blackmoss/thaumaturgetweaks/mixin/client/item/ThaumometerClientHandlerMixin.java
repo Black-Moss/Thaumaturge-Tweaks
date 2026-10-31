@@ -5,7 +5,7 @@ import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanRules;
 import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.leclowndu93150.thaumaturge.client.item.ThaumometerClientHandler;
 import com.leclowndu93150.thaumaturge.content.item.ThaumometerItem;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ public abstract class ThaumometerClientHandlerMixin {
         if (player == null) {
             return;
         }
-        if (!player.isUsingItem() || !player.getUseItem().is(TCItems.THAUMOMETER.get())) {
+        if (!player.isUsingItem() || !player.getUseItem().is(TTItems.THAUMOMETER.get())) {
             thaumaturgetweaks$requestSent = false;
             return;
         }

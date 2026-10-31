@@ -1,9 +1,9 @@
 package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -39,7 +39,7 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
     private static final int ARROW_Y = 10;
     private static final int RESULT_ICON_X = 89;
     private static final int RESULT_ICON_Y = 48;
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int FURNACE_X = 21;
     private static final int FURNACE_Y = 39;
     private final Renderer icon;
@@ -48,7 +48,7 @@ public final class InfernalFurnaceCategory implements DisplayCategory<InfernalFu
     private final ReiDrawable resultIcon = new ReiDrawable(TEXTURE, 41, 7, 30, 30, 512, 512);
 
     public InfernalFurnaceCategory() {
-        this.icon = EntryStacks.of(TCItems.INFERNAL_FURNACE.get());
+        this.icon = EntryStacks.of(TTItems.INFERNAL_FURNACE.get());
     }
 
     private static List<ItemStack> stacksOf(InfernalBonus bonus) {

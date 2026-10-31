@@ -39,5 +39,4 @@ run/
 repo/
 !**/src/**/repo/
 
-### Thaumaturge
-thaumaturge-1.21.1-NeoForge-BETA-0.4.6.jar
+/thaumaturge-

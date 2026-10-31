@@ -4,7 +4,7 @@ import com.blackmoss.thaumaturgetweaks.ThaumaturgeTweaks;
 import com.blackmoss.thaumaturgetweaks.mixin.client.screen.essentia.ThaumatoriumScreenAccessor;
 import com.leclowndu93150.thaumaturge.client.screen.ThaumatoriumScreen;
 import com.leclowndu93150.thaumaturge.content.essentia.thaumatorium.MenuThaumatorium;
-import com.leclowndu93150.thaumaturge.registry.TCSounds;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -33,7 +33,7 @@ public final class ThaumatoriumControls {
         int mouseY = (int) event.getMouseY();
         int left = screen.getGuiLeft();
         int top = screen.getGuiTop();
-        if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y, GRID_W, GRID_H)) {
+        if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y)) {
             return;
         }
         double delta = event.getScrollDeltaY();
@@ -96,14 +96,17 @@ public final class ThaumatoriumControls {
         return true;
     }
 
-    private static boolean inRect(int mx, int my, int x, int y, int w, int h) {
-        return mx >= x && mx < x + w && my >= y && my < y + h;
+    private static boolean inRect(int mx, int my, int x, int y) {
+        return mx >= x
+                && mx < x + ThaumatoriumControls.GRID_W
+                && my >= y
+                && my < y + ThaumatoriumControls.GRID_H;
     }
 
     private static void playScrollSound() {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.KEY.get(), 0.3F, 1.0F);
+            player.playSound(TTSounds.KEY.get(), 0.3F, 1.0F);
         }
     }
 }

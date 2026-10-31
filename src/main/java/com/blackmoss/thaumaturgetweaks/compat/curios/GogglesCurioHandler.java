@@ -1,6 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.compat.curios;
 
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
@@ -36,7 +36,7 @@ public final class GogglesCurioHandler {
     private static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
         ItemStack held = player.getItemInHand(event.getHand());
-        if (!held.is(TCItems.GOGGLES_REVEALING.get())) {
+        if (!held.is(TTItems.GOGGLES_REVEALING.get())) {
             return;
         }
         boolean client = player.level().isClientSide();
@@ -60,7 +60,7 @@ public final class GogglesCurioHandler {
                 return;
             }
             ItemStack held = player.getMainHandItem();
-            if (!held.is(TCItems.GOGGLES_REVEALING.get())) {
+            if (!held.is(TTItems.GOGGLES_REVEALING.get())) {
                 return;
             }
             equipToHeadCurio(player, held);
