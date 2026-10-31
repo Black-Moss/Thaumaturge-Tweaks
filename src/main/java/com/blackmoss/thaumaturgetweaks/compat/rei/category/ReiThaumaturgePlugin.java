@@ -8,6 +8,7 @@ import com.leclowndu93150.thaumaturge.api.aspect.AspectComponents;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.aspect.TTAspects;
+import com.leclowndu93150.thaumaturge.client.screen.casters.focal.FocalManipulatorScreen;
 import com.leclowndu93150.thaumaturge.content.infernalfurnace.InfernalBonus;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerMultiblockRecipe;
 import com.leclowndu93150.thaumaturge.content.recipe.dust.DustTriggerSimpleRecipe;
@@ -136,9 +137,7 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     @Override
     public void registerExclusionZones(ExclusionZones zones) {
-        zones.register(FocalManipulatorScreen.class, screen -> screen.jeiExtraAreas().stream()
-                .map(area -> new Rectangle(area.getX(), area.getY(), area.getWidth(), area.getHeight()))
-                .toList());
+        zones.register(FocalManipulatorScreen.class, screen -> List.of(new Rectangle(0, 0, screen.width, screen.height)));
     }
 
     @Override

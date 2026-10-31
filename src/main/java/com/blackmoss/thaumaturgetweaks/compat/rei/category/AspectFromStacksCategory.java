@@ -2,7 +2,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectIndexAccess;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
@@ -32,8 +32,8 @@ import java.util.function.Predicate;
 
 public final class AspectFromStacksCategory implements DisplayCategory<AspectFromStacksDisplay> {
     public static final CategoryIdentifier<AspectFromStacksDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:aspect_from_stacks");
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
-    private static final ResourceLocation INNER_TEXTURE = TCIds.rl("textures/gui/gui_inner.png");
+    private static final ResourceLocation TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation INNER_TEXTURE = TTIds.rl("textures/gui/gui_inner.png");
     private static final int WIDTH = 176;
     private static final int HEIGHT = 109;
     private static final int PAGE_SIZE = 36;

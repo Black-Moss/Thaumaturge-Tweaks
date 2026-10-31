@@ -48,7 +48,7 @@ public final class ArcaneWorkbenchDisplay implements Display {
                 list.add(itemEntry(ingredient));
             }
         }
-        for (AspectInstance instance : recipe.getCrystals().entries()) {
+        for (AspectInstance instance : recipe.crystalCost().entries()) {
             ItemStack crystal = EssentiaCrystalFactory.of(instance.aspect(), instance.amount());
             list.add(EntryIngredient.of(EntryStack.of(VanillaEntryTypes.ITEM, crystal)));
         }

@@ -1,5 +1,7 @@
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
+import com.leclowndu93150.thaumaturge.api.research.scan.ScanTarget;
+import com.leclowndu93150.thaumaturge.api.research.scan.ScannedBlock;
 import com.leclowndu93150.thaumaturge.api.research.scan.ScanningManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -11,12 +13,15 @@ public final class ContainerScanRules {
     private ContainerScanRules() {
     }
 
-    public static boolean allowsScan(Player player, Object target) {
+    public static boolean allowsScan(Player player, ScanTarget target) {
         Objects.requireNonNull(player, "player");
-        if (ScanningManager.isThingStillScannable(player, target)) {
+        if (target == null) {
+            return false;
+        }
+        if (ScanningManager.isStillScannable(player, target)) {
             return true;
         }
-        if (!(target instanceof BlockPos pos)) {
+        if (!(target instanceof ScannedBlock(BlockPos pos))) {
             return false;
         }
         Level level = player.level();

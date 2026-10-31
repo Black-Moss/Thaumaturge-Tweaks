@@ -1,6 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
-import com.leclowndu93150.thaumaturge.registry.TCItems;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +29,7 @@ public final class ContainerScanPayloads {
     private static boolean isHoldingThaumometer(ServerPlayer player) {
         ItemStack mainHand = player.getMainHandItem();
         ItemStack offHand = player.getOffhandItem();
-        return mainHand.is(TCItems.THAUMOMETER.get()) || offHand.is(TCItems.THAUMOMETER.get());
+        return mainHand.is(TTItems.THAUMOMETER.get()) || offHand.is(TTItems.THAUMOMETER.get());
     }
 
     private static boolean withinReach(ServerPlayer player, BlockPos pos) {

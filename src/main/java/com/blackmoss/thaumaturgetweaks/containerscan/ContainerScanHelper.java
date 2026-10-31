@@ -1,5 +1,6 @@
 package com.blackmoss.thaumaturgetweaks.containerscan;
 
+import com.leclowndu93150.thaumaturge.api.research.scan.ScanTarget;
 import com.leclowndu93150.thaumaturge.api.research.scan.ScanningManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,10 +11,11 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public final class
-ContainerScanHelper {
+public final class ContainerScanHelper {
     private static final int MAX_SLOTS = 512;
 
     private ContainerScanHelper() {
@@ -37,7 +39,7 @@ ContainerScanHelper {
             if (stack.isEmpty()) {
                 continue;
             }
-            if (ScanningManager.isThingStillScannable(player, stack)) {
+            if (ScanningManager.isStillScannable(player, ScanTarget.stack(stack))) {
                 return true;
             }
         }
@@ -51,12 +53,20 @@ ContainerScanHelper {
         if (handler == null) {
             return;
         }
+        List<ScanTarget> targets = new ArrayList<>();
         for (int index = 0; index < handler.getSlots() && index < MAX_SLOTS; index++) {
             ItemStack stack = handler.getStackInSlot(index);
-            if (stack.isEmpty() || !ScanningManager.isThingStillScannable(player, stack)) {
+            if (stack.isEmpty()) {
                 continue;
             }
-            ScanningManager.scanTheThing(player, stack);
+            ScanTarget target = ScanTarget.stack(stack);
+            if (!ScanningManager.isStillScannable(player, target)) {
+                continue;
+            }
+            targets.add(target);
+        }
+        if (!targets.isEmpty()) {
+            ScanningManager.scanSilently(player, targets);
         }
     }
 

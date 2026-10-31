@@ -3,7 +3,7 @@ package com.blackmoss.thaumaturgetweaks.compat.rei.category;
 import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.content.recipe.workbench.ArcaneCraftingRecipe;
@@ -37,7 +37,7 @@ import java.util.Optional;
 
 public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWorkbenchDisplay> {
     public static final CategoryIdentifier<ArcaneWorkbenchDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:arcane_workbench");
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 162;
     private static final int HEIGHT = 138;
     private static final int GRID_ORIGIN_X = 42;
@@ -136,7 +136,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
             }
         }
 
-        AspectList crystals = recipe.getCrystals();
+        AspectList crystals = recipe.crystalCost();
         if (!crystals.isEmpty()) {
             List<AspectInstance> aspects = crystals.entries().stream()
                     .sorted(Comparator.comparingInt(
@@ -163,7 +163,7 @@ public final class ArcaneWorkbenchCategory implements DisplayCategory<ArcaneWork
                 .entry(EntryStack.of(VanillaEntryTypes.ITEM, resultOf(recipe)))
                 .disableBackground().markOutput());
 
-        String vis = Integer.toString(recipe.getBaseVis());
+        String vis = Integer.toString(recipe.visCost());
         widgets.add(Widgets.createLabel(new Point(start.x + VIS_CENTER_X, start.y + VIS_Y),
                         Component.literal(vis))
                 .centered()

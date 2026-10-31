@@ -10,7 +10,7 @@ import com.leclowndu93150.thaumaturge.content.research.table.BlockEntityResearch
 import com.leclowndu93150.thaumaturge.content.research.table.MenuResearchTable;
 import com.leclowndu93150.thaumaturge.network.ServerboundTableCombinePayload;
 import com.leclowndu93150.thaumaturge.network.ServerboundTablePlaceAspectPayload;
-import com.leclowndu93150.thaumaturge.registry.TCSounds;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
@@ -90,7 +90,7 @@ public abstract class ResearchTableScreenMixin {
             );
         }
         self.thaumaturgetweaks$setDraggedAspect(null);
-        player.playSound(TCSounds.HHON.get(), 0.3F, 1.0F);
+        player.playSound(TTSounds.HHON.get(), 0.3F, 1.0F);
         cir.setReturnValue(true);
     }
 
@@ -121,7 +121,7 @@ public abstract class ResearchTableScreenMixin {
                 new ServerboundTablePlaceAspectPayload(menu.pos(), hex.q(), hex.r(), Optional.empty()));
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(TCSounds.ERASE.get(), 0.2F, 1.0F);
+            player.playSound(TTSounds.ERASE.get(), 0.2F, 1.0F);
         }
         cir.setReturnValue(true);
     }
