@@ -4,7 +4,7 @@ import com.blackmoss.thaumaturgetweaks.compat.rei.drawable.ReiDrawable;
 import com.blackmoss.thaumaturgetweaks.compat.rei.ingredient.AspectEntryDefinition;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ReiRecipeEntries;
 import com.blackmoss.thaumaturgetweaks.compat.rei.utils.ResearchUtils;
-import com.leclowndu93150.thaumaturge.TCIds;
+import com.leclowndu93150.thaumaturge.TTIds;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.content.recipe.crucible.CrucibleRecipe;
 import com.leclowndu93150.thaumaturge.registry.TTItems;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> {
     public static final CategoryIdentifier<CrucibleDisplay> ID = CategoryIdentifier.of("thaumaturgetweaks:crucible");
-    private static final ResourceLocation TEXTURE = TCIds.rl("textures/gui/gui_researchbook_overlay.png");
+    private static final ResourceLocation TEXTURE = TTIds.rl("textures/gui/gui_researchbook_overlay.png");
     private static final int WIDTH = 129;
     private static final int HEIGHT = 133;
     private static final int OUTPUT_X = 55;
@@ -61,7 +61,7 @@ public final class CrucibleCategory implements DisplayCategory<CrucibleDisplay> 
 
     @Override
     public Component getTitle() {
-        return Component.translatable("recipe.type.crucible");
+        return Component.translatable("jei.thaumaturge.category.crucible");
     }
 
     @Override
