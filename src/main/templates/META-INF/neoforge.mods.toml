@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
+issueTrackerURL = "https://github.com/Black-Moss/Thaumaturge-Tweaks/issues"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
 authors = "Black_Moss"
-description = '''
-Thaumatweaks
-'''
+description = "${mod_description}"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/thaumaturge-tweaks"
 
 [[mixins]]
 config = "${mod_id}.mixins.json"
@@ -31,6 +31,13 @@ side = "BOTH"
 [[dependencies.${ mod_id }]]
 modId = "thaumaturge"
 type = "required"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "rei"
+type = "optional"
+versionRange = "[26.1.819,)"
 ordering = "AFTER"
 side = "BOTH"
 
