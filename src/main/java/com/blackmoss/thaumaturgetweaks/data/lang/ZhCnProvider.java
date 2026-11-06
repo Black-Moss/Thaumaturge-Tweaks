@@ -5,7 +5,6 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public final class ZhCnProvider extends LanguageProvider {
-
     public ZhCnProvider(PackOutput output) {
         super(output, ThaumaturgeTweaks.MODID, "zh_cn");
     }

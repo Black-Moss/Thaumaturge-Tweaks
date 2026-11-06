@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class ContainerScreenAspectIconMixin {
-
     @Inject(method = "renderSlotContents", at = @At("TAIL"))
     private void thaumaturgetweaks$renderAspectIconOverlay(
             GuiGraphics graphics,

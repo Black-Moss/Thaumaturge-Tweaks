@@ -31,14 +31,13 @@ side = "BOTH"
 [[dependencies.${ mod_id }]]
 modId = "thaumaturge"
 type = "required"
-versionRange = "[1.0.12,)"
+versionRange = "[1.1.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.${ mod_id }]]
 modId = "rei"
 type = "optional"
-versionRange = "[26.1.819,)"
 ordering = "AFTER"
 side = "BOTH"
 
