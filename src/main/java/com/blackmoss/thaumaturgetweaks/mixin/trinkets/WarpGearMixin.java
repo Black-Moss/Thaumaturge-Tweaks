@@ -2,7 +2,7 @@ package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
 import com.leclowndu93150.thaumaturge.TTIds;
-import com.leclowndu93150.thaumaturge.content.warp.WarpManager;
+import com.leclowndu93150.thaumaturge.content.warp.WarpGear;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.List;
 
-@Mixin(WarpManager.class)
-public class WarpManagerMixin {
+@Mixin(WarpGear.class)
+public class WarpGearMixin {
     @Redirect(
-            method = "getWarpFromGear",
+            method = "worn",
             at = @At(value = "INVOKE", target = "Lnet/neoforged/fml/ModList;isLoaded(Ljava/lang/String;)Z"))
     private static boolean thaumaturgetweaks$anyAccessoryMod(ModList modList, String modId) {
         if (modList.isLoaded(modId)) {
@@ -25,7 +25,7 @@ public class WarpManagerMixin {
     }
 
     @Redirect(
-            method = "getWarpFromGear",
+            method = "worn",
             at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;equippedCurios(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
     private static List<ItemStack> thaumaturgetweaks$equippedInEitherMod(LivingEntity entity) {
         return AccessoryCompat.equippedInEither(entity);

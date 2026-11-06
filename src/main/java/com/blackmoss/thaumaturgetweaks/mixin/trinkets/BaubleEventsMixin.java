@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(BaubleEvents.class)
 public class BaubleEventsMixin {
     @Redirect(
-            method = {"onFall", "onDeath", "onPickupXp"},
+            method = {"claimUndyingCharm", "hasCurio"},
             at = @At(value = "INVOKE", target = "Lnet/neoforged/fml/ModList;isLoaded(Ljava/lang/String;)Z"))
     private static boolean thaumaturgetweaks$anyAccessoryMod(ModList modList, String modTarget) {
         if (modList.isLoaded(modTarget)) {
@@ -24,14 +24,14 @@ public class BaubleEventsMixin {
     }
 
     @Redirect(
-            method = {"onFall", "onPickupXp"},
+            method = "hasCurio",
             at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;isCurioEquipped(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/Item;)Z"))
     private static boolean thaumaturgetweaks$equippedInEitherMod(LivingEntity entity, Item item) {
         return AccessoryCompat.isEquipped(entity, item);
     }
 
     @Redirect(
-            method = "onDeath",
+            method = "claimUndyingCharm",
             at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;extractCurio(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/Item;)Lnet/minecraft/world/item/ItemStack;"))
     private static ItemStack thaumaturgetweaks$extractFromEitherMod(LivingEntity entity, Item item) {
         return AccessoryCompat.extractEquipped(entity, item);

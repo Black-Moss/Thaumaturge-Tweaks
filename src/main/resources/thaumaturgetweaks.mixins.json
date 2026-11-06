@@ -10,7 +10,7 @@
     "trinkets.GogglesAccessMixin",
     "trinkets.RunicShieldingMixin",
     "trinkets.ServerboundCloudJumpPayloadMixin",
-    "trinkets.WarpManagerMixin",
+    "trinkets.WarpGearMixin",
     "trinkets.client.CloudRingClientHandlerMixin"
   ],
   "client": [

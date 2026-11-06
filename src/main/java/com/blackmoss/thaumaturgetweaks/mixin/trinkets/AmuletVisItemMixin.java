@@ -2,17 +2,19 @@ package com.blackmoss.thaumaturgetweaks.mixin.trinkets;
 
 import com.blackmoss.thaumaturgetweaks.compat.AccessoryCompat;
 import com.leclowndu93150.thaumaturge.TTIds;
-import com.leclowndu93150.thaumaturge.content.equipment.bauble.AmuletVisItem;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(AmuletVisItem.class)
+import java.util.List;
+
+@Mixin(targets = "com.leclowndu93150.thaumaturge.content.equipment.bauble.AmuletVisItem$CurioSource")
 public class AmuletVisItemMixin {
     @Redirect(
-            method = "wornTick",
+            method = "collect",
             at = @At(value = "INVOKE", target = "Lnet/neoforged/fml/ModList;isLoaded(Ljava/lang/String;)Z"))
     private static boolean thaumaturgetweaks$anyAccessoryMod(ModList modList, String modId) {
         if (modList.isLoaded(modId)) {
@@ -22,9 +24,9 @@ public class AmuletVisItemMixin {
     }
 
     @Redirect(
-            method = "wornTick",
-            at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;rechargeFirstCurio(Lnet/minecraft/world/entity/player/Player;)Z"))
-    private static boolean thaumaturgetweaks$rechargeEitherMod(Player player) {
-        return AccessoryCompat.rechargeFirstEquipped(player);
+            method = "collect",
+            at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;equippedCurios(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
+    private static List<ItemStack> thaumaturgetweaks$equippedInEitherMod(LivingEntity entity) {
+        return AccessoryCompat.equippedInEither(entity);
     }
 }

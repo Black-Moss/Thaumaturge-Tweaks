@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 @Mixin(CasterManager.class)
 public class CasterManagerMixin {
     @Redirect(
-            method = "changeFocus",
+            method = "pouchStores",
             at = @At(value = "INVOKE", target = "Lnet/neoforged/fml/ModList;isLoaded(Ljava/lang/String;)Z"))
     private static boolean thaumaturgetweaks$anyAccessoryMod(ModList modList, String modId) {
         if (modList.isLoaded(modId)) {
@@ -27,7 +27,7 @@ public class CasterManagerMixin {
     }
 
     @Redirect(
-            method = "changeFocus",
+            method = "pouchStores",
             at = @At(value = "INVOKE", target = "Lcom/leclowndu93150/thaumaturge/compat/curio/ThaumaturgeCuriosCompat;equippedPouches(Lnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Predicate;)Ljava/util/List;"))
     private static List<ThaumaturgeCuriosCompat.CurioPouchRef> thaumaturgetweaks$pouches(
             LivingEntity entity, Predicate<ItemStack> predicate) {

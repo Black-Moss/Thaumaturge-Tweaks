@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ThaumatoriumScreen.class)
 public interface ThaumatoriumScreenAccessor {
-    @Accessor("index")
+    @Accessor("scrollIndex")
     int thaumaturgetweaks$index();
 
-    @Accessor("index")
+    @Accessor("scrollIndex")
     void thaumaturgetweaks$setIndex(int index);
 }
