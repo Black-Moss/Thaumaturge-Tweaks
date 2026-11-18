@@ -17,9 +17,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public final class AccessoryCompat {
-    private AccessoryCompat() {
-    }
-
     public static boolean isAnyAccessoryModLoaded() {
         return ModList.get().isLoaded(TTIds.CURIOS) || TrinketState.isLoaded();
     }

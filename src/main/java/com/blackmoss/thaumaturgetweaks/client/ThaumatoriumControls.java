@@ -21,9 +21,6 @@ public final class ThaumatoriumControls {
     private static final int GRID_H = 48;
     private static final int VISIBLE = 6;
 
-    private ThaumatoriumControls() {
-    }
-
     @SubscribeEvent
     public static void onMouseScrolled(ScreenEvent.MouseScrolled.Pre event) {
         if (!(event.getScreen() instanceof ThaumatoriumScreen screen)) {

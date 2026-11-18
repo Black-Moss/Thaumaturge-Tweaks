@@ -11,9 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GogglesAccess.class)
 public abstract class GogglesAccessMixin {
-    private GogglesAccessMixin() {
-    }
-
     @Inject(method = "wearsRevealingGear", at = @At("HEAD"), cancellable = true)
     private static void thaumaturgetweaks$trinketsWearsRevealingGear(
             LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {

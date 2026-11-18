@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 public final class AspectVesselItemEntryRenderer implements EntryRenderer<ItemStack> {
-
     private final EntryRenderer<ItemStack> fallback;
 
     public AspectVesselItemEntryRenderer(EntryRenderer<ItemStack> fallback) {

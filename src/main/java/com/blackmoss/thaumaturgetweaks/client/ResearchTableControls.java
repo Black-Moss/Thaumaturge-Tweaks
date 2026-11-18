@@ -25,9 +25,6 @@ public final class ResearchTableControls {
     private static final int SHEET_SIZE = 150;
     private static final int HELPER_ROWS = 7;
 
-    private ResearchTableControls() {
-    }
-
     @SubscribeEvent
     public static void onMouseScrolled(ScreenEvent.MouseScrolled.Pre event) {
         if (!(event.getScreen() instanceof ResearchTableScreen screen)) {

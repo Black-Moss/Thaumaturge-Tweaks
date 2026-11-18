@@ -10,9 +10,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public final class VerdantCharmTrinketHandler {
-    private VerdantCharmTrinketHandler() {
-    }
-
     public static void register(IEventBus modBus) {
         modBus.addListener(VerdantCharmTrinketHandler::onCommonSetup);
     }

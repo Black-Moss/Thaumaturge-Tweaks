@@ -7,8 +7,6 @@ public final class TrinketState {
 
     private static final boolean LOADED = ModList.get().isLoaded(MOD_ID);
 
-    private TrinketState() {
-    }
 
     public static boolean isLoaded() {
         return LOADED;

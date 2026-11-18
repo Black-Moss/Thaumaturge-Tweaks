@@ -22,9 +22,9 @@ import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID, value = Dist.CLIENT)
 public final class AspectSlotAnnotations {
-    private static final Identifier PHIAL_ID = TTIds.rl("phial");
-    private static final Identifier ESSENTIA_CRYSTAL_ID = TTIds.rl("essentia_crystal");
-    private static final Identifier ASPECT_BACK_TEXTURE = TTIds.rl("textures/aspects/_back.png");
+    public static final Identifier PHIAL_ID = TTIds.rl("phial");
+    public static final Identifier ESSENTIA_CRYSTAL_ID = TTIds.rl("essentia_crystal");
+    public static final Identifier ASPECT_BACK_TEXTURE = TTIds.rl("textures/aspects/_back.png");
 
     private AspectSlotAnnotations() {
     }
@@ -35,10 +35,6 @@ public final class AspectSlotAnnotations {
         }
         Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
         return id.equals(PHIAL_ID) || id.equals(ESSENTIA_CRYSTAL_ID);
-    }
-
-    public static Identifier aspectBackTexture() {
-        return ASPECT_BACK_TEXTURE;
     }
 
     public static boolean renderAspectIcon(GuiGraphicsExtractor graphics, int x, int y, ItemStack stack) {

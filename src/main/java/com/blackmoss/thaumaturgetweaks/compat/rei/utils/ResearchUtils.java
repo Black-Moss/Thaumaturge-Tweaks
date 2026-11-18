@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ResearchUtils {
-    private ResearchUtils() {
-    }
-
     @NotNull
     public static List<Component> generateMissingResearchList(ResearchGate... research) {
         List<Component> list = new ArrayList<>();

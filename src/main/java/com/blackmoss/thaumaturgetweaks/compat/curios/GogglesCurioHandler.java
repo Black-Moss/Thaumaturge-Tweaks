@@ -18,9 +18,6 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import java.util.Optional;
 
 public final class GogglesCurioHandler {
-    private GogglesCurioHandler() {
-    }
-
     public static void register(IEventBus modBus) {
         NeoForge.EVENT_BUS.addListener(GogglesCurioHandler::onRightClickItem);
         modBus.addListener(GogglesCurioHandler::registerPayloads);

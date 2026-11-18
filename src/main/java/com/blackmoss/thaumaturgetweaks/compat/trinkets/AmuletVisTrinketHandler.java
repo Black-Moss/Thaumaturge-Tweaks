@@ -10,10 +10,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public final class AmuletVisTrinketHandler {
-
-    private AmuletVisTrinketHandler() {
-    }
-
     public static void register(IEventBus modBus) {
         modBus.addListener(AmuletVisTrinketHandler::onCommonSetup);
     }

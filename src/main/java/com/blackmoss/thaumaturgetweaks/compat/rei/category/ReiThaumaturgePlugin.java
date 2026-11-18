@@ -154,10 +154,6 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
 
     @Override
     public void registerExclusionZones(ExclusionZones zones) {
-        // 父模组 26.1.2：FocalManipulatorScreen 从 client.screen.casters 移到 ...casters.focal，
-        // 且不再提供 jeiExtraAreas()——额外区域改由父模组自己的
-        // FocalManipulatorGuiHandler#getGuiExtraAreas 计算：整屏都算（聚焦操纵器画布很大）。
-        // 这里照同样规则给 REI 声明排除区，避免 REI 的界面元素画在它上面。
         zones.register(FocalManipulatorScreen.class,
                 screen -> List.of(new Rectangle(0, 0, screen.width, screen.height)));
     }
@@ -166,9 +162,9 @@ public final class ReiThaumaturgePlugin implements REIClientPlugin {
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new ArcaneWorkbenchCategory());
         registry.add(new CrucibleCategory());
-        registry.add(new InfusionCategory<>(InfusionCategory.INFUSION_ID, "recipe.type.infusion"));
-        registry.add(new InfusionCategory<>(InfusionCategory.ENCHANTMENT_ID, "recipe.type.infusion_enchantment"));
-        registry.add(new InfusionCategory<>(InfusionCategory.RUNIC_ID, "recipe.type.runic_augment"));
+        registry.add(new InfusionCategory<>(InfusionCategory.INFUSION_ID, "gui.thaumaturge.recipe_type.infusion"));
+        registry.add(new InfusionCategory<>(InfusionCategory.ENCHANTMENT_ID, "gui.thaumaturge.recipe_type.infusion_enchantment"));
+        registry.add(new InfusionCategory<>(InfusionCategory.RUNIC_ID, "gui.thaumaturge.recipe_type.runic_augment"));
         registry.add(new DustTriggerCategory());
         registry.add(new MultiblockCategory());
         registry.add(new AspectCompositionCategory(pickIconAspect()));

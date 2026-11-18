@@ -7,9 +7,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public final class CuriosityBandTrinketHandler {
-    private CuriosityBandTrinketHandler() {
-    }
-
     public static void register(IEventBus modBus) {
         modBus.addListener(CuriosityBandTrinketHandler::onClientSetup);
     }

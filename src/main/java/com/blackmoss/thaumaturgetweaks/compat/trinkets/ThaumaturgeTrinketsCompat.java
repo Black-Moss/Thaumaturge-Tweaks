@@ -31,9 +31,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public final class ThaumaturgeTrinketsCompat {
-    private ThaumaturgeTrinketsCompat() {
-    }
-
     public static void register(IEventBus modBus) {
         GogglesTrinketHandler.register(modBus);
         CuriosityBandTrinketHandler.register(modBus);

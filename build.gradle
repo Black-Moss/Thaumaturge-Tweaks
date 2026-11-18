@@ -23,7 +23,7 @@ repositories {
         name = 'JEI Maven'
         url = 'https://maven.blamejared.com/'
     }
-    
+
     maven {
         name = "Modrinth Maven"
         url = "https://api.modrinth.com/maven"
@@ -101,10 +101,10 @@ configurations {
 
 dependencies {
     // Lithostitched
-    implementation "maven.modrinth:lithostitched:${lithostitched_version}"
+    implementation "maven.modrinth:lithostitched:${lithostitched_version}-neoforge-26.1"
 
     // Thaumaturge
-    implementation "curse.maven:thaumaturge-1628024:${thaumaturge_version}"
+    implementation "curse.maven:thaumaturge-1628024:${thaumaturge_id}"
 
     // Architectury API
     api "dev.architectury:architectury-neoforge:${architectury_version}"
@@ -120,7 +120,7 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     // Jade
-    implementation "maven.modrinth:jade:${jade_version}"
+    implementation "maven.modrinth:jade:${jade_version}+neoforge"
 
     // Trinkets Updated
     compileOnly "eu.pb4:trinkets:${trinkets_version}"
@@ -137,7 +137,12 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            thaumaturge_version    : thaumaturge_version,
+            curios_version         : curios_version,
+            jade_version           : jade_version,
+            trinkets_version       : trinkets_version,
+            rei_version            : rei_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties
