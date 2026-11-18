@@ -12,12 +12,15 @@ It adds REI recipe/information support for Thaumaturge's crafting systems, conta
 ## Features
 
 ### REI Integration (Requires REI)
+
 Adds full support for Thaumaturge content in [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items).
 
 ### Trinkets Support (Requires Trinkets)
+
 Thaumaturge accessories now work when equipped in a [Trinkets](https://modrinth.com/mod/trinkets-updated) slot, not only in Curios — both accessory mods are checked, so you can keep using either one.
 
 ### Research Table Controls
+
 Quality-of-life enhancements for the Research Table:
 
 - Scroll the **aspect palette** with the **mouse wheel** (hover over the palette) or the **PageUp / PageDown / arrow keys**.
@@ -26,12 +29,14 @@ Quality-of-life enhancements for the Research Table:
 - **Right-click** a placed aspect on the research hex grid to erase it (same as left-click erase).
 
 ### Thaumatorium Controls
+
 Quality-of-life controls for the Thaumatorium (automatic alchemy) screen:
 
 - **Mouse wheel** over the recipe grid — previous/next page (same as clicking the up/down arrows)
 - **PageUp / PageDown** or **Up/Down arrow keys** — previous/next page
 
 ### Aspect Icons on Shift (Essentia Phial & Crystal Shards)
+
 Hold **Shift** to see the actual **aspect icon** on certain aspect-carrying items (inspired by [Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations); the render also borrows the material-preview style of Avaritia's singularity items):
 
 - While **Shift** is held, **Essentia Phials** and **Essentia Crystal Shards** render as their contained **aspect icon** (including the aspect's color) instead of the phial/shard texture — in GUIs, in hand, as dropped items, and in REI entry panels.

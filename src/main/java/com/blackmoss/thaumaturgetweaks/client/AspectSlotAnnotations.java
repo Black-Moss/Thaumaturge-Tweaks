@@ -26,9 +26,6 @@ public final class AspectSlotAnnotations {
     public static final Identifier ESSENTIA_CRYSTAL_ID = TTIds.rl("essentia_crystal");
     public static final Identifier ASPECT_BACK_TEXTURE = TTIds.rl("textures/aspects/_back.png");
 
-    private AspectSlotAnnotations() {
-    }
-
     public static boolean isAspectVessel(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return false;

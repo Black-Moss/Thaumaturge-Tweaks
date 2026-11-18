@@ -25,6 +25,7 @@ import java.util.Map;
 
 public final class GogglesTrinketHandler {
     private static final String HEAD_SLOT_PREFIX = "head/";
+
     public static void register(IEventBus modBus) {
         modBus.addListener(GogglesTrinketHandler::onRegisterPayloads);
         NeoForge.EVENT_BUS.addListener(GogglesTrinketHandler::onRightClickItem);
