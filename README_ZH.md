@@ -12,6 +12,7 @@
 ## 功能特性
 
 ### REI 集成（需要 REI）
+
 为 [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items) 添加了Thaumaturge全部内容支持：
 
 ### 容器方块扫描
@@ -21,6 +22,7 @@
 - 需要客户端与服务端同时安装本模组。
 
 ### 研究台操作增强
+
 为研究台界面提供便利操作：
 
 - **要素调色板**可通过**鼠标滚轮**（悬停在调色板区域）或 **PageUp / PageDown / 方向键**翻页。
@@ -29,12 +31,14 @@
 - **鼠标右键**点击研究六边形网格上已放置的要素可将其擦除（与左键擦除一致）。
 
 ### 神秘炼金塔操作增强
+
 为神秘炼金塔（自动炼金）界面提供便利操作：
 
 - **鼠标滚轮**（悬停在配方网格区域）——上一页/下一页（与点击上下箭头等效）
 - **PageUp / PageDown** 或**上下方向键**——上一页/下一页
 
 ### 按住 Shift 显示要素图标（要素安瓿 & 水晶碎片）
+
 按住 **Shift** 可直接查看部分含要素物品的**要素图标**（参考 [神秘时代要素注释 Thaumcraft Aspect Annotations](https://github.com/Aedial/Thaumcraft-Aspect-Annotations)，渲染风格亦借鉴了 Avaritia 奇点物品的材料预览）：
 
 - 按住 **Shift** 时，**要素安瓿**与**要素水晶碎片**会以所含的**要素图标**（含要素颜色）渲染，取代其默认的安瓿/碎片贴图——在背包界面、手持状态、掉落物以及 REI 配方界面中均生效。
