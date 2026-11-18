@@ -30,7 +30,7 @@ public final class ThaumatoriumControls {
         int mouseY = (int) event.getMouseY();
         int left = screen.getLeftPos();
         int top = screen.getTopPos();
-        if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y, GRID_W, GRID_H)) {
+        if (!inRect(mouseX, mouseY, left + GRID_X, top + GRID_Y)) {
             return;
         }
         double delta = event.getScrollDeltaY();
@@ -93,8 +93,8 @@ public final class ThaumatoriumControls {
         return true;
     }
 
-    private static boolean inRect(int mx, int my, int x, int y, int w, int h) {
-        return mx >= x && mx < x + w && my >= y && my < y + h;
+    private static boolean inRect(int mx, int my, int x, int y) {
+        return mx >= x && mx < x + ThaumatoriumControls.GRID_W && my >= y && my < y + ThaumatoriumControls.GRID_H;
     }
 
     private static void playScrollSound() {

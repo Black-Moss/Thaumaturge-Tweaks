@@ -6,7 +6,7 @@
   "client": [
     "client.screen.essentia.ThaumatoriumScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
-    "client.screen.research.ResearchTableScreenMixin",
+    "client.screen.research.ResearchTableScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,7 +5,6 @@ import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketState;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
-import com.mojang.logging.LogUtils;
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,7 +12,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import org.slf4j.Logger;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID)
 @Mod(ThaumaturgeTweaks.MODID)

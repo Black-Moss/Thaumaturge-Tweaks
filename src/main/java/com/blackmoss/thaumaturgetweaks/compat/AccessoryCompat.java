@@ -61,6 +61,7 @@ public final class AccessoryCompat {
         return stacks;
     }
 
+    @SuppressWarnings("unused")
     public static boolean rechargeFirstEquipped(Player player) {
         if (player == null) {
             return false;

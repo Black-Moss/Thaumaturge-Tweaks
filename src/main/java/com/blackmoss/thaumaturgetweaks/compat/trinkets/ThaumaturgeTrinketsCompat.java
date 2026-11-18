@@ -72,7 +72,7 @@ public final class ThaumaturgeTrinketsCompat {
             return List.of();
         }
         List<ItemStack> stacks = new ArrayList<>();
-        TrinketsApi.getAttachment(entity).forEach((slot, stack) -> {
+        TrinketsApi.getAttachment(entity).forEach((_, stack) -> {
             if (!stack.isEmpty()) {
                 stacks.add(stack);
             }
