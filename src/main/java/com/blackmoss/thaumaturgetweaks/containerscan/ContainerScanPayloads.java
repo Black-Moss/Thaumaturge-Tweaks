@@ -10,9 +10,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public final class ContainerScanPayloads {
     private static final double REACH_TOLERANCE = 1.5;
 
-    private ContainerScanPayloads() {
-    }
-
     public static void handleScanContainer(ServerboundScanContainerPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player() instanceof ServerPlayer player)) {

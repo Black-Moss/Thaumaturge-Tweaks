@@ -18,9 +18,6 @@ import java.util.Objects;
 public final class ContainerScanHelper {
     private static final int MAX_SLOTS = 512;
 
-    private ContainerScanHelper() {
-    }
-
     public static boolean isContainerBlock(Level level, BlockPos pos) {
         Objects.requireNonNull(level, "level");
         Objects.requireNonNull(pos, "pos");

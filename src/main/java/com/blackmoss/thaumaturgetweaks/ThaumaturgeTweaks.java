@@ -5,7 +5,6 @@ import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
 import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
-import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,13 +14,11 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import org.slf4j.Logger;
 
 @EventBusSubscriber(modid = ThaumaturgeTweaks.MODID)
 @Mod(ThaumaturgeTweaks.MODID)
 public class ThaumaturgeTweaks {
     public static final String MODID = "thaumaturgetweaks";
-    public static final Logger LOGGER = LogUtils.getLogger();
 
     public ThaumaturgeTweaks(IEventBus modEventBus) {
         if (ModList.get().isLoaded("curios")) {

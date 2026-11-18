@@ -104,10 +104,10 @@ configurations {
 
 dependencies {
     // Lithostitched
-    implementation "maven.modrinth:lithostitched:${lithostitched_version}"
+    implementation "maven.modrinth:lithostitched:${lithostitched_version}-neoforge-21.1"
 
     // Thaumaturge
-    implementation "curse.maven:thaumaturge-1628024:${thaumaturge_version}"
+    implementation "curse.maven:thaumaturge-1628024:${thaumaturge_id}"
 
     // Architectury API
     api "dev.architectury:architectury-neoforge:${architectury_version}"
@@ -137,7 +137,11 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            thaumaturge_version    : thaumaturge_version,
+            curios_version         : curios_version,
+            jade_version           : jade_version,
+            rei_version            : rei_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

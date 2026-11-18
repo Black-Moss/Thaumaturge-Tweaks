@@ -10,9 +10,6 @@ import net.minecraft.world.level.Level;
 import java.util.Objects;
 
 public final class ContainerScanRules {
-    private ContainerScanRules() {
-    }
-
     public static boolean allowsScan(Player player, ScanTarget target) {
         Objects.requireNonNull(player, "player");
         if (target == null) {

@@ -26,9 +26,6 @@ public abstract class ThaumometerClientHandlerMixin {
     @Unique
     private static boolean thaumaturgetweaks$requestSent;
 
-    private ThaumometerClientHandlerMixin() {
-    }
-
     @Inject(method = "tickScanning", at = @At("HEAD"))
     private static void thaumaturgetweaks$requestContainerScan(Minecraft mc, LocalPlayer player, CallbackInfo ci) {
         if (player == null) {

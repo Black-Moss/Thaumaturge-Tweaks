@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 public final class ResearchUtils {
-    private ResearchUtils() {
-    }
-
     public static <T> List<Holder.Reference<T>> listAll(
             RegistryAccess access, ResourceKey<? extends Registry<? extends T>> key) {
         return access.registry(key)

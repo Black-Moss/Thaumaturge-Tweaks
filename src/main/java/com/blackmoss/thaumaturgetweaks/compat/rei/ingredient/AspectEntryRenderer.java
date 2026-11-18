@@ -16,9 +16,6 @@ import org.jetbrains.annotations.NotNull;
 public final class AspectEntryRenderer implements EntryRenderer<AspectInstance> {
     public static final AspectEntryRenderer INSTANCE = new AspectEntryRenderer();
 
-    private AspectEntryRenderer() {
-    }
-
     @Override
     public void render(
             @NotNull EntryStack<AspectInstance> entry,

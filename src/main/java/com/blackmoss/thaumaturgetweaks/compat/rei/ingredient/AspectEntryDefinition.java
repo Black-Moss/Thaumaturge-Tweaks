@@ -24,9 +24,6 @@ public final class AspectEntryDefinition implements EntryDefinition<AspectInstan
     public static final EntryType<AspectInstance> ENTRY_TYPE =
             EntryType.deferred(ResourceLocation.parse(AspectEntryHelper.ENTRY_UID));
 
-    private AspectEntryDefinition() {
-    }
-
     @Override
     @NotNull
     public Class<AspectInstance> getValueType() {
@@ -81,9 +78,10 @@ public final class AspectEntryDefinition implements EntryDefinition<AspectInstan
     }
 
     @Override
-    public long hash(@NotNull EntryStack<AspectInstance> entryStack,
-                     @NotNull AspectInstance value,
-                     @NotNull ComparisonContext context) {
+    public long hash(
+            @NotNull EntryStack<AspectInstance> entryStack,
+            @NotNull AspectInstance value,
+            @NotNull ComparisonContext context) {
         return AspectEntryHelper.getUid(value).hashCode();
     }
 

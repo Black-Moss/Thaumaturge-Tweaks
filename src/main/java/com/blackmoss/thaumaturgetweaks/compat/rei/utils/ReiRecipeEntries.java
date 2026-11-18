@@ -13,9 +13,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 public final class ReiRecipeEntries {
-    private ReiRecipeEntries() {
-    }
-
     public static ItemStack firstStack(Ingredient ingredient) {
         ItemStack[] items = ingredient.getItems();
         return items.length == 0 ? ItemStack.EMPTY : items[0];

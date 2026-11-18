@@ -12,9 +12,6 @@ import javax.annotation.Nullable;
 
 @Mixin(ThaumometerItem.class)
 public abstract class ThaumometerItemMixin {
-    private ThaumometerItemMixin() {
-    }
-
     @Redirect(method = "beginScanAt", at = @At(
             value = "INVOKE",
             target = "Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanningManager;isStillScannable(Lnet/minecraft/world/entity/player/Player;Lcom/leclowndu93150/thaumaturge/api/research/scan/ScanTarget;)Z"))
