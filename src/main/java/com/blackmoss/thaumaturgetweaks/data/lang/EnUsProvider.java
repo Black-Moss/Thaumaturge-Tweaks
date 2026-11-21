@@ -13,7 +13,7 @@ public final class EnUsProvider extends LanguageProvider {
     protected void addTranslations() {
         add("trinkets.slot.chest.charm", "Charm");
         add("category.thaumaturgetweaks.infernal_furnace.chance", "Chance: %s%%");
-        add("itemGroup.thaumaturgetweaks.essentia_items", "Thaumaturge | Essentia Items");
+        add("itemGroup.thaumaturgetweaks.aspect_items", "Thaumaturge | Aspect Items");
         add("itemGroup.thaumaturgetweaks.wands", "Thaumaturge | Wands");
     }
 }

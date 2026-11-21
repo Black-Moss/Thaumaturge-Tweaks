@@ -13,7 +13,7 @@ public final class ZhCnProvider extends LanguageProvider {
     protected void addTranslations() {
         add("trinkets.slot.chest.charm", "护符");
         add("category.thaumaturgetweaks.infernal_furnace.chance", "概率：%s%%");
-        add("itemGroup.thaumaturgetweaks.essentia_items", "Thaumaturge | 源质物品");
+        add("itemGroup.thaumaturgetweaks.aspect_items", "Thaumaturge | 要素物品");
         add("itemGroup.thaumaturgetweaks.wands", "Thaumaturge | 法杖");
     }
 }
