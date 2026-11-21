@@ -27,7 +27,7 @@ import java.util.List;
 public final class TTCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ThaumaturgeTweaks.MODID);
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ESSENTIA_ITEMS;
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ASPECT_ITEMS;
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> WANDS;
 
     private static final long ICON_CYCLE_MILLIS = 1000L;
@@ -35,9 +35,9 @@ public final class TTCreativeModeTabs {
     private static volatile List<ItemStack> wandIconCycle = List.of();
 
     static {
-        ESSENTIA_ITEMS = CREATIVE_MODE_TABS.register("essentia_items",
+        ASPECT_ITEMS = CREATIVE_MODE_TABS.register("aspect_items",
                 () -> CreativeModeTab.builder()
-                        .title(Component.translatable("itemGroup.thaumaturgetweaks.essentia_items"))
+                        .title(Component.translatable("itemGroup.thaumaturgetweaks.aspect_items"))
                         .icon(TTCreativeModeTabs::essentiaIcon)
                         .withTabsBefore(TTIds.rl("thaumaturge"))
                         .displayItems((parameters, output) -> {
@@ -65,7 +65,7 @@ public final class TTCreativeModeTabs {
                 () -> CreativeModeTab.builder()
                         .title(Component.translatable("itemGroup.thaumaturgetweaks.wands"))
                         .icon(TTCreativeModeTabs::wandIcon)
-                        .withTabsBefore(ThaumaturgeTweaks.identifier("essentia_items"))
+                        .withTabsBefore(ThaumaturgeTweaks.identifier("aspect_items"))
                         .displayItems((parameters, output) -> {
                             List<ItemStack> wands = new ArrayList<>();
                             for (WandRod rod : TTWandParts.rods()) {
@@ -114,6 +114,6 @@ public final class TTCreativeModeTabs {
     }
 
     public static boolean usesDynamicIcon(CreativeModeTab tab) {
-        return tab == ESSENTIA_ITEMS.get() || tab == WANDS.get();
+        return tab == ASPECT_ITEMS.get() || tab == WANDS.get();
     }
 }

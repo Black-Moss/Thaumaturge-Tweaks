@@ -1,6 +1,6 @@
 {
   "category.thaumaturge.infernal_furnace.chance": "Chance: %s%%",
-  "itemGroup.thaumaturgetweaks.essentia_items": "Thaumaturge | Essentia Items",
+  "itemGroup.thaumaturgetweaks.aspect_items": "Thaumaturge | Aspect Items",
   "itemGroup.thaumaturgetweaks.wands": "Thaumaturge | Wands",
   "thaumaturgetweaks.containerscan.tooltip": "Use it on a container block to scan every item inside it"
 }

@@ -13,7 +13,7 @@ public final class ZhCnProvider extends LanguageProvider {
     protected void addTranslations() {
         add("thaumaturgetweaks.containerscan.tooltip", "对容器方块使用可一并扫描其中的所有物品");
         add("category.thaumaturge.infernal_furnace.chance", "概率：%s%%");
-        add("itemGroup.thaumaturgetweaks.essentia_items", "Thaumaturge | 源质物品");
+        add("itemGroup.thaumaturgetweaks.aspect_items", "Thaumaturge | 要素物品");
         add("itemGroup.thaumaturgetweaks.wands", "Thaumaturge | 法杖");
     }
 }
