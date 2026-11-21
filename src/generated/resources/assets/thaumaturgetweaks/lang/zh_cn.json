@@ -1,4 +1,6 @@
 {
   "category.thaumaturgetweaks.infernal_furnace.chance": "概率：%s%%",
+  "itemGroup.thaumaturgetweaks.essentia_items": "Thaumaturge | 源质物品",
+  "itemGroup.thaumaturgetweaks.wands": "Thaumaturge | 法杖",
   "trinkets.slot.chest.charm": "护符"
 }

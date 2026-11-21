@@ -4,6 +4,7 @@
   "package": "com.blackmoss.thaumaturgetweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "CreativeModeTabMixin",
     "client.screen.essentia.ThaumatoriumScreenAccessor",
     "client.screen.research.ResearchTableScreenAccessor",
     "client.screen.research.ResearchTableScreenMixin"

@@ -5,6 +5,7 @@ import com.blackmoss.thaumaturgetweaks.compat.trinkets.ThaumaturgeTrinketsCompat
 import com.blackmoss.thaumaturgetweaks.compat.trinkets.TrinketState;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
+import com.blackmoss.thaumaturgetweaks.registry.TTCreativeModeTabs;
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,6 +26,8 @@ public class ThaumaturgeTweaks {
         if (TrinketState.isLoaded()) {
             ThaumaturgeTrinketsCompat.register(modEventBus);
         }
+
+        TTCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
     }
 
     public static Identifier identifier(String path) {
