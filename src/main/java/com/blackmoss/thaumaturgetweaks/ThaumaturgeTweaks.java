@@ -5,6 +5,7 @@ import com.blackmoss.thaumaturgetweaks.containerscan.ContainerScanPayloads;
 import com.blackmoss.thaumaturgetweaks.containerscan.ServerboundScanContainerPayload;
 import com.blackmoss.thaumaturgetweaks.data.lang.EnUsProvider;
 import com.blackmoss.thaumaturgetweaks.data.lang.ZhCnProvider;
+import com.blackmoss.thaumaturgetweaks.registry.TTCreativeModeTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,6 +25,7 @@ public class ThaumaturgeTweaks {
         if (ModList.get().isLoaded("curios")) {
             GogglesCurioHandler.register(modEventBus);
         }
+        TTCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
     }
 
     public static ResourceLocation identifier(String path) {
